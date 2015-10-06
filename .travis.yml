@@ -1,4 +1,7 @@
 language: android
+
+script: "./gradlew build"
+
 android:
   components:
     # use the latest revision of Android SDK Tools
