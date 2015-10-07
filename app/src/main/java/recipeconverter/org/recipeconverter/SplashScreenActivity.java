@@ -4,6 +4,7 @@ import recipeconverter.org.recipeconverter.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +47,8 @@ public class SplashScreenActivity extends Activity {
      */
     private SystemUiHider mSystemUiHider;
 
+    final static int DefaultSplashDuration = 3000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,14 @@ public class SplashScreenActivity extends Activity {
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
+
+        Handler h = new Handler();
+        h.postDelayed( new Runnable() {
+            @Override
+            public void run() {
+                changeActivity();
+            }
+        }, DefaultSplashDuration);
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
@@ -113,6 +124,12 @@ public class SplashScreenActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+    }
+
+    private void changeActivity () {
+        finish();
+        Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

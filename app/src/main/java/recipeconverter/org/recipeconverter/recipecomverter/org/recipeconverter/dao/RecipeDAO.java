@@ -60,7 +60,7 @@ public class RecipeDAO {
         return recipes;
     }
 
-    synchronized public RecipeEntry getRecipe (int id) throws EntryNotFound, EntryError {
+    synchronized public RecipeEntry getRecipe (long id) throws EntryNotFound, EntryError {
         String whereClause = new String (DBHelper.COLUMN_RECIPES_ID + " = " + id);
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
         if (cursor.getCount() == 0)
@@ -78,11 +78,18 @@ public class RecipeDAO {
 
     }
 
-    synchronized public void deleteRecipe (int id) {
-
+    synchronized public void deleteRecipe (int id) throws EntryNotFound, EntryError {
+        String whereClause = new String (DBHelper.COLUMN_RECIPES_ID + " = " + id);
+        int num = db.delete(DBHelper.TABLE_RECIPES, whereClause, null);
+        if (num == 0)
+            throw new EntryNotFound();
+        if(num > 1)
+            throw new EntryError();
+        whereClause = new String (DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + id);
+        db.delete(DBHelper.TABLE_INGREDIENTS, whereClause, null);
     }
 
-    synchronized private List<IngredientEntry> getIngredients (long idRecipe) {
+    private List<IngredientEntry> getIngredients (long idRecipe) {
         List<IngredientEntry> ingredients = new ArrayList<IngredientEntry>();
         String whereClause = new String (DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + idRecipe);
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allIngredientsColumns, whereClause, null, null, null, null);
