@@ -5,16 +5,16 @@ package recipeconverter.org.recipeconverter.recipecomverter.org.recipeconverter.
  */
 public class IngredientEntry {
 
-    private int id;
+    private long id;
     private String name;
     private double quantity;
     private int unit;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

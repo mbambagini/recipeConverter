@@ -82,7 +82,7 @@ public class RecipeDAO {
 
     }
 
-    synchronized private List<IngredientEntry> getIngredients (int idRecipe) {
+    synchronized private List<IngredientEntry> getIngredients (long idRecipe) {
         List<IngredientEntry> ingredients = new ArrayList<IngredientEntry>();
         String whereClause = new String (DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + idRecipe);
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allIngredientsColumns, whereClause, null, null, null, null);
@@ -97,7 +97,7 @@ public class RecipeDAO {
 
     private RecipeEntry cursorToRecipe (Cursor cursor) {
         RecipeEntry recipe = new RecipeEntry ();
-        recipe.setId(cursor.getInt(0));
+        recipe.setId(cursor.getLong(0));
         recipe.setName(cursor.getString(1));
         recipe.setNum_people(cursor.getInt(2));
         recipe.setShape(cursor.getInt(3));
@@ -110,7 +110,7 @@ public class RecipeDAO {
 
     private IngredientEntry cursorToIngredient (Cursor cursor) {
         IngredientEntry ingredient = new IngredientEntry ();
-        ingredient.setId(cursor.getInt(0));
+        ingredient.setId(cursor.getLong(0));
         ingredient.setName(cursor.getString(1));
         ingredient.setQuantity(cursor.getInt(2));
         ingredient.setUnit(cursor.getInt(3));

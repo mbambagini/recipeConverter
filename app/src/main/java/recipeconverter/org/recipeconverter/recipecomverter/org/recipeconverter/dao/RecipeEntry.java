@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class RecipeEntry {
 
-    private int id;
+    private long id;
     private String name;
     private int num_people;
     private int shape;
@@ -17,11 +17,11 @@ public class RecipeEntry {
     private int type;
     private List<IngredientEntry> ingredients = null;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
