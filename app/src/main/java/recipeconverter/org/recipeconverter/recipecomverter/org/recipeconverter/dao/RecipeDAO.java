@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import recipeconverter.org.recipeconverter.exception.EntryError;
+import recipeconverter.org.recipeconverter.exception.EntryNotFound;
+
 /**
  * Created by mario on 06/10/15.
  */
@@ -26,6 +29,13 @@ public class RecipeDAO {
             DBHelper.COLUMN_RECIPES_DIAMETER,
             DBHelper.COLUMN_RECIPES_TYPE};
 
+    private String[] allIngredientsColumns = {
+            DBHelper.COLUMN_INGREDIENTS_ID,
+            DBHelper.COLUMN_INGREDIENTS_NAME,
+            DBHelper.COLUMN_INGREDIENTS_QUANTITY,
+            DBHelper.COLUMN_INGREDIENTS_UNIT
+    };
+
     public RecipeDAO (Context context) {
         dbHelper = new DBHelper(context);
     }
@@ -37,8 +47,6 @@ public class RecipeDAO {
     public void close() {
         dbHelper.close();
     }
-
-//    synchronized public void deleteClass (ClassEntry exam);
 
     synchronized public List<RecipeEntry> getRecipes () {
         List<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
@@ -52,7 +60,40 @@ public class RecipeDAO {
         return recipes;
     }
 
-    //synchronized public void updateClass (ClassEntry cl) throws ClassNotFound {
+    synchronized public RecipeEntry getRecipe (int id) throws EntryNotFound, EntryError {
+        String whereClause = new String (DBHelper.COLUMN_RECIPES_ID + " = " + id);
+        Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
+        if (cursor.getCount() == 0)
+            throw new EntryNotFound();
+        if (cursor.getCount() == 1) {
+            cursor.moveToFirst();
+            RecipeEntry recipe = cursorToRecipe(cursor);
+            recipe.setIngredients(getIngredients(recipe.getId()));
+            return recipe;
+        }
+        throw new EntryError();
+    }
+
+    synchronized public void updateRecipe (RecipeEntry cl) {
+
+    }
+
+    synchronized public void deleteRecipe (int id) {
+
+    }
+
+    synchronized private List<IngredientEntry> getIngredients (int idRecipe) {
+        List<IngredientEntry> ingredients = new ArrayList<IngredientEntry>();
+        String whereClause = new String (DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + idRecipe);
+        Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allIngredientsColumns, whereClause, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            ingredients.add(cursorToIngredient(cursor));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return ingredients;
+    }
 
     private RecipeEntry cursorToRecipe (Cursor cursor) {
         RecipeEntry recipe = new RecipeEntry ();
@@ -65,6 +106,15 @@ public class RecipeDAO {
         recipe.setDiameter(cursor.getInt(6));
         recipe.setType(cursor.getInt(7));
         return recipe;
+    }
+
+    private IngredientEntry cursorToIngredient (Cursor cursor) {
+        IngredientEntry ingredient = new IngredientEntry ();
+        ingredient.setId(cursor.getInt(0));
+        ingredient.setName(cursor.getString(1));
+        ingredient.setQuantity(cursor.getInt(2));
+        ingredient.setUnit(cursor.getInt(3));
+        return ingredient;
     }
 
 }

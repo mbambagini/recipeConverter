@@ -1,5 +1,7 @@
 package recipeconverter.org.recipeconverter.recipecomverter.org.recipeconverter.dao;
 
+import java.util.List;
+
 /**
  * Created by mario on 06/10/15.
  */
@@ -13,6 +15,7 @@ public class RecipeEntry {
     private int side2;
     private int diameter;
     private int type;
+    private List<IngredientEntry> ingredients = null;
 
     public int getId() {
         return id;
@@ -76,5 +79,13 @@ public class RecipeEntry {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public List<IngredientEntry> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<IngredientEntry> ingredients) {
+        this.ingredients = ingredients;
     }
 }
