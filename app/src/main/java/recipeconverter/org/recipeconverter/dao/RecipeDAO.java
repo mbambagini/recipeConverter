@@ -1,4 +1,4 @@
-package recipeconverter.org.recipeconverter.recipecomverter.org.recipeconverter.dao;
+package recipeconverter.org.recipeconverter.dao;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -74,8 +74,10 @@ public class RecipeDAO {
         throw new EntryError();
     }
 
-    synchronized public void updateRecipe (RecipeEntry cl) {
+    synchronized public void addRecipe(RecipeEntry cl) {
+    }
 
+    synchronized public void updateRecipe(RecipeEntry cl) {
     }
 
     synchronized public void deleteRecipe (int id) throws EntryNotFound, EntryError {
@@ -107,11 +109,11 @@ public class RecipeDAO {
         recipe.setId(cursor.getLong(0));
         recipe.setName(cursor.getString(1));
         recipe.setNum_people(cursor.getInt(2));
-        recipe.setShape(cursor.getInt(3));
-        recipe.setSide1(cursor.getInt(4));
-        recipe.setSide2(cursor.getInt(5));
-        recipe.setDiameter(cursor.getInt(6));
-        recipe.setType(cursor.getInt(7));
+        recipe.setShape(ShapeType.fromInteger(cursor.getInt(3)));
+        recipe.setSide1(cursor.getFloat(4));
+        recipe.setSide2(cursor.getFloat(5));
+        recipe.setDiameter(cursor.getFloat(6));
+        recipe.setType(RecipeType.fromInteger(cursor.getInt(7)));
         return recipe;
     }
 
@@ -119,8 +121,8 @@ public class RecipeDAO {
         IngredientEntry ingredient = new IngredientEntry ();
         ingredient.setId(cursor.getLong(0));
         ingredient.setName(cursor.getString(1));
-        ingredient.setQuantity(cursor.getInt(2));
-        ingredient.setUnit(cursor.getInt(3));
+        ingredient.setQuantity(cursor.getFloat(2));
+        ingredient.setUnit(UnitType.fromInteger(cursor.getInt(3)));
         return ingredient;
     }
 

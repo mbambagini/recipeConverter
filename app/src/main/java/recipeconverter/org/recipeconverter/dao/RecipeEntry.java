@@ -1,4 +1,4 @@
-package recipeconverter.org.recipeconverter.recipecomverter.org.recipeconverter.dao;
+package recipeconverter.org.recipeconverter.dao;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ public class RecipeEntry {
     private long id;
     private String name;
     private int num_people;
-    private int shape;
-    private int side1;
-    private int side2;
-    private int diameter;
-    private int type;
+    private ShapeType shape;
+    private double side1;
+    private double side2;
+    private double diameter;
+    private RecipeType type;
     private List<IngredientEntry> ingredients = null;
 
     public long getId() {
@@ -41,44 +41,28 @@ public class RecipeEntry {
         this.num_people = num_people;
     }
 
-    public int getShape() {
-        return shape;
-    }
-
-    public void setShape(int shape) {
-        this.shape = shape;
-    }
-
-    public int getSide1() {
+    public double getSide1() {
         return side1;
     }
 
-    public void setSide1(int side1) {
+    public void setSide1(double side1) {
         this.side1 = side1;
     }
 
-    public int getSide2() {
+    public double getSide2() {
         return side2;
     }
 
-    public void setSide2(int side2) {
+    public void setSide2(double side2) {
         this.side2 = side2;
     }
 
-    public int getDiameter() {
+    public double getDiameter() {
         return diameter;
     }
 
-    public void setDiameter(int diameter) {
+    public void setDiameter(double diameter) {
         this.diameter = diameter;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public List<IngredientEntry> getIngredients() {
@@ -87,5 +71,21 @@ public class RecipeEntry {
 
     public void setIngredients(List<IngredientEntry> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public ShapeType getShape() {
+        return shape;
+    }
+
+    public void setShape(ShapeType shape) {
+        this.shape = shape;
+    }
+
+    public RecipeType getType() {
+        return type;
+    }
+
+    public void setType(RecipeType type) {
+        this.type = type;
     }
 }

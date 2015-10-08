@@ -1,4 +1,4 @@
-package recipeconverter.org.recipeconverter.recipecomverter.org.recipeconverter.dao;
+package recipeconverter.org.recipeconverter.dao;
 
 public enum ShapeType {
     SHAPE_NOT_VALID,

@@ -1,4 +1,4 @@
-package recipeconverter.org.recipeconverter.recipecomverter.org.recipeconverter.dao;
+package recipeconverter.org.recipeconverter.dao;
 
 public enum RecipeType {
     RECIPE_NOT_VALID,
