@@ -24,7 +24,7 @@ public enum UnitType {
     }
 
     public static int toInteger (UnitType par) {
-        switch() {
+        switch(par) {
             case UNIT_NOT_VALID: return 0;
             case UNIT_OUNCE: return 1;
             case UNIT_POUND: return 2;
