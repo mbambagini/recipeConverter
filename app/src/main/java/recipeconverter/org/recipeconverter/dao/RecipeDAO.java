@@ -10,6 +10,7 @@ import java.util.List;
 
 import recipeconverter.org.recipeconverter.exception.EntryError;
 import recipeconverter.org.recipeconverter.exception.EntryNotFound;
+import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
 
 /**
  * Created by mario on 06/10/15.
