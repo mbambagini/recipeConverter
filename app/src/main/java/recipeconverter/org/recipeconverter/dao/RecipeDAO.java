@@ -74,7 +74,38 @@ public class RecipeDAO {
         throw new EntryError();
     }
 
-    synchronized public void addRecipe(RecipeEntry cl) {
+    public void addIngredient (IngredientEntry ingredient, long idRecipe) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_INGREDIENTS_NAME, ingredient.getName());
+        values.put(DBHelper.COLUMN_INGREDIENTS_QUANTITY, ingredient.getQuantity());
+        values.put(DBHelper.COLUMN_INGREDIENTS_UNIT, UnitType.toInteger(ingredient.getUnit));
+        values.put(DBHelper.COLUMN_INGREDIENTS_ID_RECIPE, idRecipe);
+        try {
+            db.insert(DBHelper.TABLE_INGREDIENTS , null, values);
+        } catch (Exception e) {
+            throw new RecipeNotCreated();
+        }
+    }
+
+    synchronized public void addRecipe (RecipeEntry recipe) {
+        long id = -1;
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_RECIPES_NAME, recipe.getName());
+        values.put(DBHelper.COLUMN_RECIPES_PEOPLE_NUMBER, recipe.getNum_people());
+        values.put(DBHelper.COLUMN_RECIPES_SHAPE, ShapeType.toInteger(recipe.getShape()));
+        values.put(DBHelper.COLUMN_RECIPES_SIDE_1, recipe.getSide1());
+        values.put(DBHelper.COLUMN_RECIPES_SIDE_2, recipe.getSide2());
+        values.put(DBHelper.COLUMN_RECIPES_DIAMETER, recipe.getDiameter());
+        values.put(DBHelper.COLUMN_RECIPES_TYPE, RecipeType.toInteger(recipe.getType()));
+        try {
+            id = db.insert(DBHelper.TABLE_RECIPES , null, values);
+        } catch (Exception e) {
+            throw new RecipeNotCreated();
+        }
+        if (id == -1)
+            throw new RecipeNotCreated();
+        for (IngredientEntry ingredient: recipe.getIngredients())
+            addIngredient(ingredient, id);
     }
 
     synchronized public void updateRecipe(RecipeEntry cl) {
