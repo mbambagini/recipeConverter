@@ -81,7 +81,7 @@ public class RecipeDAO {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_INGREDIENTS_NAME, ingredient.getName());
         values.put(DBHelper.COLUMN_INGREDIENTS_QUANTITY, ingredient.getQuantity());
-        values.put(DBHelper.COLUMN_INGREDIENTS_UNIT, UnitType.toInteger(ingredient.getUnit));
+        values.put(DBHelper.COLUMN_INGREDIENTS_UNIT, UnitType.toInteger(ingredient.getUnit()));
         values.put(DBHelper.COLUMN_INGREDIENTS_ID_RECIPE, idRecipe);
         try {
             db.insert(DBHelper.TABLE_INGREDIENTS , null, values);
