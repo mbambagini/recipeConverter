@@ -1,4 +1,4 @@
 package recipeconverter.org.recipeconverter.exception;
 
-class RecipeNotCreated extend Exception {
+public class RecipeNotCreated extends Exception {
 }
