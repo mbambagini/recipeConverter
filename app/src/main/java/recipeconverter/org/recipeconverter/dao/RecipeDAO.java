@@ -84,12 +84,10 @@ public class RecipeDAO {
         values.put(DBHelper.COLUMN_INGREDIENTS_ID_RECIPE, idRecipe);
         try {
             db.insert(DBHelper.TABLE_INGREDIENTS , null, values);
-        } catch (Exception e) {
-            throw new RecipeNotCreated();
-        }
+        } catch (Exception e) { }
     }
 
-    synchronized public void addRecipe (RecipeEntry recipe) {
+    synchronized public void addRecipe (RecipeEntry recipe) throws RecipeNotCreated {
         long id = -1;
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_RECIPES_NAME, recipe.getName());
