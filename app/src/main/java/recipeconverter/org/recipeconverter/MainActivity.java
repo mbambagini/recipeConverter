@@ -143,7 +143,10 @@ public class MainActivity extends ActionBarActivity {
             } catch (RecipeAlreadyPresent e) {
                 Toast.makeText(getApplicationContext(), "Name already in use", Toast.LENGTH_SHORT).show();
                 return true;
-            }
+            } catch (SQLException e) {
+                Toast.makeText(getApplicationContext(), "Internal DB error", Toast.LENGTH_SHORT).show();
+                return true;
+            } 
             startActivity(intent);
             return true;
         }
@@ -183,13 +186,11 @@ public class MainActivity extends ActionBarActivity {
         //people/shape fields
         findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutPan).setVisibility((configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE) ? View.VISIBLE : View.GONE);
-
         //shape type fields
         boolean enabled = (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
-
         //padding
         findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) ? View.GONE : View.INVISIBLE);
         findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
