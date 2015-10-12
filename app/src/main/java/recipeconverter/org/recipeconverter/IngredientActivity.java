@@ -3,6 +3,8 @@ package recipeconverter.org.recipeconverter;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
 import recipeconverter.org.recipeconverter.exception.IngredientAlreadyPresent;
 
+import recipeconverter.org.recipeconverter.dao.*;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -18,10 +20,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import recipeconverter.org.recipeconverter.adapter.IngredientAdapter;
-import recipeconverter.org.recipeconverter.dao.IngredientEntry;
-import recipeconverter.org.recipeconverter.dao.UnitType;
 
 public class IngredientActivity extends ActionBarActivity {
 
@@ -45,9 +46,9 @@ public class IngredientActivity extends ActionBarActivity {
         list.add("kilogram");
         list.add("gallon");
         list.add("litre");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adp);
 
         ListView lst = (ListView) findViewById(R.id.lst_ingredients);
         ingredientList = new ArrayList<>();
@@ -64,7 +65,7 @@ public class IngredientActivity extends ActionBarActivity {
         for (IngredientEntry entry: ingredientList)
             if (entry.getName().compareTo(name) == 0)
                 throw new IngredientAlreadyPresent();
-        ingredient.setName(editText);
+        ingredient.setName(name);
 
         double quantity = Double.parseDouble(((EditText)findViewById(R.id.txtIngredientQuantity)).getText().toString());
         if (quantity <= 0.0)
