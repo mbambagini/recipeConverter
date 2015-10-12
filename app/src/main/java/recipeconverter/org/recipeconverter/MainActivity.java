@@ -74,7 +74,6 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_ingredients) {
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
-            intent.putExtra(getString(R.string.elapsed_time_id), total_time);
             EditText txt = (EditText)findViewById(R.id.txtRecipeName);
             intent.putExtra("name", txt.getText().toString());
             intent.putExtra("recipe_type", configuration_recipe);
