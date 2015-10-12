@@ -1,5 +1,8 @@
 package recipeconverter.org.recipeconverter;
 
+import recipeconverter.org.recipeconverter.exception.WrongInputs;
+import recipeconverter.org.recipeconverter.dao.RecipeEntry;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -22,9 +25,9 @@ public class MainActivity extends ActionBarActivity {
     static final int ONLY_PAN = 2;
     static final int PAN_PEOPLE = 3;
 
-    static final int SHAPE_RECTANGLE = 0;
-    static final int SHAPE_SQUARE = 1;
-    static final int SHAPE_CIRCLE = 2;
+    static final int SHAPE_RECTANGLE = 1;
+    static final int SHAPE_SQUARE = 2;
+    static final int SHAPE_CIRCLE = 3;
 
     private int configuration_recipe = NO_CHOISE;
     private int configuration_shape = SHAPE_RECTANGLE;
@@ -67,6 +70,69 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+
+    private RecipeEntry readInputs () throws WrongInputs {
+        RecipeEntry recipe = new RecipeEntry();
+
+        //error early detection
+        if (configuration_recipe == NO_CHOISE)
+            throw new WrongInputs();
+
+        //name
+        string name = ((EditText)findViewById(R.id.txtRecipeName)).getText().toString();
+        if (name.compareTo("") == 0)
+            throw new WrongInputs();
+        //check if the name is already used
+        recipe.setName(name);
+        //intent.putExtra("name", txt.getText().toString());
+        //intent.putExtra("recipe_type", configuration_recipe);
+        //intent.putExtra("shape_type", configuration_shape);
+
+        //people
+        if (configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) {
+            txt = (EditText)findViewById(R.id.txtRecipePeople);
+            int n_people = Integer.parseInt(txt.getText().toString());
+            if (n_people <= 0 || n_people >= 100)
+                throw new WrongInputs();
+            recipe.setNum_people(n_people);
+            //intent.putExtra("people", n_people);
+        }
+
+        //pan
+        if (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE) {
+            recipe.setShape(ShapeType.fromInteger(configuration_shape));
+            switch (configuration_shape) {
+                case SHAPE_RECTANGLE:
+                    double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide1)).getText().toString() );
+                    double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide2)).getText().toString() );
+                    if (side1 <= 0.0 || side2 <= 0.0)
+                        throw new WrongInputs();
+                    recipe.setSide1(side1);
+                    recipe.setSide2(side2);
+                    //intent.putExtra("side1", side1);
+                    //intent.putExtra("side2", side2);
+                    break;
+                case SHAPE_SQUARE:
+                    double side = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide)).getText().toString() );
+                    if (side <= 0.0 )
+                        throw new WrongInputs();
+                    recipe.setSide1(side);
+                    //intent.putExtra("side", side);
+                    break;
+                case SHAPE_CIRCLE:
+                    double diamiter = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeDiameter)).getText().toString() );
+                    if (diamiter <= 0.0 )
+                        throw new WrongInputs();
+                    recipe.setdiameter(diamiter);
+                    //intent.putExtra("diameter", diamiter);
+                    break;
+                default:
+                    throw new WrongInputs();
+            }
+        }
+        return recipe;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -74,49 +140,11 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_ingredients) {
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
+            
             try {
-                if (configuration_recipe == NO_CHOISE)
-                    throw new Exception();
-                EditText txt = (EditText)findViewById(R.id.txtRecipeName);
-                if (txt.getText().toString().compareTo("") == 0)
-                    throw new Exception();
-                intent.putExtra("name", txt.getText().toString());
-                intent.putExtra("recipe_type", configuration_recipe);
-                intent.putExtra("shape_type", configuration_shape);
-                if (configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) {
-                    txt = (EditText)findViewById(R.id.txtRecipePeople);
-                    int n_people = Integer.parseInt(txt.getText().toString());
-                    if (n_people <= 0 || n_people >= 100)
-                        throw new Exception();
-                    intent.putExtra("people", n_people);
-                }
-                if (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE) {
-                    switch (configuration_shape) {
-                    case SHAPE_RECTANGLE:
-                        double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide1)).getText().toString() );
-                        double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide2)).getText().toString() );
-                        if (side1 <= 0.0 || side2 <= 0.0)
-                            throw new Exception();
-                        intent.putExtra("side1", side1);
-                        intent.putExtra("side2", side2);
-                        break;
-                    case SHAPE_SQUARE:
-                        double side = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide)).getText().toString() );
-                        if (side <= 0.0 )
-                            throw new Exception();
-                        intent.putExtra("side", side);
-                        break;
-                    case SHAPE_CIRCLE:
-                        double diamiter = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeDiameter)).getText().toString() );
-                        if (diamiter <= 0.0 )
-                            throw new Exception();
-                        intent.putExtra("diameter", diamiter);
-                        break;
-                    default:
-                        throw new Exception();
-                    }
-                }
-            } catch (Exception e) {
+                RecipeEntry recipe = readInputs();
+            } catch (WrongInputs e) {
+                Toast.makeToast(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT);
                 return true;
             }
             startActivity(intent);
@@ -129,7 +157,7 @@ public class MainActivity extends ActionBarActivity {
     public void setPanShape(int id) {
         if (id < SHAPE_RECTANGLE || id > SHAPE_CIRCLE)
             id = SHAPE_RECTANGLE;
-        configuration_shape = id;
+        configuration_shape = id + 1;
         setVisibleItems();
     }
 
