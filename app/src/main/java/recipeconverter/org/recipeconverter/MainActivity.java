@@ -21,12 +21,17 @@ public class MainActivity extends ActionBarActivity {
     static final int ONLY_PAN = 2;
     static final int PAN_PEOPLE = 3;
 
+    static final int SHAPE_RECTANGLE = 0;
+    static final int SHAPE_SQUARE = 1;
+    static final int SHAPE_CIRCLE = 2;
+
+    private int configuration_recipe = NO_CHOISE;
+    private int configuration_shape = SHAPE_RECTANGLE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        hideComponents();
-        setPaggingVisibility(3);
 
         final Spinner spinner = (Spinner) findViewById(R.id.txtRecipePan);
         List<String> list = new ArrayList<>();
@@ -42,13 +47,16 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 setPanShape(pos);
-                Toast.makeText(getApplicationContext(), "sel: " + pos, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+
+        int configuration_recipe = NO_CHOISE;
+        configuration_shape = SHAPE_RECTANGLE;
+        setVisibleItems();
     }
 
     @Override
@@ -60,9 +68,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -75,61 +80,57 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setPaggingVisibility(int numActive) {
-        findViewById(R.id.spacePadding1).setVisibility((numActive > 0) ? View.INVISIBLE : View.GONE);
-        findViewById(R.id.spacePadding2).setVisibility((numActive > 1) ? View.INVISIBLE : View.GONE);
-        findViewById(R.id.spacePadding3).setVisibility((numActive > 2) ? View.INVISIBLE : View.GONE);
-    }
-
-    private void hideComponents() {
-        findViewById(R.id.layoutHowManyPeople).setVisibility(View.GONE);
-        findViewById(R.id.layoutPan).setVisibility(View.GONE);
-        hidePanShapes();
-    }
-
-    private void hidePanShapes() {
-        findViewById(R.id.layoutShapeCircle).setVisibility(View.GONE);
-        findViewById(R.id.layoutShapeRect).setVisibility(View.GONE);
-        findViewById(R.id.layoutShapeSquare).setVisibility(View.GONE);
-    }
-
     public void setPanShape(int id) {
-        hidePanShapes();
-        switch (id) {
-            case 0:
-                findViewById(R.id.layoutShapeRect).setVisibility(View.VISIBLE);
-                break;
-            case 1:
-                findViewById(R.id.layoutShapeSquare).setVisibility(View.VISIBLE);
-                break;
-            case 2:
-                findViewById(R.id.layoutShapeCircle).setVisibility(View.VISIBLE);
-                break;
-            default:
-                //hidePanShapes();
-                //findViewById(R.id.spacePadding4).setVisibility(View.INVISIBLE);
-        }
+        if (id < SHAPE_RECTANGLE || id > SHAPE_CIRCLE)
+            id = SHAPE_RECTANGLE;
+        configuration_shape = id;
+        setVisibleItems();
     }
 
     public void onClick(View v) {
-        setPaggingVisibility(0);
-        hidePanShapes();
         switch (v.getId()) {
             case R.id.btnPeople:
-                findViewById(R.id.layoutHowManyPeople).setVisibility(View.VISIBLE);
-                findViewById(R.id.layoutPan).setVisibility(View.GONE);
-                setPaggingVisibility(1);
+                configuration_recipe = ONLY_PEOPLE;
                 break;
             case R.id.btnPan:
-                findViewById(R.id.layoutHowManyPeople).setVisibility(View.GONE);
-                findViewById(R.id.layoutPan).setVisibility(View.VISIBLE);
-                setPaggingVisibility(1);
+                configuration_recipe = ONLY_PAN;
                 break;
             case R.id.btnPeoplePan:
-                findViewById(R.id.layoutHowManyPeople).setVisibility(View.VISIBLE);
-                findViewById(R.id.layoutPan).setVisibility(View.VISIBLE);
-                setPaggingVisibility(0);
+                configuration_recipe = PAN_PEOPLE;
                 break;
         }
+        setVisibleItems();
+    }
+
+    private void setVisibleItems () {
+        //error checks
+        if (configuration_recipe < NO_CHOISE || configuration_recipe > PAN_PEOPLE)
+          configuration_recipe = NO_CHOISE;
+        if (configuration_shape < SHAPE_RECTANGLE || configuration_shape > SHAPE_CIRCLE)
+          configuration_shape = SHAPE_RECTANGLE;
+
+        //people/shape fields
+        findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == ONLY_PEOPLE ||
+                                                              configuration_recipe == PAN_PEOPLE) ?
+                                                             View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutPan).setVisibility((configuration_recipe == ONLY_PAN ||
+                                                    configuration_recipe == PAN_PEOPLE) ?
+                                                   View.VISIBLE : View.GONE);
+
+        //shape type fields
+        bool enabled = (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE);
+        findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == SHAPE_RECTANGLE) ?
+                                                           View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == SHAPE_SQUARE) ?
+                                                         View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == SHAPE_CIRCLE) ?
+                                                           View.VISIBLE : View.GONE);
+
+        //padding
+        findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == ONLY_PEOPLE ||
+                                                        configuration_recipe == PAN_PEOPLE)) ?
+                                                       View.GONE : View.INVISIBLE);
+        findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
+        findViewById(R.id.spacePadding3).setVisibility(enabled ? View.GONE : View.INVISIBLE);
     }
 }
