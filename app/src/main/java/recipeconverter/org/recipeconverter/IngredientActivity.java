@@ -28,10 +28,14 @@ public class IngredientActivity extends ActionBarActivity {
     ArrayList<IngredientEntry> ingredientList;
     IngredientAdapter adapter;
 
+    private long id = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient);
+
+        id = getIntent().getExtras().getLong("id", -1);
 
         Spinner spinner = (Spinner) findViewById(R.id.spinnerIngredientUnit);
         List<String> list = new ArrayList<>();
@@ -110,6 +114,19 @@ public class IngredientActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if (id == -1) {
+                Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            if (ingredientList != null && ingredientList.size() == 0) {
+                Toast.makeText(getApplicationContext(), "Insert at least one ingredient", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+            recipeDAO.open();
+            for (IngredientEntry entry: ingredientList)
+                recipeDAO.addIngredient(entry, id);
+            recipeDAO.close();
             return true;
         }
 
