@@ -9,11 +9,11 @@ public class RecipeEntry {
 
     private long id;
     private String name;
-    private int num_people;
+    private int num_people = -1;
     private ShapeType shape;
-    private double side1;
-    private double side2;
-    private double diameter;
+    private double side1 = -1.0;
+    private double side2 = -1.0;
+    private double diameter = -1.0;
     private RecipeType type;
     private List<IngredientEntry> ingredients = null;
 
