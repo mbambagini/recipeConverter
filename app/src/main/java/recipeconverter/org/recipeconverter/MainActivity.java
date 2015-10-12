@@ -1,7 +1,7 @@
 package recipeconverter.org.recipeconverter;
 
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
-import recipeconverter.org.recipeconverter.dao.RecipeEntry;
+import recipeconverter.org.recipeconverter.dao.*;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -79,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
             throw new WrongInputs();
 
         //name
-        string name = ((EditText)findViewById(R.id.txtRecipeName)).getText().toString();
+        String name = ((EditText)findViewById(R.id.txtRecipeName)).getText().toString();
         if (name.compareTo("") == 0)
             throw new WrongInputs();
         //check if the name is already used
@@ -90,8 +90,7 @@ public class MainActivity extends ActionBarActivity {
 
         //people
         if (configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) {
-            txt = (EditText)findViewById(R.id.txtRecipePeople);
-            int n_people = Integer.parseInt(txt.getText().toString());
+            int n_people =Integer.parseInt( ((EditText)findViewById(R.id.txtRecipePeople)).getText().toString() );
             if (n_people <= 0 || n_people >= 100)
                 throw new WrongInputs();
             recipe.setNum_people(n_people);
@@ -123,7 +122,7 @@ public class MainActivity extends ActionBarActivity {
                     double diamiter = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeDiameter)).getText().toString() );
                     if (diamiter <= 0.0 )
                         throw new WrongInputs();
-                    recipe.setdiameter(diamiter);
+                    recipe.setDiameter(diamiter);
                     //intent.putExtra("diameter", diamiter);
                     break;
                 default:
@@ -144,7 +143,7 @@ public class MainActivity extends ActionBarActivity {
             try {
                 RecipeEntry recipe = readInputs();
             } catch (WrongInputs e) {
-                Toast.makeToast(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT);
                 return true;
             }
             startActivity(intent);
