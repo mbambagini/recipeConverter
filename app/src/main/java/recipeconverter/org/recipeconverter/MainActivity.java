@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
 
         //padding
         findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == ONLY_PEOPLE ||
-                                                        configuration_recipe == PAN_PEOPLE)) ?
+                                                        configuration_recipe == PAN_PEOPLE) ?
                                                        View.GONE : View.INVISIBLE);
         findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
         findViewById(R.id.spacePadding3).setVisibility(enabled ? View.GONE : View.INVISIBLE);
