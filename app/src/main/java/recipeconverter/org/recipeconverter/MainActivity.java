@@ -78,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
                 if (configuration_recipe == NO_CHOISE)
                     throw new Exception();
                 EditText txt = (EditText)findViewById(R.id.txtRecipeName);
-                if (txt.getText().toString().compare("") == 0)
+                if (txt.getText().toString().compareTo("") == 0)
                     throw new Exception();
                 intent.putExtra("name", txt.getText().toString());
                 intent.putExtra("recipe_type", configuration_recipe);
@@ -86,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
                 if (configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) {
                     txt = (EditText)findViewById(R.id.txtRecipePeople);
                     int n_people = Integer.parseInt(txt.getText().toString());
-                    if (n_people <= 0)
+                    if (n_people <= 0 || n_people >= 100)
                         throw new Exception();
                     intent.putExtra("people", n_people);
                 }
