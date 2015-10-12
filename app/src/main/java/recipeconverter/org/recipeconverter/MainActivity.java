@@ -5,6 +5,8 @@ import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.dao.*;
 
+import java.sql.SQLException;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
