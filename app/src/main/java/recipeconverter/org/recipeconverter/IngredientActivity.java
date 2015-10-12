@@ -5,6 +5,8 @@ import recipeconverter.org.recipeconverter.exception.IngredientAlreadyPresent;
 
 import recipeconverter.org.recipeconverter.dao.*;
 
+import java.sql.SQLException;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -73,6 +75,8 @@ public class IngredientActivity extends ActionBarActivity {
         ingredient.setQuantity(quantity);
 
         ingredient.setUnit(UnitType.fromInteger(((Spinner)findViewById(R.id.spinnerIngredientUnit)).getSelectedItemPosition() + 1));
+        
+        return ingredient;
     }
     
     private void cleanInptuts () {
@@ -115,11 +119,16 @@ public class IngredientActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Insert at least one ingredient", Toast.LENGTH_SHORT).show();
                 return true;
             }
-            RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
-            recipeDAO.open();
-            for (IngredientEntry entry: ingredientList)
-                recipeDAO.addIngredient(entry, id);
-            recipeDAO.close();
+            try {
+                RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+                recipeDAO.open();
+                for (IngredientEntry entry: ingredientList)
+                    recipeDAO.addIngredient(entry, id);
+                recipeDAO.close();
+            } catch (SQLException e) {
+                Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
+                return;
+            }
             return true;
         }
 
