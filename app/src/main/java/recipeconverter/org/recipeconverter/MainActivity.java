@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        int configuration_recipe = NO_CHOISE;
+        configuration_recipe = NO_CHOISE;
         configuration_shape = SHAPE_RECTANGLE;
         setVisibleItems();
     }
@@ -73,6 +73,21 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_ingredients) {
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
+            intent.putExtra(getString(R.string.elapsed_time_id), total_time);
+            EditText txt = (EditText)findViewById(R.id.txtRecipeName);
+            intent.putExtra("name", txt.getText().toString());
+            intent.putExtra("recipe_type", configuration_recipe);
+            intent.putExtra("shape_type", configuration_shape);
+            txt = (EditText)findViewById(R.id.txtRecipePeople);
+            intent.putExtra("people", txt.getText().toString());
+            txt = (EditText)findViewById(R.id.txtRecipeSide1);
+            intent.putExtra("side1", txt.getText().toString());
+            txt = (EditText)findViewById(R.id.txtRecipeSide2);
+            intent.putExtra("side2", txt.getText().toString());
+            txt = (EditText)findViewById(R.id.txtRecipeSide);
+            intent.putExtra("side", txt.getText().toString());
+            txt = (EditText)findViewById(R.id.txtRecipeDiameter);
+            intent.putExtra("diameter", txt.getText().toString());
             startActivity(intent);
             return true;
         }
