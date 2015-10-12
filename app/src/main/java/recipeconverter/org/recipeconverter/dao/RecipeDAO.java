@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.EntryError;
 import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
@@ -87,7 +88,16 @@ public class RecipeDAO {
         } catch (Exception e) { }
     }
 
-    synchronized public void addRecipe (RecipeEntry recipe) throws RecipeNotCreated {
+    private int countInstances (String name) {
+        String whereClause = new String (DBHelper.COLUMN_RECIPES_NAME + " = \""" + name + "\"");
+        Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
+        return cursor.getCount();
+    }
+
+    synchronized public void addRecipe (RecipeEntry recipe) throws RecipeNotCreated, RecipeAlreadyPresent {
+        if (countInstances(recipe.getName()) != 0)
+          throw new RecipeAlreadyPresent();
+
         long id = -1;
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_RECIPES_NAME, recipe.getName());
