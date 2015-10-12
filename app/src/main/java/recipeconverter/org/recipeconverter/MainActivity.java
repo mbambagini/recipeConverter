@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
                                                    View.VISIBLE : View.GONE);
 
         //shape type fields
-        bool enabled = (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE);
+        boolean enabled = (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == SHAPE_RECTANGLE) ?
                                                            View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == SHAPE_SQUARE) ?
