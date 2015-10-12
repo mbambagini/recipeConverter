@@ -6,24 +6,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * class to handle DB creation/update
- * 
- * @author Mario Bambagini
  *
+ * @author Mario Bambagini
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-	//databases
-	public static final String TABLE_RECIPES = "RECIPES";
-	public static final String TABLE_INGREDIENTS = "INGREDIENTS";
-	//columns
+    //databases
+    public static final String TABLE_RECIPES = "RECIPES";
+    public static final String TABLE_INGREDIENTS = "INGREDIENTS";
+    //columns
     public static final String COLUMN_RECIPES_ID = "_id";
-	public static final String COLUMN_RECIPES_NAME = "name";
-	public static final String COLUMN_RECIPES_PEOPLE_NUMBER = "people_number";
-	public static final String COLUMN_RECIPES_SHAPE = "shape";
-	public static final String COLUMN_RECIPES_SIDE_1 = "side_1";
-	public static final String COLUMN_RECIPES_SIDE_2 = "side_2";
-	public static final String COLUMN_RECIPES_DIAMETER = "diameter";
-	public static final String COLUMN_RECIPES_TYPE = "type";
+    public static final String COLUMN_RECIPES_NAME = "name";
+    public static final String COLUMN_RECIPES_PEOPLE_NUMBER = "people_number";
+    public static final String COLUMN_RECIPES_SHAPE = "shape";
+    public static final String COLUMN_RECIPES_SIDE_1 = "side_1";
+    public static final String COLUMN_RECIPES_SIDE_2 = "side_2";
+    public static final String COLUMN_RECIPES_DIAMETER = "diameter";
+    public static final String COLUMN_RECIPES_TYPE = "type";
     //creation queries
     private static final String DATABASE_CREATE_RECIPES = "create table "
             + TABLE_RECIPES + "("
@@ -36,9 +35,9 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_RECIPES_DIAMETER + " float,"
             + COLUMN_RECIPES_TYPE + " integer);";
     public static final String COLUMN_INGREDIENTS_ID = "_id";
-	public static final String COLUMN_INGREDIENTS_NAME = "name";
-	public static final String COLUMN_INGREDIENTS_QUANTITY = "quantity";
-	public static final String COLUMN_INGREDIENTS_UNIT = "unit";
+    public static final String COLUMN_INGREDIENTS_NAME = "name";
+    public static final String COLUMN_INGREDIENTS_QUANTITY = "quantity";
+    public static final String COLUMN_INGREDIENTS_UNIT = "unit";
     public static final String COLUMN_INGREDIENTS_ID_RECIPE = "idRecipe";
     private static final String DATABASE_CREATE_INGREDIENTS = "create table "
             + TABLE_INGREDIENTS + "("
@@ -48,8 +47,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_INGREDIENTS_UNIT + " integer, "
             + COLUMN_INGREDIENTS_ID_RECIPE + " integer);";
     //extra
-	public static final int DB_TRUE = 1;
-	public static final int DB_FALSE = 0;
+    public static final int DB_TRUE = 1;
+    public static final int DB_FALSE = 0;
 
     public static final int DB_SHAPE_CIRCLE = 0;
     public static final int DB_SHAPE_RECTANGLE = 1;
@@ -63,7 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
         public static final int DB_TYPE_CAKE = 4;
     */
     //version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     //file
     private static final String DATABASE_NAME = "recipes.db";
 
@@ -71,7 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-	@Override
+    @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE_RECIPES);
         database.execSQL(DATABASE_CREATE_INGREDIENTS);

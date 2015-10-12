@@ -8,4 +8,11 @@
         android:orderInCategory="100"
         android:title="Add ingredients"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_recipe_list"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:orderInCategory="100"
+        android:title="show"
+        app:showAsAction="always" />
 </menu>

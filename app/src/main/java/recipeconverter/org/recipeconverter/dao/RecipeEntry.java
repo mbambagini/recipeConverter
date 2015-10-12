@@ -1,5 +1,6 @@
 package recipeconverter.org.recipeconverter.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,12 +11,12 @@ public class RecipeEntry {
     private long id;
     private String name;
     private int num_people = -1;
-    private ShapeType shape;
+    private ShapeType shape = ShapeType.SHAPE_NOT_VALID;
     private double side1 = -1.0;
     private double side2 = -1.0;
     private double diameter = -1.0;
-    private RecipeType type;
-    private List<IngredientEntry> ingredients = null;
+    private RecipeType type = RecipeType.RECIPE_NOT_VALID;
+    private List<IngredientEntry> ingredients = new ArrayList<>();
 
     public long getId() {
         return id;

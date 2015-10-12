@@ -20,10 +20,16 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
         <activity
             android:name=".IngredientActivity"
-            android:label="@string/title_activity_ingredient"></activity>
+            android:label="@string/title_activity_ingredient" />
+        <activity
+            android:name=".ConversionActivity"
+            android:label="@string/title_activity_conversion"></activity>
+        <activity
+            android:name=".RecipeActivity"
+            android:label="@string/title_activity_recipe"></activity>
     </application>
 
 </manifest>
