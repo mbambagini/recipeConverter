@@ -127,7 +127,7 @@ public class IngredientActivity extends ActionBarActivity {
                 recipeDAO.close();
             } catch (SQLException e) {
                 Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
-                return;
+                return true;
             }
             return true;
         }
