@@ -74,20 +74,51 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_ingredients) {
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
-            EditText txt = (EditText)findViewById(R.id.txtRecipeName);
-            intent.putExtra("name", txt.getText().toString());
-            intent.putExtra("recipe_type", configuration_recipe);
-            intent.putExtra("shape_type", configuration_shape);
-            txt = (EditText)findViewById(R.id.txtRecipePeople);
-            intent.putExtra("people", txt.getText().toString());
-            txt = (EditText)findViewById(R.id.txtRecipeSide1);
-            intent.putExtra("side1", txt.getText().toString());
-            txt = (EditText)findViewById(R.id.txtRecipeSide2);
-            intent.putExtra("side2", txt.getText().toString());
-            txt = (EditText)findViewById(R.id.txtRecipeSide);
-            intent.putExtra("side", txt.getText().toString());
-            txt = (EditText)findViewById(R.id.txtRecipeDiameter);
-            intent.putExtra("diameter", txt.getText().toString());
+            try {
+                if (configuration_recipe == NO_CHOISE)
+                    throw new Exception();
+                EditText txt = (EditText)findViewById(R.id.txtRecipeName);
+                if (txt.getText().toString().compare("") == 0)
+                    throw new Exception();
+                intent.putExtra("name", txt.getText().toString());
+                intent.putExtra("recipe_type", configuration_recipe);
+                intent.putExtra("shape_type", configuration_shape);
+                if (configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) {
+                    txt = (EditText)findViewById(R.id.txtRecipePeople);
+                    int n_people = Integer.parseInt(txt.getText().toString());
+                    if (n_people <= 0)
+                        throw new Exception();
+                    intent.putExtra("people", n_people);
+                }
+                if (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE) {
+                    switch (configuration_shape) {
+                    case SHAPE_RECTANGLE:
+                        double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide1)).getText().toString() );
+                        double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide2)).getText().toString() );
+                        if (side1 <= 0.0 || side2 <= 0.0)
+                            throw new Exception();
+                        intent.putExtra("side1", side1);
+                        intent.putExtra("side2", side2);
+                        break;
+                    case SHAPE_SQUARE:
+                        double side = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide)).getText().toString() );
+                        if (side <= 0.0 )
+                            throw new Exception();
+                        intent.putExtra("side", side);
+                        break;
+                    case SHAPE_CIRCLE:
+                        double diamiter = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeDiameter)).getText().toString() );
+                        if (diamiter <= 0.0 )
+                            throw new Exception();
+                        intent.putExtra("diameter", diamiter);
+                        break;
+                    default:
+                        throw new Exception();
+                    }
+                }
+            } catch (Exception e) {
+                return true;
+            }
             startActivity(intent);
             return true;
         }
