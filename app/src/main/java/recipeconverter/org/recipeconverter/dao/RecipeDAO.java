@@ -89,7 +89,7 @@ public class RecipeDAO {
     }
 
     private int countInstances (String name) {
-        String whereClause = new String (DBHelper.COLUMN_RECIPES_NAME + " = \""" + name + "\"");
+        String whereClause = new String (DBHelper.COLUMN_RECIPES_NAME + " = \"" + name + "\"");
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
         return cursor.getCount();
     }
