@@ -1,6 +1,7 @@
 package recipeconverter.org.recipeconverter;
 
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
+import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.dao.*;
 
@@ -129,10 +130,9 @@ public class MainActivity extends ActionBarActivity {
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
             try {
                 RecipeEntry recipe = readInputs();
-                RecipeDAO recipeDAO = new RecipeDAO();
+                RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
                 recipeDAO.open();
-                long id = recipeDAO.addRecipe(recipe);
-                intent.putExtra("id", id);
+                intent.putExtra("id", recipeDAO.addRecipe(recipe));
                 recipeDAO.close();
             } catch (WrongInputs e) {
                 Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
