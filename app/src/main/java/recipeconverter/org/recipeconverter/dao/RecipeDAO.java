@@ -94,7 +94,7 @@ public class RecipeDAO {
         return cursor.getCount();
     }
 
-    synchronized public void addRecipe (RecipeEntry recipe) throws RecipeNotCreated, RecipeAlreadyPresent {
+    synchronized public long addRecipe (RecipeEntry recipe) throws RecipeNotCreated, RecipeAlreadyPresent {
         if (countInstances(recipe.getName()) != 0)
           throw new RecipeAlreadyPresent();
 
@@ -116,6 +116,7 @@ public class RecipeDAO {
             throw new RecipeNotCreated();
         for (IngredientEntry ingredient: recipe.getIngredients())
             addIngredient(ingredient, id);
+        return id;
     }
 
     synchronized public void updateRecipe(RecipeEntry cl) {
