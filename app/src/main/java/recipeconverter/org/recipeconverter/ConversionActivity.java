@@ -20,7 +20,6 @@ import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.exception.EntryError;
 import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 
-
 public class ConversionActivity extends ActionBarActivity {
 
     private int original_people = -1;
@@ -70,16 +69,17 @@ public class ConversionActivity extends ActionBarActivity {
         findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.GONE);
         findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
         findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
+        EditText txt;
         switch (recipe.getShape()) {
             case SHAPE_CIRCLE:
                 findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
-                EditText txt = (EditText)findViewById(R.id.txtConvertedRecipeDiameter);
+                txt = (EditText)findViewById(R.id.txtConvertedRecipeDiameter);
                 txt.setText(""+recipe.getDiameter(), TextView.BufferType.EDITABLE);
                 original_area = recipe.getDiameter() * pi_;
                 break;
             case SHAPE_RECTANGLE:
                 findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.VISIBLE);
-                EditText txt = (EditText)findViewById(R.id.txtConvertedRecipeSide1);
+                txt = (EditText)findViewById(R.id.txtConvertedRecipeSide1);
                 txt.setText(""+recipe.getSide1(), TextView.BufferType.EDITABLE);
                 txt = (EditText)findViewById(R.id.txtConvertedRecipeSide2);
                 txt.setText(""+recipe.getSide2(), TextView.BufferType.EDITABLE);
@@ -87,7 +87,7 @@ public class ConversionActivity extends ActionBarActivity {
                 break;
             case SHAPE_SQUARE:
                 findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.VISIBLE);
-                EditText txt = (EditText)findViewById(R.id.txtConvertedRecipeSide);
+                txt = (EditText)findViewById(R.id.txtConvertedRecipeSide);
                 txt.setText(""+recipe.getSide1(), TextView.BufferType.EDITABLE);
                 original_area = recipe.getSide1() * recipe.getSide1();
                 break;
