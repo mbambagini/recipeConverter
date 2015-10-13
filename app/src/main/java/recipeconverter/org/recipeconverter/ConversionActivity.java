@@ -91,6 +91,7 @@ public class ConversionActivity extends ActionBarActivity {
                 txt.setText(""+recipe.getSide1(), TextView.BufferType.EDITABLE);
                 original_area = recipe.getSide1() * recipe.getSide1();
                 break;
+            }
         }
     }
 
@@ -135,8 +136,9 @@ public class ConversionActivity extends ActionBarActivity {
                 if (side > 0)
                     factor = (side * side) / original_area;
                 break;
+            }
+            convertIngredients(factor);
         }
-        convertIngredients(factor);
     }
 
     private void convertIngredients(double factor) {
