@@ -14,9 +14,6 @@ import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
 
-/**
- * Created by mario on 06/10/15.
- */
 public class RecipeDAO {
 
     private SQLiteDatabase db;
@@ -52,7 +49,7 @@ public class RecipeDAO {
     }
 
     synchronized public List<RecipeEntry> getRecipes() {
-        List<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
+        List<RecipeEntry> recipes = new ArrayList<>();
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -64,7 +61,7 @@ public class RecipeDAO {
     }
 
     synchronized public RecipeEntry getRecipe(long id) throws EntryNotFound, EntryError {
-        String whereClause = new String(DBHelper.COLUMN_RECIPES_ID + " = " + id);
+        String whereClause = DBHelper.COLUMN_RECIPES_ID + " = " + id;
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
         if (cursor.getCount() == 0)
             throw new EntryNotFound();
@@ -77,7 +74,7 @@ public class RecipeDAO {
         throw new EntryError();
     }
 
-    public void addIngredient(IngredientEntry ingredient, long idRecipe) {
+    public void addIngredient(IngredientEntry ingredient, long idRecipe) throws EntryError {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_INGREDIENTS_NAME, ingredient.getName());
         values.put(DBHelper.COLUMN_INGREDIENTS_QUANTITY, ingredient.getQuantity());
@@ -86,11 +83,12 @@ public class RecipeDAO {
         try {
             db.insert(DBHelper.TABLE_INGREDIENTS, null, values);
         } catch (Exception e) {
+            throw new EntryError();
         }
     }
 
     private int countInstances(String name) {
-        String whereClause = new String(DBHelper.COLUMN_RECIPES_NAME + " = \"" + name + "\"");
+        String whereClause = DBHelper.COLUMN_RECIPES_NAME + " = \"" + name + "\"";
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
         return cursor.getCount();
     }
@@ -99,7 +97,7 @@ public class RecipeDAO {
         if (countInstances(recipe.getName()) != 0)
             throw new RecipeAlreadyPresent();
 
-        long id = -1;
+        long id;
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_RECIPES_NAME, recipe.getName());
         values.put(DBHelper.COLUMN_RECIPES_PEOPLE_NUMBER, recipe.getNum_people());
@@ -115,28 +113,36 @@ public class RecipeDAO {
         }
         if (id == -1)
             throw new RecipeNotCreated();
-        for (IngredientEntry ingredient : recipe.getIngredients())
-            addIngredient(ingredient, id);
+        for (IngredientEntry ingredient : recipe.getIngredients()) {
+            try {
+                addIngredient(ingredient, id);
+            } catch (EntryError e) {
+                break;
+            }
+        }
+
         return id;
     }
 
-    synchronized public void updateRecipe(RecipeEntry cl) {
-    }
-
+    /*
+        synchronized public void updateRecipe(RecipeEntry cl) {
+        }
+    */
+/*
     synchronized public void deleteRecipe(int id) throws EntryNotFound, EntryError {
-        String whereClause = new String(DBHelper.COLUMN_RECIPES_ID + " = " + id);
+        String whereClause = DBHelper.COLUMN_RECIPES_ID + " = " + id;
         int num = db.delete(DBHelper.TABLE_RECIPES, whereClause, null);
         if (num == 0)
             throw new EntryNotFound();
         if (num > 1)
             throw new EntryError();
-        whereClause = new String(DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + id);
+        whereClause = DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + id;
         db.delete(DBHelper.TABLE_INGREDIENTS, whereClause, null);
     }
-
+*/
     private List<IngredientEntry> getIngredients(long idRecipe) {
-        List<IngredientEntry> ingredients = new ArrayList<IngredientEntry>();
-        String whereClause = new String(DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + idRecipe);
+        List<IngredientEntry> ingredients = new ArrayList<>();
+        String whereClause = DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + idRecipe;
         Cursor cursor = db.query(DBHelper.TABLE_INGREDIENTS, allIngredientsColumns, whereClause, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

@@ -21,8 +21,6 @@ import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 
 public class RecipeActivity extends ActionBarActivity {
 
-    private RecipeAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +46,7 @@ public class RecipeActivity extends ActionBarActivity {
                     }
                 }
             });
-            adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
+            RecipeAdapter adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
             lst.setAdapter(adapter);
         } catch (SQLException e) {
         }

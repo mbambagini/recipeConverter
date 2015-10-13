@@ -47,6 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_INGREDIENTS_UNIT + " integer, "
             + COLUMN_INGREDIENTS_ID_RECIPE + " integer);";
     //extra
+    /*
     public static final int DB_TRUE = 1;
     public static final int DB_FALSE = 0;
 
@@ -54,13 +55,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final int DB_SHAPE_RECTANGLE = 1;
     public static final int DB_SHAPE_SQUARE = 2;
 
-    /*
-        public static final int DB_TYPE_ENTRY = 0;
-        public static final int DB_TYPE_FIRST = 1;
-        public static final int DB_TYPE_SECOND = 2;
-        public static final int DB_TYPE_SIDE = 3;
-        public static final int DB_TYPE_CAKE = 4;
+
+    public static final int DB_TYPE_ENTRY = 0;
+    public static final int DB_TYPE_FIRST = 1;
+    public static final int DB_TYPE_SECOND = 2;
+    public static final int DB_TYPE_SIDE = 3;
+    public static final int DB_TYPE_CAKE = 4;
     */
+
     //version
     private static final int DATABASE_VERSION = 2;
     //file

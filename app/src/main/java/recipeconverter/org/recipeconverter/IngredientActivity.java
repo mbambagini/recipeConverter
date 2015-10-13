@@ -22,6 +22,7 @@ import recipeconverter.org.recipeconverter.adapter.IngredientAdapter;
 import recipeconverter.org.recipeconverter.dao.IngredientEntry;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.UnitType;
+import recipeconverter.org.recipeconverter.exception.EntryError;
 import recipeconverter.org.recipeconverter.exception.IngredientAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
 
@@ -47,7 +48,7 @@ public class IngredientActivity extends ActionBarActivity {
         list.add(UnitType.toString(UnitType.UNIT_KILOGRAM));
         list.add(UnitType.toString(UnitType.UNIT_GALLON));
         list.add(UnitType.toString(UnitType.UNIT_LITRE));
-        ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp);
 
@@ -96,10 +97,8 @@ public class IngredientActivity extends ActionBarActivity {
                 cleanInptuts();
             } catch (WrongInputs e) {
                 Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
-                return;
             } catch (IngredientAlreadyPresent e) {
                 Toast.makeText(getApplicationContext(), "Ingredient already present", Toast.LENGTH_SHORT).show();
-                return;
             }
         }
     }
@@ -131,7 +130,7 @@ public class IngredientActivity extends ActionBarActivity {
                 Intent intent = new Intent(IngredientActivity.this, ConversionActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
-            } catch (SQLException e) {
+            } catch (SQLException | EntryError e) {
                 Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
                 return true;
             }

@@ -3,9 +3,6 @@ package recipeconverter.org.recipeconverter.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by mario on 06/10/15.
- */
 public class RecipeEntry {
 
     private long id;
