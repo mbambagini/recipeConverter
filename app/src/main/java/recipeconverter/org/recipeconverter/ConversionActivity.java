@@ -109,4 +109,43 @@ public class ConversionActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnConvert) {
+            double factor = 1.0;
+            if (original_people > 0) {
+                int new_people = Integer.parseInt(((EditText)findViewById(R.id.txtConvertedRecipePeople)).getText().toString());
+                if (new_people > 0)
+                    factor = new_people / original_people;
+            }
+            switch (recipe.getShape()) {
+            case SHAPE_CIRCLE:
+                double diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
+                if (diameter > 0)
+                    factor = (diameter * pi_) / original_area;
+                break;
+            case SHAPE_RECTANGLE:
+                double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
+                double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
+                if (side1 > 0 && side2 > 0)
+                    factor = (side1 * side2) / original_area;
+                break;
+            case SHAPE_SQUARE:
+                double side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
+                if (side > 0)
+                    factor = (side * side) / original_area;
+                break;
+        }
+        convertIngredients(factor);
+    }
+
+    private void convertIngredients(double factor) {
+        if (ingredients == null)
+            return;
+        ingredients = (ArrayList<IngredientEntry>) ingredients_original.clone();
+        for (IngredientEntry ingredient : ingredients)
+            ingredient.setQuantity(ingredient.getQuantity() * factor);
+        adapter.notifyDataSetChanged();
+    }
+
 }
