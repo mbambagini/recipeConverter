@@ -119,18 +119,18 @@ public class ConversionActivity extends ActionBarActivity {
                     factor = new_people / original_people;
             }
             switch (shape) {
-            case ShapeType.SHAPE_CIRCLE:
+            case SHAPE_CIRCLE:
                 double diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
                 if (diameter > 0)
                     factor = (diameter * pi_) / original_area;
                 break;
-            case ShapeType.SHAPE_RECTANGLE:
+            case SHAPE_RECTANGLE:
                 double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
                 double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
                 if (side1 > 0 && side2 > 0)
                     factor = (side1 * side2) / original_area;
                 break;
-            case ShapeType.SHAPE_SQUARE:
+            case SHAPE_SQUARE:
                 double side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
                 if (side > 0)
                     factor = (side * side) / original_area;
