@@ -7,6 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import android.widget.EditText;
+import android.widget.TextView;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
