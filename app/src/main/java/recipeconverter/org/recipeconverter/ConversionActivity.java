@@ -7,6 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import android.content.Intent;
+import android.widget.Toast;
+
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -104,12 +107,34 @@ public class ConversionActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            return true;
+            String msg = buildString();
+            if (msg != null) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, msg);
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "share"));
+            } else {
+                Toast.makeText(this, "impossible to share", Toast.LENGTH_LONG).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
     
+    private String buildString() {
+        if (ingredients == null || ingredients.size() == 0)
+            return null;
+
+        String buffer = "";
+         for (IngredientEntry ingredient : ingredients)
+             buffer += ingredient.getQuantity() + " " +
+                       UnitType.toInteger(ingredient.getUnit()) + " - " +
+                       ingredient.getName();
+
+        return buffer;
+    }
+
     public void onClick(View v) {
         if (v.getId() == R.id.btnConvert) {
             double factor = 1.0;
