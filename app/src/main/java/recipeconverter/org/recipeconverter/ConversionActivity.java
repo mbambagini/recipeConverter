@@ -14,9 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import recipeconverter.org.recipeconverter.adapter.IngredientAdapter;
-import recipeconverter.org.recipeconverter.dao.IngredientEntry;
-import recipeconverter.org.recipeconverter.dao.RecipeDAO;
-import recipeconverter.org.recipeconverter.dao.RecipeEntry;
+import recipeconverter.org.recipeconverter.dao.*;
 import recipeconverter.org.recipeconverter.exception.EntryError;
 import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 
