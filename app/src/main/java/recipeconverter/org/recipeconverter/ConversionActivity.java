@@ -22,7 +22,7 @@ public class ConversionActivity extends ActionBarActivity {
 
     private int original_people = -1;
     private double original_area = -1.0;
-    private ShapeType shape = ShapeType.SHAPE_NOT_VALID
+    private ShapeType shape = ShapeType.SHAPE_NOT_VALID;
     static final double pi_ = 3.14;
     
     IngredientAdapter adapter;
