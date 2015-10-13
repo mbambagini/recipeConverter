@@ -91,7 +91,6 @@ public class ConversionActivity extends ActionBarActivity {
                 txt.setText(""+recipe.getSide1(), TextView.BufferType.EDITABLE);
                 original_area = recipe.getSide1() * recipe.getSide1();
                 break;
-            }
         }
     }
 
