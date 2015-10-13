@@ -20,6 +20,10 @@ import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 
 public class ConversionActivity extends ActionBarActivity {
 
+    private int original_people = -1;
+    private double original_area = -1.0;
+    static final double pi_ = 3.14;
+    
     IngredientAdapter adapter;
     private long id = -1;
     private ArrayList<IngredientEntry> ingredients = null;
@@ -54,6 +58,9 @@ public class ConversionActivity extends ActionBarActivity {
 
         if (recipe.getNum_people() > -1) {
             findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.VISIBLE);
+            EditText txt = (EditText)findViewById(R.id.txtConvertedRecipePeople);
+            txt.setText(""+recipe.getNum_people(), TextView.BufferType.EDITABLE);
+            original_people = recipe.getNum_people();
         } else
             findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.GONE);
 
@@ -63,12 +70,23 @@ public class ConversionActivity extends ActionBarActivity {
         switch (recipe.getShape()) {
             case SHAPE_CIRCLE:
                 findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
+                EditText txt = (EditText)findViewById(R.id.txtConvertedRecipeDiameter);
+                txt.setText(""+recipe.getDiameter(), TextView.BufferType.EDITABLE);
+                original_area = recipe.getDiameter() * pi_;
                 break;
             case SHAPE_RECTANGLE:
                 findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.VISIBLE);
+                EditText txt = (EditText)findViewById(R.id.txtConvertedRecipeSide1);
+                txt.setText(""+recipe.getSide1(), TextView.BufferType.EDITABLE);
+                txt = (EditText)findViewById(R.id.txtConvertedRecipeSide2);
+                txt.setText(""+recipe.getSide2(), TextView.BufferType.EDITABLE);
+                original_area = recipe.getSide1() * recipe.getSide2();
                 break;
             case SHAPE_SQUARE:
                 findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.VISIBLE);
+                EditText txt = (EditText)findViewById(R.id.txtConvertedRecipeSide);
+                txt.setText(""+recipe.getSide1(), TextView.BufferType.EDITABLE);
+                original_area = recipe.getSide1() * recipe.getSide1();
                 break;
         }
     }
