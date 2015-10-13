@@ -41,4 +41,13 @@ public class IngredientEntry {
     public void setUnit(UnitType unit) {
         this.unit = unit;
     }
+
+    public IngredientEntry clone() {
+        IngredientEntry tmp = new IngredientEntry();
+        tmp.id = id;
+        tmp.name = name;
+        tmp.quantity = quantity;
+        tmp.unit = unit;
+        return tmp;
+    }
 }

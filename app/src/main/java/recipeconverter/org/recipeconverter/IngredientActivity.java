@@ -1,6 +1,7 @@
 package recipeconverter.org.recipeconverter;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
@@ -39,12 +41,12 @@ public class IngredientActivity extends ActionBarActivity {
 
         Spinner spinner = (Spinner) findViewById(R.id.spinnerIngredientUnit);
         List<String> list = new ArrayList<>();
-        list.add("ounce");
-        list.add("pound");
-        list.add("gram");
-        list.add("kilogram");
-        list.add("gallon");
-        list.add("litre");
+        list.add(UnitType.toString(UnitType.UNIT_OUNCE));
+        list.add(UnitType.toString(UnitType.UNIT_POUND));
+        list.add(UnitType.toString(UnitType.UNIT_GRAM));
+        list.add(UnitType.toString(UnitType.UNIT_KILOGRAM));
+        list.add(UnitType.toString(UnitType.UNIT_GALLON));
+        list.add(UnitType.toString(UnitType.UNIT_LITRE));
         ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp);
@@ -53,6 +55,10 @@ public class IngredientActivity extends ActionBarActivity {
         ingredientList = new ArrayList<>();
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList);
         lst.setAdapter(adapter);
+
+        TextView myTextView = (TextView) findViewById(R.id.txt_new_ingredients_headline);
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
+        myTextView.setTypeface(typeFace);
     }
 
     private IngredientEntry checkInputs() throws WrongInputs, IngredientAlreadyPresent {

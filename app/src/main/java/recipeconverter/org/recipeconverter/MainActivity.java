@@ -1,6 +1,7 @@
 package recipeconverter.org.recipeconverter;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
@@ -63,6 +65,10 @@ public class MainActivity extends ActionBarActivity {
         configuration_recipe = NO_CHOISE;
         configuration_shape = SHAPE_RECTANGLE;
         setVisibleItems();
+
+        TextView myTextView = (TextView) findViewById(R.id.txt_new_recipe_headline);
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
+        myTextView.setTypeface(typeFace);
     }
 
     @Override
@@ -151,10 +157,6 @@ public class MainActivity extends ActionBarActivity {
             startActivity(intent);
             return true;
         }
-        if (id == R.id.action_recipe_list) {
-            Intent intent = new Intent(MainActivity.this, RecipeActivity.class);
-            startActivity(intent);
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -174,9 +176,11 @@ public class MainActivity extends ActionBarActivity {
             case R.id.btnPan:
                 configuration_recipe = ONLY_PAN;
                 break;
+/*
             case R.id.btnPeoplePan:
                 configuration_recipe = PAN_PEOPLE;
                 break;
+*/
         }
         setVisibleItems();
     }

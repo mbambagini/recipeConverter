@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="recipeconverter.org.recipeconverter.RecipeActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_recipe_activity_add"
+        android:icon="@android:drawable/ic_menu_add"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="Add a recipe"
+        app:showAsAction="always" />
 </menu>

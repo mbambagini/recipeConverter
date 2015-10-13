@@ -1,6 +1,7 @@
 package recipeconverter.org.recipeconverter;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,22 +40,23 @@ public class RecipeActivity extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
-                    Toast.makeText(getApplicationContext(), "aaa", Toast.LENGTH_LONG).show();
-                    //if (txt != null) {
-                    Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
-                    intent.putExtra("id", Long.parseLong(txt.getText().toString()));
-                    finish();
-                    startActivity(intent);
-                    //}
+                    if (txt != null) {
+                        Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
+                        intent.putExtra("id", Long.parseLong(txt.getText().toString()));
+                        finish();
+                        startActivity(intent);
+                    }
                 }
             });
             adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
             lst.setAdapter(adapter);
-            Toast.makeText(getApplicationContext(), "v", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
         }
-    }
 
+        TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
+        myTextView.setTypeface(typeFace);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,14 +67,11 @@ public class RecipeActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (item.getItemId() == R.id.action_recipe_activity_add) {
+            Intent intent = new Intent(RecipeActivity.this, MainActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

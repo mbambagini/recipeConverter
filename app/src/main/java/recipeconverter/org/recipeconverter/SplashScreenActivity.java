@@ -2,17 +2,9 @@ package recipeconverter.org.recipeconverter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- *
- * @see SystemUiHider
- */
 public class SplashScreenActivity extends Activity {
 
     final static int DefaultSplashDuration = 3000;
@@ -24,7 +16,7 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.activity_splash_screen);
 
         Handler h = new Handler();
-        h.postDelayed( new Runnable() {
+        h.postDelayed(new Runnable() {
             @Override
             public void run() {
                 changeActivity();
@@ -33,9 +25,9 @@ public class SplashScreenActivity extends Activity {
 
     }
 
-    private void changeActivity () {
+    private void changeActivity() {
         finish();
-        Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+        Intent intent = new Intent(SplashScreenActivity.this, RecipeActivity.class);
         startActivity(intent);
     }
 

@@ -11,6 +11,24 @@ public enum UnitType {
     UNIT_GALLON,
     UNIT_LITRE;
 
+    static public String toString(UnitType par) {
+        switch (par) {
+            case UNIT_OUNCE:
+                return "oz";
+            case UNIT_POUND:
+                return "lb";
+            case UNIT_GRAM:
+                return "gr";
+            case UNIT_KILOGRAM:
+                return "kg";
+            case UNIT_GALLON:
+                return "gal";
+            case UNIT_LITRE:
+                return "ltr";
+        }
+        return "";
+    }
+
     public static UnitType fromInteger (int par) {
         switch(par) {
             case 1: return UNIT_OUNCE;

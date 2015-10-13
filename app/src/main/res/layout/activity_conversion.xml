@@ -16,12 +16,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView81"
+            android:id="@+id/txt_conversion_headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Convert"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
+            android:gravity="center_horizontal"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp"
+            android:text="Convert ingredients"
+            android:textSize="60dp" />
 
         <LinearLayout
             android:id="@+id/layoutConvertedHowManyPeople"

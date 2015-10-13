@@ -11,9 +11,9 @@
             android:name=".SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme"
-            android:screenOrientation="portrait">
-            <intent-filter>
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme">
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -29,6 +29,7 @@
         <activity
             android:name=".ConversionActivity"
             android:label="@string/title_activity_conversion"
+            android:parentActivityName=".RecipeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RecipeActivity"

@@ -3,41 +3,46 @@
     android:id="@+id/RecipeRow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/txt_recipe_id"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/txt_recipe_id"
+    <TextView
+        android:id="@+id/txt_recipe_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:gravity="left"
+        android:paddingLeft="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/txt_recipe_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_weight="0.2"
+        android:gravity="right"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <!--
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:text="Modify"
+            android:id="@+id/buttonModifyRecipe"
+            android:layout_gravity="center_vertical" />
 
-        <TextView
-            android:id="@+id/txt_recipe_name"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingLeft="5dp"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="Delete"
+            android:id="@+id/buttonDeleteRecipe"
+            android:layout_gravity="center_vertical" />-->
 
-        <!--
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Modify"
-                android:id="@+id/buttonModifyRecipe"
-                android:layout_gravity="center_vertical" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delete"
-                android:id="@+id/buttonDeleteRecipe"
-                android:layout_gravity="center_vertical" />-->
-
-    </LinearLayout>
 </TableRow>

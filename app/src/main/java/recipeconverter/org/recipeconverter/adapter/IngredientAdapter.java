@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import recipeconverter.org.recipeconverter.R;
@@ -39,8 +40,10 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(ingredients.get(position).getName());
-        holder.quantity.setText(Double.toString(ingredients.get(position).getQuantity()));
-        holder.unit.setText(Integer.toString(UnitType.toInteger(ingredients.get(position).getUnit())));
+        DecimalFormat format = new DecimalFormat("0.00");
+        String formatDouble = format.format(ingredients.get(position).getQuantity());
+        holder.quantity.setText(formatDouble);
+        holder.unit.setText(UnitType.toString(ingredients.get(position).getUnit()));
         holder.id.setText(Long.toString(ingredients.get(position).getId()));
         return view;
     }
