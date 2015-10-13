@@ -22,6 +22,7 @@ public class ConversionActivity extends ActionBarActivity {
 
     private int original_people = -1;
     private double original_area = -1.0;
+    private ShapeType shape = ShapeType.SHAPE_NOT_VALID
     static final double pi_ = 3.14;
     
     IngredientAdapter adapter;
@@ -67,6 +68,7 @@ public class ConversionActivity extends ActionBarActivity {
         findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.GONE);
         findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
         findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
+        shape = recipe.getShape();
         EditText txt;
         switch (recipe.getShape()) {
             case SHAPE_CIRCLE:
@@ -116,19 +118,19 @@ public class ConversionActivity extends ActionBarActivity {
                 if (new_people > 0)
                     factor = new_people / original_people;
             }
-            switch (recipe.getShape()) {
-            case SHAPE_CIRCLE:
+            switch (shape) {
+            case ShapeType.SHAPE_CIRCLE:
                 double diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
                 if (diameter > 0)
                     factor = (diameter * pi_) / original_area;
                 break;
-            case SHAPE_RECTANGLE:
+            case ShapeType.SHAPE_RECTANGLE:
                 double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
                 double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
                 if (side1 > 0 && side2 > 0)
                     factor = (side1 * side2) / original_area;
                 break;
-            case SHAPE_SQUARE:
+            case ShapeType.SHAPE_SQUARE:
                 double side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
                 if (side > 0)
                     factor = (side * side) / original_area;
