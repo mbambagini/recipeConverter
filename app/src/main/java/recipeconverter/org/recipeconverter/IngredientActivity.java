@@ -38,7 +38,7 @@ public class IngredientActivity extends ActionBarActivity {
         //id = getIntent().getExtras().getLong("id", -1);
         r.setName(getIntent().getExtras().getString("name"));
         r.setNum_people(getIntent().getExtras().getInteger("num_people"), -1);
-        r.setShape(ShapeType.fromInteger(getIntent().getExtras().getInteger("shape", ShapeType.)));
+        r.setShape(ShapeType.fromInteger(getIntent().getExtras().getInteger("shape", ShapeType.SHAPE_NOT_VALID)));
         switch (r.getShape()) {
         case SHAPE_RECTANGLE:
             r.setSide1(getIntent().getExtras().getDouble("side1", -1));
