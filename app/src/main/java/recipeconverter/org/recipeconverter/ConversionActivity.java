@@ -173,7 +173,7 @@ public class ConversionActivity extends ActionBarActivity {
         //header
         String buffer = recipe.getName() + " for ";
         if (recipe.getNum_people() != -1)
-            buffer += " people\n"
+            buffer += " people\n";
         else {
             switch(recipe.getShape()) {
             case SHAPE_CIRCLE:
