@@ -29,7 +29,7 @@
         <activity
             android:name=".ConversionActivity"
             android:label="@string/title_activity_conversion"
-            android:parentActivityName=".RecipeActivity"
+            android:parentActivityName=".activities.RecipeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RecipeActivity"
