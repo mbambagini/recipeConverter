@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
             }
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
             intent.putExtra("name", recipe.getName());
-            intent.putExtra("num_people", recipe.getNum_People());
+            intent.putExtra("num_people", recipe.getNum_people());
             if (recipe.getNum_people() == -1) {
                 intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
                 switch (recipe.getShape()) {
