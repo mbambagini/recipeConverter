@@ -1,8 +1,5 @@
 package recipeconverter.org.recipeconverter.dao;
 
-/**
- * Created by mario on 06/10/15.
- */
 public class IngredientEntry {
 
     private long id;

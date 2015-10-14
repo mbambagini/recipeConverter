@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,24 +32,24 @@ public class RecipeActivity extends ActionBarActivity {
             recipeDAO.open();
             ArrayList<RecipeEntry> recipes = (ArrayList<RecipeEntry>) recipeDAO.getRecipes();
             recipeDAO.close();
-            if (recipes == null)
-                return;
-            ListView lst = (ListView) findViewById(R.id.lst_recipes);
-            lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
-                    if (txt != null) {
-                        Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
-                        intent.putExtra("id", Long.parseLong(txt.getText().toString()));
-                        finish();
-                        startActivity(intent);
+            if (recipes != null && recipes.size() > 0) {
+                ListView lst = (ListView) findViewById(R.id.lst_recipes);
+                lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
+                        if (txt != null) {
+                            Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
+                            intent.putExtra("id", Long.parseLong(txt.getText().toString()));
+                            startActivity(intent);
+                        }
                     }
-                }
-            });
-            RecipeAdapter adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
-            lst.setAdapter(adapter);
+                });
+                RecipeAdapter adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
+                lst.setAdapter(adapter);
+            }
         } catch (SQLException e) {
+            Toast.makeText(getApplicationContext(), "internal error", Toast.LENGTH_LONG).show();
         }
 
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
@@ -68,7 +69,7 @@ public class RecipeActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (item.getItemId() == R.id.action_recipe_activity_add) {
-            Intent intent = new Intent(RecipeActivity.this, MainActivity.class);
+            Intent intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
             startActivity(intent);
         }
 

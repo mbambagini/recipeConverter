@@ -173,17 +173,17 @@ public class ConversionActivity extends ActionBarActivity {
         //header
         String buffer = recipe.getName() + " for ";
         if (recipe.getNum_people() != -1)
-            buffer += " people\n";
+            buffer += converted_num_people + " people\n";
         else {
             switch(recipe.getShape()) {
             case SHAPE_CIRCLE:
-                buffer += " circular pan with diamter: " + converted_diameter + " cm\n";
+                buffer += "circular pan with diameter: " + converted_diameter + " cm\n";
                 break;
             case SHAPE_RECTANGLE:
-                buffer += " rectangular pan with size: " + converted_side1 + " x " + converted_side2 + " cm\n";
+                buffer += "rectangular pan with size: " + converted_side1 + " x " + converted_side2 + " cm\n";
                 break;
             case SHAPE_SQUARE:
-                buffer += " squared pan: " + converted_side + " x " + converted_side + " cm\n";
+                buffer += "squared pan: " + converted_side + " x " + converted_side + " cm\n";
                 break;
             }
         }

@@ -21,11 +21,13 @@ import java.util.List;
 import recipeconverter.org.recipeconverter.adapter.IngredientAdapter;
 import recipeconverter.org.recipeconverter.dao.IngredientEntry;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
-import recipeconverter.org.recipeconverter.dao.UnitType;
-import recipeconverter.org.recipeconverter.dao.ShapeType;
-import recipeconverter.org.recipeconverter.exception.*;
-
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
+import recipeconverter.org.recipeconverter.dao.ShapeType;
+import recipeconverter.org.recipeconverter.dao.UnitType;
+import recipeconverter.org.recipeconverter.exception.IngredientAlreadyPresent;
+import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
+import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
+import recipeconverter.org.recipeconverter.exception.WrongInputs;
 
 public class IngredientActivity extends ActionBarActivity {
 
@@ -143,10 +145,10 @@ public class IngredientActivity extends ActionBarActivity {
                 RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
                 recipeDAO.open();
                 recipe.setIngredients(ingredientList);
-                recipeDAO.addRecipe(recipe);
+                long id = recipeDAO.addRecipe(recipe);
                 recipeDAO.close();
                 Intent intent = new Intent(IngredientActivity.this, ConversionActivity.class);
-                //intent.putExtra("id", id);
+                intent.putExtra("id", id);
                 startActivity(intent);
             } catch (SQLException | RecipeNotCreated e) {
                 Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();

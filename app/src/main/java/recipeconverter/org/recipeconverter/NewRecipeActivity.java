@@ -14,35 +14,28 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.dao.ShapeType;
-import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
-import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
 
-public class MainActivity extends ActionBarActivity {
+public class NewRecipeActivity extends ActionBarActivity {
 
     static final int _ONLY_PEOPLE = 0;
     static final int _ONLY_PAN = 1;
-    //static final int _PAN_PEOPLE = 3;
     static final int _NO_CHOISE = 2;
-
+    private int configuration_recipe = _NO_CHOISE;
     static final int _SHAPE_RECTANGLE = 0;
+    private int configuration_shape = _SHAPE_RECTANGLE;
     static final int _SHAPE_SQUARE = 1;
     static final int _SHAPE_CIRCLE = 2;
-
-    private int configuration_recipe = _NO_CHOISE;
-    private int configuration_shape = _SHAPE_RECTANGLE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_new_recipe);
 
         //configure shape pan menu
         configureShapeMenu();
@@ -56,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_new_recipe, menu);
         return true;
     }
 
@@ -85,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
         RecipeEntry recipe = new RecipeEntry();
 
         //error early detection
-        if (configuration_recipe != _ONLY_PEOPLE || configuration_recipe != _ONLY_PAN)
+        if (configuration_recipe == _NO_CHOISE)
             throw new WrongInputs();
         //name
         String name = ((EditText) findViewById(R.id.txtRecipeName)).getText().toString();
@@ -98,6 +91,7 @@ public class MainActivity extends ActionBarActivity {
             int n_people = Integer.parseInt(((EditText) findViewById(R.id.txtRecipePeople)).getText().toString());
             if (n_people <= 0 || n_people >= 100) throw new WrongInputs();
             recipe.setNum_people(n_people);
+            recipe.setShape(ShapeType.SHAPE_NOT_VALID);
         }
         //pan
         if (configuration_recipe == _ONLY_PAN) {
@@ -116,9 +110,9 @@ public class MainActivity extends ActionBarActivity {
                     recipe.setSide1(side);
                     break;
                 case _SHAPE_CIRCLE:
-                    double diamiter = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeDiameter)).getText().toString());
-                    if (diamiter <= 0.0) throw new WrongInputs();
-                    recipe.setDiameter(diamiter);
+                    double diameter = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeDiameter)).getText().toString());
+                    if (diameter <= 0.0) throw new WrongInputs();
+                    recipe.setDiameter(diameter);
                     break;
                 default:
                     throw new WrongInputs();
@@ -132,7 +126,7 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_add_ingredients) {
-            RecipeEntry recipe = null;
+            RecipeEntry recipe;
             try {
                 recipe = readInputs();
             } catch (WrongInputs e) {
@@ -145,22 +139,22 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Internal DB error", Toast.LENGTH_SHORT).show();
                 return true;
             }*/
-            Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
+            Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
             intent.putExtra("name", recipe.getName());
             intent.putExtra("num_people", recipe.getNum_people());
-            if (recipe.getNum_people() == -1) {
-                intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
+            intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
+            if (recipe.getShape() != ShapeType.SHAPE_NOT_VALID) {
                 switch (recipe.getShape()) {
                     case SHAPE_RECTANGLE:
                         intent.putExtra("side1", recipe.getSide1());
                         intent.putExtra("side2", recipe.getSide2());
                         break;
-                case SHAPE_SQUARE:
-                    intent.putExtra("side1", recipe.getSide1());
-                    break;
-                case SHAPE_CIRCLE:
-                    intent.putExtra("diameter", recipe.getDiameter());
-                    break;
+                    case SHAPE_SQUARE:
+                        intent.putExtra("side", recipe.getSide1());
+                        break;
+                    case SHAPE_CIRCLE:
+                        intent.putExtra("diameter", recipe.getDiameter());
+                        break;
                 }
             }
             startActivity(intent);
@@ -171,7 +165,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void setPanShape(int id) {
-        if (id < _SHAPE_RECTANGLE || id > _SHAPE_CIRCLE)
+        if (id != _SHAPE_RECTANGLE && id != _SHAPE_SQUARE && id != _SHAPE_CIRCLE)
             id = _SHAPE_RECTANGLE;
         configuration_shape = id;
         setVisibleItems();
@@ -204,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
         findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
         //padding
-        findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.GONE : View.INVISIBLE);
+        findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == _NO_CHOISE) ? View.INVISIBLE : View.GONE);
         findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
     }
 }

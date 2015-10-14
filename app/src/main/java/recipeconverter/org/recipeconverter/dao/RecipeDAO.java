@@ -74,7 +74,7 @@ public class RecipeDAO {
         throw new EntryError();
     }
 
-    public void addIngredient(IngredientEntry ingredient, long idRecipe) throws EntryError {
+    private void addIngredient(IngredientEntry ingredient, long idRecipe) throws EntryError {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_INGREDIENTS_NAME, ingredient.getName());
         values.put(DBHelper.COLUMN_INGREDIENTS_QUANTITY, ingredient.getQuantity());
