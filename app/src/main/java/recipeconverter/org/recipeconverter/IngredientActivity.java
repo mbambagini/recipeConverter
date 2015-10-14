@@ -31,14 +31,35 @@ public class IngredientActivity extends ActionBarActivity {
     ArrayList<IngredientEntry> ingredientList;
     IngredientAdapter adapter;
 
-    private long id = -1;
+    private RecipeEntry recipe = null;
+
+    private RecipeEntry buildRecipe () {
+        RecipeEntry r = new RecipeEntry();
+        //id = getIntent().getExtras().getLong("id", -1);
+        r.setName(getIntent().getExtras().getString("name"));
+        r.setNum_people(getIntent().getExtras().getInteger("num_people"), -1);
+        r.setShape(ShapeType.fromInteger(getIntent().getExtras().getInteger("shape", ShapeType.)));
+        switch (r.getShape()) {
+        case SHAPE_RECTANGLE:
+            r.setSide1(getIntent().getExtras().getDouble("side1", -1));
+            r.setSide2(getIntent().getExtras().getDouble("side2", -1));
+            break;
+        case SHAPE_SQUARE:
+            r.setSide1(getIntent().getExtras().getDouble("side", -1));
+            break;
+        case SHAPE_CIRCLE:
+            r.setDiameter(getIntent().getExtras().getDouble("diameter", -1));
+            break;
+        }
+        return r;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient);
 
-        id = getIntent().getExtras().getLong("id", -1);
+        recipe = buildRecipe();
 
         Spinner spinner = (Spinner) findViewById(R.id.spinnerIngredientUnit);
         List<String> list = new ArrayList<>();
@@ -78,7 +99,7 @@ public class IngredientActivity extends ActionBarActivity {
             throw new WrongInputs();
         ingredient.setQuantity(quantity);
 
-        ingredient.setUnit(UnitType.fromInteger(((Spinner) findViewById(R.id.spinnerIngredientUnit)).getSelectedItemPosition() + 1));
+        ingredient.setUnit(UnitType.fromInteger(((Spinner) findViewById(R.id.spinnerIngredientUnit)).getSelectedItemPosition()));
 
         return ingredient;
     }
@@ -113,10 +134,6 @@ public class IngredientActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
-            if (id == -1) {
-                Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
-                return true;
-            }
             if (ingredientList != null && ingredientList.size() == 0) {
                 Toast.makeText(getApplicationContext(), "Insert at least one ingredient", Toast.LENGTH_SHORT).show();
                 return true;
@@ -124,15 +141,16 @@ public class IngredientActivity extends ActionBarActivity {
             try {
                 RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
                 recipeDAO.open();
-                for (IngredientEntry entry : ingredientList)
-                    recipeDAO.addIngredient(entry, id);
+                recipe.setIngredients(ingredientList);
+                recipeDAO.addRecipe(recipe);
                 recipeDAO.close();
                 Intent intent = new Intent(IngredientActivity.this, ConversionActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
-            } catch (SQLException | EntryError e) {
+            } catch (SQLException | RecipeNotCreated e) {
                 Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
-                return true;
+            } catch (RecipeAlreadyPresent e) {
+                Toast.makeText(getApplicationContext(), "Already present", Toast.LENGTH_SHORT).show();
             }
             return true;
         }
