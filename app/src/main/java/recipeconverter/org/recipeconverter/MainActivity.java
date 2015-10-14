@@ -46,10 +46,8 @@ public class MainActivity extends ActionBarActivity {
 
         //configure shape pan menu
         configureShapeMenu();
-
         //set input fields to be shown
         setVisibleItems();
-
         //set font
         TextView myTextView = (TextView) findViewById(R.id.txt_new_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
@@ -58,7 +56,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -90,24 +87,19 @@ public class MainActivity extends ActionBarActivity {
         //error early detection
         if (configuration_recipe != _ONLY_PEOPLE || configuration_recipe != _ONLY_PAN)
             throw new WrongInputs();
-
         //name
         String name = ((EditText) findViewById(R.id.txtRecipeName)).getText().toString();
         if (name.compareTo("") == 0)
             throw new WrongInputs();
         //check if the name is already used
         recipe.setName(name);
-
         //people
-        //if (configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) {
         if (configuration_recipe == _ONLY_PEOPLE) {
             int n_people = Integer.parseInt(((EditText) findViewById(R.id.txtRecipePeople)).getText().toString());
             if (n_people <= 0 || n_people >= 100) throw new WrongInputs();
             recipe.setNum_people(n_people);
         }
-
         //pan
-        //if (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE) {
         if (configuration_recipe == _ONLY_PAN) {
             recipe.setShape(ShapeType.fromInteger(configuration_shape));
             switch (configuration_shape) {
@@ -139,7 +131,6 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_ingredients) {
             RecipeEntry recipe = null;
             try {
@@ -147,13 +138,13 @@ public class MainActivity extends ActionBarActivity {
             } catch (WrongInputs e) {
                 Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
                 return true;
-            } catch (RecipeAlreadyPresent e) {
+            } /* catch (RecipeAlreadyPresent e) {
                 Toast.makeText(getApplicationContext(), "Name already in use", Toast.LENGTH_SHORT).show();
                 return true;
             } catch (SQLException e) {
                 Toast.makeText(getApplicationContext(), "Internal DB error", Toast.LENGTH_SHORT).show();
                 return true;
-            }
+            }*/
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
             intent.putExtra("name", recipe.getName());
             intent.putExtra("num_people", recipe.getNum_people());
@@ -172,27 +163,6 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 }
             }
-/*
-            try {
-                RecipeEntry recipe = readInputs();
-                RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
-                recipeDAO.open();
-                intent.putExtra("id", recipeDAO.addRecipe(recipe));
-                recipeDAO.close();
-            } catch (WrongInputs e) {
-                Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
-                return true;
-            } catch (RecipeNotCreated e) {
-                Toast.makeText(getApplicationContext(), "Recipe not saved", Toast.LENGTH_SHORT).show();
-                return true;
-            } catch (RecipeAlreadyPresent e) {
-                Toast.makeText(getApplicationContext(), "Name already in use", Toast.LENGTH_SHORT).show();
-                return true;
-            } catch (SQLException e) {
-                Toast.makeText(getApplicationContext(), "Internal DB error", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-*/
             startActivity(intent);
             return true;
         }
@@ -215,38 +185,26 @@ public class MainActivity extends ActionBarActivity {
             case R.id.btnPan:
                 configuration_recipe = _ONLY_PAN;
                 break;
-/*
-            case R.id.btnPeoplePan:
-                configuration_recipe = PAN_PEOPLE;
-                break;
-*/
         }
         setVisibleItems();
     }
 
     private void setVisibleItems() {
         //error checks
-        //if (configuration_recipe < NO_CHOISE || configuration_recipe > PAN_PEOPLE)
         if (configuration_recipe != _ONLY_PEOPLE && configuration_recipe != _ONLY_PAN)
             configuration_recipe = _NO_CHOISE;
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
-
         //people/shape fields
-        //findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
-        //findViewById(R.id.layoutPan).setVisibility((configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);
         //shape type fields
-        //boolean enabled = (configuration_recipe == ONLY_PAN || configuration_recipe == PAN_PEOPLE);
         boolean enabled = (configuration_recipe == _ONLY_PAN);
         findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == _SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
         //padding
-        //findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == ONLY_PEOPLE || configuration_recipe == PAN_PEOPLE) ? View.GONE : View.INVISIBLE);
         findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.GONE : View.INVISIBLE);
         findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
-        //findViewById(R.id.spacePadding3).setVisibility(enabled ? View.GONE : View.INVISIBLE);
     }
 }
