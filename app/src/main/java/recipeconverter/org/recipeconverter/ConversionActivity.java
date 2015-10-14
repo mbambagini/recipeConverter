@@ -210,7 +210,7 @@ public class ConversionActivity extends ActionBarActivity {
                     double new_diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
                     if (new_diameter > 0) {
                         factor = (new_diameter * pi_) / original_area;
-                        diameter = new_diameter;
+                        converted_diameter = new_diameter;
                     }
                     break;
                 case SHAPE_RECTANGLE:
@@ -218,15 +218,15 @@ public class ConversionActivity extends ActionBarActivity {
                     double new_side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
                     if (new_side1 > 0 && new_side2 > 0) {
                         factor = (new_side1 * new_side2) / original_area;
-                        side1 = new_side1;
-                        side2 = new_side2;
+                        converted_side1 = new_side1;
+                        converted_side2 = new_side2;
                     }
                     break;
                 case SHAPE_SQUARE:
                     double new_side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
                     if (new_side > 0) {
                         factor = (new_side * new_side) / original_area;
-                        side = new_side;
+                        converted_side = new_side;
                     }
                     break;
                 }
