@@ -155,20 +155,20 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
             Intent intent = new Intent(MainActivity.this, IngredientActivity.class);
-            intent.putString("name", recipe.getName());
-            intent.putString("num_people", recipe.getNum_People());
+            intent.putExtra("name", recipe.getName());
+            intent.putExtra("num_people", recipe.getNum_People());
             if (recipe.getNum_people() == -1) {
-                intent.putInteger("shape", ShapeType.toInteger(recipe.getShap()));
-                switch (recipe.getShap()) {
+                intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
+                switch (recipe.getShape()) {
                     case SHAPE_RECTANGLE:
-                        intent.putDouble("side1", recipe.getSide1());
-                        intent.putDouble("side2", recipe.getSide2());
+                        intent.putExtra("side1", recipe.getSide1());
+                        intent.putExtra("side2", recipe.getSide2());
                         break;
                 case SHAPE_SQUARE:
-                    intent.putDouble("side1", recipe.getSide1());
+                    intent.putExtra("side1", recipe.getSide1());
                     break;
                 case SHAPE_CIRCLE:
-                    intent.putDouble("diameter", recipe.getDiameter());
+                    intent.putExtra("diameter", recipe.getDiameter());
                     break;
                 }
             }
@@ -228,7 +228,7 @@ public class MainActivity extends ActionBarActivity {
         //error checks
         //if (configuration_recipe < NO_CHOISE || configuration_recipe > PAN_PEOPLE)
         if (configuration_recipe != _ONLY_PEOPLE && configuration_recipe != _ONLY_PAN)
-            configuration_recipe = NO_CHOISE;
+            configuration_recipe = _NO_CHOISE;
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
 
