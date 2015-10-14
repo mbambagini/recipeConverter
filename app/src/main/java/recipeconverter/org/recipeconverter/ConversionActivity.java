@@ -26,12 +26,22 @@ import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 public class ConversionActivity extends ActionBarActivity {
 
     static final double pi_ = 3.14;
+
     IngredientAdapter adapter;
-    private int original_people = -1;
-    private double original_area = -1.0;
-    private RecipeEntry recipe = null;
     private ArrayList<IngredientEntry> ingredients = null;
     private ArrayList<IngredientEntry> ingredients_original = null;
+    
+    private int converted_num_people = -1;
+    private double converted_side1 = -1.0;
+    private double converted_side2 = -1.0;
+    private double converted_side = -1.0;
+    private double converted_diameter = -1.0;
+    
+    private int original_people = -1;
+    
+    private double original_area = -1.0;
+
+    private RecipeEntry recipe = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +49,14 @@ public class ConversionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_conversion);
 
         long id = getIntent().getExtras().getLong("id", -1);
-        if (id == -1)
-            return;
+        if (id == -1) {
+            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ConversionActivity.this, RecipeActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
-        loadIngredients(id);
+        loadRecipe(id);
 
         showFields();
 
@@ -56,9 +70,11 @@ public class ConversionActivity extends ActionBarActivity {
     }
 
     private void showFields() {
+        EditText txt;
+
         if (recipe.getNum_people() > -1) {
             findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.VISIBLE);
-            EditText txt = (EditText)findViewById(R.id.txtConvertedRecipePeople);
+            txt = (EditText)findViewById(R.id.txtConvertedRecipePeople);
             txt.setText(""+recipe.getNum_people(), TextView.BufferType.EDITABLE);
             original_people = recipe.getNum_people();
         } else
@@ -68,7 +84,6 @@ public class ConversionActivity extends ActionBarActivity {
         findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
         findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
 
-        EditText txt;
         switch (recipe.getShape()) {
             case SHAPE_CIRCLE:
                 findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
@@ -93,7 +108,7 @@ public class ConversionActivity extends ActionBarActivity {
         }
     }
 
-    private void loadIngredients(long id) {
+    private void loadRecipe(long id) {
         try {
             RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
             recipeDAO.open();
@@ -103,6 +118,22 @@ public class ConversionActivity extends ActionBarActivity {
             ingredients_original = (ArrayList<IngredientEntry>) recipe.getIngredients();
             ingredients = new ArrayList<>();
             cloneIngredients(1.0);
+            if (recipe.getNum_people() > 0)
+                converted_num_people = recipe.getNum_people();
+            else {
+                switch(recipe.getShape()) {
+                case SHAPE_CIRCLE:
+                    converted_diameter = recipe.getDiameter();
+                    break;
+                case SHAPE_RECTANGLE:
+                    converted_side1 = recipe.getSide1();
+                    converted_side2 = recipe.getSide2();
+                    break;
+                case SHAPE_SQUARE:
+                    converted_side = recipe.getSide1();
+                    break;
+                }
+            }
             recipeDAO.close();
         } catch (SQLException e) {
             Toast.makeText(getApplicationContext(), "DB error", Toast.LENGTH_LONG).show();
@@ -113,7 +144,6 @@ public class ConversionActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_conversion, menu);
         return true;
     }
@@ -135,43 +165,71 @@ public class ConversionActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    
+
     private String buildString() {
-        if (ingredients == null || ingredients.size() == 0)
+        //error detection
+        if (ingredients == null || ingredients.size() == 0 || recipe == null)
             return null;
-        String buffer = "";
+        //header
+        String buffer = recipe.getName() + " for ";
+        if (recipe.getNum_people() != -1)
+            buffer += " people\n"
+        else {
+            switch(recipe.getShape()) {
+            case SHAPE_CIRCLE:
+                buffer += " circular pan with diamter: " + converted_diameter + " cm\n";
+                break;
+            case SHAPE_RECTANGLE:
+                buffer += " rectangular pan with size: " + converted_side1 + " x " + converted_side2 + " cm\n";
+                break;
+            case SHAPE_SQUARE:
+                buffer += " squared pan: " + converted_side + " x " + converted_side + " cm\n";
+                break;
+            }
+        }
+        //body
         for (IngredientEntry ingredient : ingredients)
             buffer += ingredient.getQuantity() + " " +
-                    UnitType.toInteger(ingredient.getUnit()) + " - " +
-                    ingredient.getName();
+                      UnitType.toInteger(ingredient.getUnit()) + " - " +
+                      ingredient.getName() + "\n";
         return buffer;
     }
 
     public void onClick(View v) {
         if (v.getId() == R.id.btnConvert) {
             double factor = 1.0;
-            if (original_people > 0) {
+            if (recipe.getNum_people() > 0) {
                 int new_people = Integer.parseInt(((EditText)findViewById(R.id.txtConvertedRecipePeople)).getText().toString());
-                if (new_people > 0)
+                if (new_people > 0) {
                     factor = (double) new_people / original_people;
-            }
-            switch (recipe.getShape()) {
-            case SHAPE_CIRCLE:
-                double diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
-                if (diameter > 0)
-                    factor = (diameter * pi_) / original_area;
-                break;
-            case SHAPE_RECTANGLE:
-                double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
-                double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
-                if (side1 > 0 && side2 > 0)
-                    factor = (side1 * side2) / original_area;
-                break;
-            case SHAPE_SQUARE:
-                double side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
-                if (side > 0)
-                    factor = (side * side) / original_area;
-                break;
+                    converted_num_people = new_people;
+                }
+            } else {
+                switch (recipe.getShape()) {
+                case SHAPE_CIRCLE:
+                    double new_diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
+                    if (new_diameter > 0) {
+                        factor = (new_diameter * pi_) / original_area;
+                        diameter = new_diameter;
+                    }
+                    break;
+                case SHAPE_RECTANGLE:
+                    double new_side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
+                    double new_side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
+                    if (new_side1 > 0 && new_side2 > 0) {
+                        factor = (new_side1 * new_side2) / original_area;
+                        side1 = new_side1;
+                        side2 = new_side2;
+                    }
+                    break;
+                case SHAPE_SQUARE:
+                    double new_side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
+                    if (new_side > 0) {
+                        factor = (new_side * new_side) / original_area;
+                        side = new_side;
+                    }
+                    break;
+                }
             }
             convertIngredients(factor);
         }
