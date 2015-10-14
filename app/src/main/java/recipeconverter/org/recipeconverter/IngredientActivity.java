@@ -38,8 +38,8 @@ public class IngredientActivity extends ActionBarActivity {
         RecipeEntry r = new RecipeEntry();
         //id = getIntent().getExtras().getLong("id", -1);
         r.setName(getIntent().getExtras().getString("name", ""));
-        r.setNum_people(getIntent().getExtras().getInteger("num_people", -1));
-        r.setShape(ShapeType.fromInteger(getIntent().getExtras().getInteger("shape", ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
+        r.setNum_people(getIntent().getIntExtra("num_people", -1));
+        r.setShape(ShapeType.fromInteger(getIntent().getIntExtra("shape", ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
         switch (r.getShape()) {
         case SHAPE_RECTANGLE:
             r.setSide1(getIntent().getExtras().getDouble("side1", -1));
