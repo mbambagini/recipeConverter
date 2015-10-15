@@ -89,7 +89,7 @@ public class ConversionActivity extends ActionBarActivity {
                 findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
                 txt = (EditText)findViewById(R.id.txtConvertedRecipeDiameter);
                 txt.setText(""+recipe.getDiameter(), TextView.BufferType.EDITABLE);
-                original_area = recipe.getDiameter() * pi_;
+                original_area = recipe.getDiameter() * recipe.getDiameter() * pi_;
                 break;
             case SHAPE_RECTANGLE:
                 findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.VISIBLE);
@@ -209,7 +209,7 @@ public class ConversionActivity extends ActionBarActivity {
                 case SHAPE_CIRCLE:
                     double new_diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
                     if (new_diameter > 0) {
-                        factor = (new_diameter * pi_) / original_area;
+                        factor = (new_diameter * new_diameter * pi_) / original_area;
                         converted_diameter = new_diameter;
                     }
                     break;
