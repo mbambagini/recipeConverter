@@ -92,7 +92,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         try {
             RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
             recipeDAO.open();
-            alreadyPresent = recipe.recipeAlreadyPresent(name);
+            alreadyPresent = recipeDAO.recipeAlreadyPresent(name);
             recipeDAO.close();
         } catch (SQLException e) {
             throw new WrongInputs();
