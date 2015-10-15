@@ -7,12 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import android.graphics.Typeface;
+
 import java.util.List;
 
 import recipeconverter.org.recipeconverter.R;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 
 public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
+
+    private static Typeface typeFace = null;
 
     private final Activity context;
     private final List<RecipeEntry> recipes;
@@ -21,6 +25,8 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         super(context, textViewResourceId, values);
         this.context = context;
         recipes = values;
+        if (typeFace == null)
+            typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
     }
 
     @Override
@@ -36,6 +42,9 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(recipes.get(position).getName());
+        
+        holder.name.setTypeface(typeFace);
+
         holder.id.setText(Long.toString(recipes.get(position).getId()));
         return view;
     }
