@@ -75,7 +75,7 @@ public class RecipeActivity extends ActionBarActivity {
         // The activity has become visible (it is now "resumed").
     }
 
-    private updateRecipeList () {
+    private void updateRecipeList () {
         try {
             RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
             recipeDAO.open();
