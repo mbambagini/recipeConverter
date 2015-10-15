@@ -129,7 +129,7 @@ public class NewRecipeActivity extends ActionBarActivity {
             RecipeEntry recipe;
             try {
                 recipe = readInputs();
-            } catch (WrongInputs e) {
+            } catch (WrongInputs | NullPointerException | NumberFormatException e) {
                 Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
                 return true;
             } /* catch (RecipeAlreadyPresent e) {
