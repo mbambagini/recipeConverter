@@ -26,7 +26,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         this.context = context;
         recipes = values;
         if (typeFace == null)
-            typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
+            typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/JennaSue.ttf");
     }
 
     @Override
