@@ -5,13 +5,13 @@
     <item
         android:id="@+id/action_ingredient_discard"
         android:orderInCategory="100"
-        icon=""@android:drawable/ic_menu_delete"
+        icon="@android:drawable/ic_menu_delete"
         android:title="Discard"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_ingredient_save"
         android:orderInCategory="100"
-        icon=""@android:drawable/ic_menu_save"
+        icon="@android:drawable/ic_menu_save"
         android:title="Save"
         app:showAsAction="always" />
 </menu>
