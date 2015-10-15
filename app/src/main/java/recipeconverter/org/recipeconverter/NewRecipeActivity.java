@@ -20,6 +20,7 @@ import java.util.List;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.dao.ShapeType;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
+import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 
 public class NewRecipeActivity extends ActionBarActivity {
 
@@ -74,7 +75,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         });
     }
 
-    private RecipeEntry readInputs() throws WrongInputs {
+    private RecipeEntry readInputs() throws WrongInputs, RecipeAlreadyPresent {
         RecipeEntry recipe = new RecipeEntry();
 
         //error early detection
@@ -85,6 +86,17 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (name.compareTo("") == 0)
             throw new WrongInputs();
         //check if the name is already used
+        boolean alreadyPresent = false;
+        try {
+            RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+            recipeDAO.open();
+            alreadyPresent = recipe.recipeAlreadyPresent(name);
+            recipeDAO.close();
+        } catch (SQLException e) {
+            throw new WrongInputs();
+        }
+        if (alreadyPresent)
+            throw new RecipeAlreadyPresent();
         recipe.setName(name);
         //people
         if (configuration_recipe == _ONLY_PEOPLE) {
@@ -132,13 +144,10 @@ public class NewRecipeActivity extends ActionBarActivity {
             } catch (WrongInputs | NullPointerException | NumberFormatException e) {
                 Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
                 return true;
-            } /* catch (RecipeAlreadyPresent e) {
+            } catch (RecipeAlreadyPresent e) {
                 Toast.makeText(getApplicationContext(), "Name already in use", Toast.LENGTH_SHORT).show();
                 return true;
-            } catch (SQLException e) {
-                Toast.makeText(getApplicationContext(), "Internal DB error", Toast.LENGTH_SHORT).show();
-                return true;
-            }*/
+            }
             Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
             intent.putExtra("name", recipe.getName());
             intent.putExtra("num_people", recipe.getNum_people());
