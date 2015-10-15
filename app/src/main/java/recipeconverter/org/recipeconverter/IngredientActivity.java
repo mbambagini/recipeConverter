@@ -119,7 +119,7 @@ public class IngredientActivity extends ActionBarActivity {
                 ingredientList.add(ingredient);
                 adapter.notifyDataSetChanged();
                 cleanInptuts();
-            } catch (WrongInputs e) {
+            } catch (WrongInputs | NullPointerException | NumberFormatException e) {
                 Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
             } catch (IngredientAlreadyPresent e) {
                 Toast.makeText(getApplicationContext(), "Ingredient already present", Toast.LENGTH_SHORT).show();
@@ -136,7 +136,7 @@ public class IngredientActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_ingredient_save) {
             if (ingredientList != null && ingredientList.size() == 0) {
                 Toast.makeText(getApplicationContext(), "Insert at least one ingredient", Toast.LENGTH_SHORT).show();
                 return true;
@@ -147,8 +147,9 @@ public class IngredientActivity extends ActionBarActivity {
                 recipe.setIngredients(ingredientList);
                 long id = recipeDAO.addRecipe(recipe);
                 recipeDAO.close();
-                Intent intent = new Intent(IngredientActivity.this, ConversionActivity.class);
-                intent.putExtra("id", id);
+                Toast.makeText(getApplicationContext(), "Recipe added successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
+                //intent.putExtra("id", id);
                 startActivity(intent);
             } catch (SQLException | RecipeNotCreated e) {
                 Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
@@ -157,7 +158,10 @@ public class IngredientActivity extends ActionBarActivity {
             }
             return true;
         }
-
+        if (item.getItemId() == R.id.action_ingredient_discard) {
+            Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 }
