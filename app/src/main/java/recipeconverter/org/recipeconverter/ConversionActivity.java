@@ -195,43 +195,54 @@ public class ConversionActivity extends ActionBarActivity {
         return buffer;
     }
 
+    private double readFactor () {
+        double factor = 1.0;
+        if (recipe.getNum_people() > 0) {
+            int new_people = Integer.parseInt(((EditText)findViewById(R.id.txtConvertedRecipePeople)).getText().toString());
+            if (new_people > 0) {
+                factor = (double) new_people / original_people;
+                converted_num_people = new_people;
+            }
+        } else {
+            switch (recipe.getShape()) {
+            case SHAPE_CIRCLE:
+                double new_diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
+                if (new_diameter > 0) {
+                    factor = (new_diameter * new_diameter * pi_) / original_area;
+                    converted_diameter = new_diameter;
+                }
+                break;
+            case SHAPE_RECTANGLE:
+                double new_side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
+                double new_side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
+                if (new_side1 > 0 && new_side2 > 0) {
+                    factor = (new_side1 * new_side2) / original_area;
+                    converted_side1 = new_side1;
+                    converted_side2 = new_side2;
+                }
+                break;
+            case SHAPE_SQUARE:
+                double new_side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
+                if (new_side > 0) {
+                    factor = (new_side * new_side) / original_area;
+                    converted_side = new_side;
+                }
+                break;
+            }
+        }
+        return factor;
+    }
+
     public void onClick(View v) {
         if (v.getId() == R.id.btnConvert) {
-            double factor = 1.0;
-            if (recipe.getNum_people() > 0) {
-                int new_people = Integer.parseInt(((EditText)findViewById(R.id.txtConvertedRecipePeople)).getText().toString());
-                if (new_people > 0) {
-                    factor = (double) new_people / original_people;
-                    converted_num_people = new_people;
-                }
-            } else {
-                switch (recipe.getShape()) {
-                case SHAPE_CIRCLE:
-                    double new_diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
-                    if (new_diameter > 0) {
-                        factor = (new_diameter * new_diameter * pi_) / original_area;
-                        converted_diameter = new_diameter;
-                    }
-                    break;
-                case SHAPE_RECTANGLE:
-                    double new_side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
-                    double new_side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
-                    if (new_side1 > 0 && new_side2 > 0) {
-                        factor = (new_side1 * new_side2) / original_area;
-                        converted_side1 = new_side1;
-                        converted_side2 = new_side2;
-                    }
-                    break;
-                case SHAPE_SQUARE:
-                    double new_side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
-                    if (new_side > 0) {
-                        factor = (new_side * new_side) / original_area;
-                        converted_side = new_side;
-                    }
-                    break;
-                }
+            try {
+                double factor = readFactor();
+                ingredients.clear();
+                cloneIngredients(factor);
+                adapter.notifyDataSetChanged();
+            } catch (NullPointerException | NumberFormatException e) {
+                Toast.makeText(this, "Insert valid data", Toast.LENGTH_LONG).show();
             }
-            convertIngredients(factor);
         }
     }
 
@@ -241,12 +252,6 @@ public class ConversionActivity extends ActionBarActivity {
             tmp.setQuantity(tmp.getQuantity() * factor);
             ingredients.add(tmp);
         }
-    }
-
-    private void convertIngredients(double factor) {
-        ingredients.clear();
-        cloneIngredients(factor);
-        adapter.notifyDataSetChanged();
     }
 
 }
