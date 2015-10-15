@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import android.graphics.Typeface;
+
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import recipeconverter.org.recipeconverter.dao.UnitType;
 
 public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
 
+    private static Typeface typeFace = null;
+
     private final Activity context;
     private final List<IngredientEntry> ingredients;
 
@@ -23,6 +27,8 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         super(context, textViewResourceId, values);
         this.context = context;
         ingredients = values;
+        if (typeFace == null)
+            typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/JennaSue.ttf");
     }
 
     @Override
@@ -40,6 +46,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(ingredients.get(position).getName());
+        holder.name.setTypeface(typeFace);
         DecimalFormat format = new DecimalFormat("0.00");
         String formatDouble = format.format(ingredients.get(position).getQuantity());
         holder.quantity.setText(formatDouble);
