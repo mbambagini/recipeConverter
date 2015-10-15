@@ -171,7 +171,7 @@ public class ConversionActivity extends ActionBarActivity {
         if (ingredients == null || ingredients.size() == 0 || recipe == null)
             return null;
         //header
-        String buffer = recipe.getName() + " for ";
+        String buffer = "Recipe \"" + recipe.getName() + "\" for ";
         if (recipe.getNum_people() != -1)
             buffer += converted_num_people + " people\n";
         else {
