@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
+import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.ShapeType;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
