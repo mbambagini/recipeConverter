@@ -66,12 +66,8 @@ public class IngredientActivity extends ActionBarActivity {
 
         Spinner spinner = (Spinner) findViewById(R.id.spinnerIngredientUnit);
         List<String> list = new ArrayList<>();
-        list.add(UnitType.toString(UnitType.UNIT_OUNCE));
-        list.add(UnitType.toString(UnitType.UNIT_POUND));
-        list.add(UnitType.toString(UnitType.UNIT_GRAM));
-        list.add(UnitType.toString(UnitType.UNIT_KILOGRAM));
-        list.add(UnitType.toString(UnitType.UNIT_GALLON));
-        list.add(UnitType.toString(UnitType.UNIT_LITRE));
+        for (int i = 0; i < UnitType.getNumber(); i++)
+            list.add(UnitType.toString(UnitType.fromInteger(i)));
         ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp);
