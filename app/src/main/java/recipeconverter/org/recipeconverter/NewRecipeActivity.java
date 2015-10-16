@@ -53,7 +53,7 @@ public class NewRecipeActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_new_recipe, menu);
+        //getMenuInflater().inflate(R.menu.menu_new_recipe, menu);
         return true;
     }
 
@@ -139,40 +139,6 @@ public class NewRecipeActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_add_ingredients) {
-            RecipeEntry recipe;
-            try {
-                recipe = readInputs();
-            } catch (WrongInputs | NullPointerException | NumberFormatException e) {
-                Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
-                return true;
-            } catch (RecipeAlreadyPresent e) {
-                Toast.makeText(getApplicationContext(), "Name already in use", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
-            intent.putExtra("name", recipe.getName());
-            intent.putExtra("num_people", recipe.getNum_people());
-            intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
-            if (recipe.getShape() != ShapeType.SHAPE_NOT_VALID) {
-                switch (recipe.getShape()) {
-                    case SHAPE_RECTANGLE:
-                        intent.putExtra("side1", recipe.getSide1());
-                        intent.putExtra("side2", recipe.getSide2());
-                        break;
-                    case SHAPE_SQUARE:
-                        intent.putExtra("side", recipe.getSide1());
-                        break;
-                    case SHAPE_CIRCLE:
-                        intent.putExtra("diameter", recipe.getDiameter());
-                        break;
-                }
-            }
-            startActivity(intent);
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -187,12 +153,44 @@ public class NewRecipeActivity extends ActionBarActivity {
         switch (v.getId()) {
             case R.id.btnPeople:
                 configuration_recipe = _ONLY_PEOPLE;
+                setVisibleItems();
                 break;
             case R.id.btnPan:
                 configuration_recipe = _ONLY_PAN;
+                setVisibleItems();
                 break;
-        }
-        setVisibleItems();
+            case R.id.btnAddRecipe:
+                RecipeEntry recipe;
+                try {
+                    recipe = readInputs();
+                } catch (WrongInputs | NullPointerException | NumberFormatException e) {
+                    Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
+                    return;
+                } catch (RecipeAlreadyPresent e) {
+                    Toast.makeText(getApplicationContext(), "Name already in use", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
+                intent.putExtra("name", recipe.getName());
+                intent.putExtra("num_people", recipe.getNum_people());
+                intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
+                if (recipe.getShape() != ShapeType.SHAPE_NOT_VALID) {
+                    switch (recipe.getShape()) {
+                    case SHAPE_RECTANGLE:
+                        intent.putExtra("side1", recipe.getSide1());
+                        intent.putExtra("side2", recipe.getSide2());
+                        break;
+                    case SHAPE_SQUARE:
+                        intent.putExtra("side", recipe.getSide1());
+                        break;
+                    case SHAPE_CIRCLE:
+                        intent.putExtra("diameter", recipe.getDiameter());
+                        break;
+                    }
+                }
+                startActivity(intent);
+                finish();
+            }
     }
 
     private void setVisibleItems() {
@@ -210,7 +208,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
         //padding
-        findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == _NO_CHOISE) ? View.INVISIBLE : View.GONE);
-        findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
+        //findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == _NO_CHOISE) ? View.INVISIBLE : View.GONE);
+        //findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
     }
 }
