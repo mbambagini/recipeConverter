@@ -9,6 +9,8 @@ public class SplashScreenActivity extends Activity {
 
     final static int DefaultSplashDuration = 3000;
 
+    private boolean fired = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,13 +24,18 @@ public class SplashScreenActivity extends Activity {
                 changeActivity();
             }
         }, DefaultSplashDuration);
-
     }
 
     private void changeActivity() {
-        finish();
+        //finish();
+        fired = true;
         Intent intent = new Intent(SplashScreenActivity.this, RecipeActivity.class);
         startActivity(intent);
     }
 
+    protected void onResume() {
+        super.onResume();
+        if (fired)
+            changeActivity();
+    }
 }
