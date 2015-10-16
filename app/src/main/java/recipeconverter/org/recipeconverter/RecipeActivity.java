@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import android.app.SearchableInfo;
 
 import android.app.SearchManager;
 import android.widget.SearchView;
