@@ -8,11 +8,11 @@
         android:orderInCategory="100"
         android:title="Add a recipe"
         app:showAsAction="always" />
-        
+
     <item
         android:id="@+id/action_recipe_activity_search"
         android:actionViewClass="android.widget.SearchView"
         android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="ifRoom|collapseActionView"
-        android:title="search"/>
+        android:title="search" />
 </menu>
