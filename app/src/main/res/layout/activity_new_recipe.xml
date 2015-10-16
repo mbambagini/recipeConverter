@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:background="@drawable/background_repeated"
-    android:gravity="bottom"
     android:orientation="vertical"
     android:padding="20dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"

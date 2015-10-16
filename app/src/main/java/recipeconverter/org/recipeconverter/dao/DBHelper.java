@@ -46,25 +46,9 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_INGREDIENTS_QUANTITY + " float, "
             + COLUMN_INGREDIENTS_UNIT + " integer, "
             + COLUMN_INGREDIENTS_ID_RECIPE + " integer);";
-    //extra
-    /*
-    public static final int DB_TRUE = 1;
-    public static final int DB_FALSE = 0;
-
-    public static final int DB_SHAPE_CIRCLE = 0;
-    public static final int DB_SHAPE_RECTANGLE = 1;
-    public static final int DB_SHAPE_SQUARE = 2;
-
-
-    public static final int DB_TYPE_ENTRY = 0;
-    public static final int DB_TYPE_FIRST = 1;
-    public static final int DB_TYPE_SECOND = 2;
-    public static final int DB_TYPE_SIDE = 3;
-    public static final int DB_TYPE_CAKE = 4;
-    */
 
     //version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     //file
     private static final String DATABASE_NAME = "recipes.db";
 

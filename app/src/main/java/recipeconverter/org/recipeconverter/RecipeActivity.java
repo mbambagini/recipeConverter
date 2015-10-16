@@ -1,5 +1,6 @@
 package recipeconverter.org.recipeconverter;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,15 +15,10 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import android.app.SearchableInfo;
-
-import android.app.SearchManager;
-import android.widget.SearchView;
 
 import recipeconverter.org.recipeconverter.adapter.RecipeAdapter;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
-
 
 public class RecipeActivity extends ActionBarActivity {
 
@@ -33,6 +29,8 @@ public class RecipeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+
+        updateRecipeList();
 
         ListView lst = (ListView) findViewById(R.id.lst_recipes);
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,11 +64,12 @@ public class RecipeActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_recipe, menu);
-        
+/*
         SearchManager searchManager = (SearchManager) getSystemService(getApplicationContext().SEARCH_SERVICE);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         SearchView searchView = (SearchView) menu.findItem(R.id.action_recipe_activity_search).getActionView();
         searchView.setSearchableInfo(searchableInfo);
+*/
         return true;
     }
 
@@ -90,7 +89,6 @@ public class RecipeActivity extends ActionBarActivity {
         updateRecipeList();
         if (recipes != null)
             adapter.notifyDataSetChanged();
-        // The activity has become visible (it is now "resumed").
     }
 
     private void updateRecipeList () {

@@ -80,11 +80,7 @@ public class RecipeDAO {
         values.put(DBHelper.COLUMN_INGREDIENTS_QUANTITY, ingredient.getQuantity());
         values.put(DBHelper.COLUMN_INGREDIENTS_UNIT, UnitType.toInteger(ingredient.getUnit()));
         values.put(DBHelper.COLUMN_INGREDIENTS_ID_RECIPE, idRecipe);
-        try {
-            db.insert(DBHelper.TABLE_INGREDIENTS, null, values);
-        } catch (Exception e) {
-            throw new EntryError();
-        }
+        db.insert(DBHelper.TABLE_INGREDIENTS, null, values);
     }
 
     public boolean recipeAlreadyPresent (String name) {
@@ -120,7 +116,9 @@ public class RecipeDAO {
         for (IngredientEntry ingredient : recipe.getIngredients()) {
             try {
                 addIngredient(ingredient, id);
+                System.out.println("OK " + ingredient.getName() + "-" + ingredient.getQuantity() + " " + UnitType.toInteger(ingredient.getUnit()));
             } catch (EntryError e) {
+                System.out.println("ERRORE");
                 break;
             }
         }
