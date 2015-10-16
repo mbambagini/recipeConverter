@@ -146,6 +146,7 @@ public class IngredientActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Recipe added successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
                 //intent.putExtra("id", id);
+                finish();
                 startActivity(intent);
             } catch (SQLException | RecipeNotCreated e) {
                 Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
@@ -155,6 +156,7 @@ public class IngredientActivity extends ActionBarActivity {
             return true;
         }
         if (item.getItemId() == R.id.action_ingredient_discard) {
+            finish();
             Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
             startActivity(intent);
         }
