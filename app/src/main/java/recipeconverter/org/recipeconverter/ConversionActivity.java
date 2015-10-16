@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -175,22 +177,25 @@ public class ConversionActivity extends ActionBarActivity {
         if (recipe.getNum_people() != -1)
             buffer += converted_num_people + " people\n";
         else {
+            DecimalFormat format = new DecimalFormat("0.00");
             switch(recipe.getShape()) {
             case SHAPE_CIRCLE:
-                buffer += "circular pan with diameter: " + converted_diameter + " cm\n";
+                buffer += "circular pan with diameter: " + format.format(converted_diameter) + " cm\n";
                 break;
             case SHAPE_RECTANGLE:
-                buffer += "rectangular pan with size: " + converted_side1 + " x " + converted_side2 + " cm\n";
+                buffer += "rectangular pan with size: " + format.format(converted_side1) + " x " +
+                          format.format(converted_side2) + " cm\n";
                 break;
             case SHAPE_SQUARE:
-                buffer += "squared pan: " + converted_side + " x " + converted_side + " cm\n";
+                buffer += "squared pan: " + format.format(converted_side) + " x " +
+                          format.format(converted_side) + " cm\n";
                 break;
             }
         }
         //body
         for (IngredientEntry ingredient : ingredients)
             buffer += ingredient.getQuantity() + " " +
-                      UnitType.toInteger(ingredient.getUnit()) + " - " +
+                      UnitType.toString(ingredient.getUnit()) + " - " +
                       ingredient.getName() + "\n";
         return buffer;
     }
