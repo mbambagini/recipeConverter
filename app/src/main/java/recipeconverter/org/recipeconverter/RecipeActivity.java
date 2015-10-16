@@ -51,8 +51,22 @@ public class RecipeActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+          String query = intent.getStringExtra(SearchManager.QUERY);
+          Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
+        }
+    }
+ 
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_recipe, menu);
+        
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_recipe_activity_search).getActionView();
+        searchView.setSearchableInfo(searchableInfo);
         return true;
     }
 
