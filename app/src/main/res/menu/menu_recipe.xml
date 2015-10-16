@@ -12,7 +12,7 @@
     <item
         android:id="@+id/action_recipe_activity_search"
         android:actionViewClass="android.widget.SearchView"
-        android:icon="@drawable/ic_search"
+        android:icon="@android:drawable/ic_menu_add"
         android:showAsAction="ifRoom|collapseActionView"
         android:title="search"/>
 </menu>
