@@ -14,11 +14,15 @@ public enum UnitType {
     UNIT_LITRE,
     UNIT_CENTI_LITRE,
     UNIT_MILLI_LITRE,
+    //SIZE
+    UNIT_INCH,
+    UNIT_CENTIMETER,
+    UNIT_METER,
     //others
     UNIT_NOT_VALID;
 
     static public int getNumber() {
-        return 10;
+        return 13;
     }
 
     static public String toString(UnitType par) {
@@ -33,6 +37,12 @@ public enum UnitType {
             case UNIT_LITRE: return "ltr";
             case UNIT_CENTI_LITRE: return "cl";
             case UNIT_MILLI_LITRE: return "ml";
+            case UNIT_INCH:
+                return "in";
+            case UNIT_CENTIMETER:
+                return "cm";
+            case UNIT_METER:
+                return "m";
         }
         return "";
     }
@@ -49,6 +59,12 @@ public enum UnitType {
             case 7: return UNIT_LITRE;
             case 8: return UNIT_CENTI_LITRE;
             case 9: return UNIT_MILLI_LITRE;
+            case 10:
+                return UNIT_INCH;
+            case 11:
+                return UNIT_CENTIMETER;
+            case 12:
+                return UNIT_METER;
         }
         return UNIT_NOT_VALID;
     }
@@ -65,6 +81,12 @@ public enum UnitType {
             case UNIT_LITRE: return 7;
             case UNIT_CENTI_LITRE: return 8;
             case UNIT_MILLI_LITRE: return 9;
+            case UNIT_INCH:
+                return 10;
+            case UNIT_CENTIMETER:
+                return 11;
+            case UNIT_METER:
+                return 12;
         }
         return -1;
     }
