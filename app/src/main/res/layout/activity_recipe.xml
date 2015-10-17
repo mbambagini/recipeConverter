@@ -19,7 +19,6 @@
         android:paddingTop="15dp"
         android:text="Your recipes!"
         android:textSize="70dp" />
-    <!-- android:textSize="@dimen/abc_action_bar_default_height_material" -->
 
     <ListView
         android:id="@+id/lst_recipes"

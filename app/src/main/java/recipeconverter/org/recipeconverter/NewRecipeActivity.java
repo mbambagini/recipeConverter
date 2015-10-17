@@ -15,15 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
+import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.dao.ShapeType;
-import recipeconverter.org.recipeconverter.exception.WrongInputs;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
+import recipeconverter.org.recipeconverter.exception.WrongInputs;
 
 public class NewRecipeActivity extends ActionBarActivity {
 
@@ -207,8 +206,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == _SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
-        //padding
-        //findViewById(R.id.spacePadding1).setVisibility((configuration_recipe == _NO_CHOISE) ? View.INVISIBLE : View.GONE);
-        //findViewById(R.id.spacePadding2).setVisibility(enabled ? View.GONE : View.INVISIBLE);
+        //button
+        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOISE) ? View.GONE : View.VISIBLE);
     }
 }

@@ -26,8 +26,7 @@ public class RecipeDAO {
             DBHelper.COLUMN_RECIPES_SHAPE,
             DBHelper.COLUMN_RECIPES_SIDE_1,
             DBHelper.COLUMN_RECIPES_SIDE_2,
-            DBHelper.COLUMN_RECIPES_DIAMETER,
-            DBHelper.COLUMN_RECIPES_TYPE};
+            DBHelper.COLUMN_RECIPES_DIAMETER};
 
     private String[] allIngredientsColumns = {
             DBHelper.COLUMN_INGREDIENTS_ID,
@@ -48,9 +47,13 @@ public class RecipeDAO {
         dbHelper.close();
     }
 
-    synchronized public List<RecipeEntry> getRecipes() {
+    synchronized public List<RecipeEntry> getRecipes(String name) {
         List<RecipeEntry> recipes = new ArrayList<>();
-        Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, null, null, null, null, null);
+        String whereClause = null;
+
+        if (name != null && !name.isEmpty())
+            whereClause = DBHelper.COLUMN_RECIPES_NAME + " like \"" + name + "\"";
+        Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             recipes.add(cursorToRecipe(cursor));
@@ -105,7 +108,6 @@ public class RecipeDAO {
         values.put(DBHelper.COLUMN_RECIPES_SIDE_1, recipe.getSide1());
         values.put(DBHelper.COLUMN_RECIPES_SIDE_2, recipe.getSide2());
         values.put(DBHelper.COLUMN_RECIPES_DIAMETER, recipe.getDiameter());
-        values.put(DBHelper.COLUMN_RECIPES_TYPE, RecipeType.toInteger(recipe.getType()));
         try {
             id = db.insert(DBHelper.TABLE_RECIPES, null, values);
         } catch (Exception e) {
@@ -116,9 +118,7 @@ public class RecipeDAO {
         for (IngredientEntry ingredient : recipe.getIngredients()) {
             try {
                 addIngredient(ingredient, id);
-                System.out.println("OK " + ingredient.getName() + "-" + ingredient.getQuantity() + " " + UnitType.toInteger(ingredient.getUnit()));
             } catch (EntryError e) {
-                System.out.println("ERRORE");
                 break;
             }
         }
@@ -164,7 +164,6 @@ public class RecipeDAO {
         recipe.setSide1(cursor.getFloat(4));
         recipe.setSide2(cursor.getFloat(5));
         recipe.setDiameter(cursor.getFloat(6));
-        recipe.setType(RecipeType.fromInteger(cursor.getInt(7)));
         return recipe;
     }
 

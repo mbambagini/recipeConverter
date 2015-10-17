@@ -1,10 +1,12 @@
 package recipeconverter.org.recipeconverter;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,15 +24,14 @@ import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 
 public class RecipeActivity extends ActionBarActivity {
 
+    private String name = null;
+    private ArrayList<RecipeEntry> recipes = null;
     private RecipeAdapter adapter = null;
-    private ArrayList<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
-
-        updateRecipeList();
 
         ListView lst = (ListView) findViewById(R.id.lst_recipes);
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,8 +45,6 @@ public class RecipeActivity extends ActionBarActivity {
                 }
             }
         });
-        adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
-        lst.setAdapter(adapter);
 
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
@@ -53,24 +52,31 @@ public class RecipeActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-          String query = intent.getStringExtra(SearchManager.QUERY);
-          Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
-        }
-    }
- 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_recipe, menu);
-/*
-        SearchManager searchManager = (SearchManager) getSystemService(getApplicationContext().SEARCH_SERVICE);
-        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_recipe_activity_search).getActionView();
-        searchView.setSearchableInfo(searchableInfo);
-*/
-        return true;
+
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView search = (SearchView) menu.findItem(R.id.action_recipe_activity_search).getActionView();
+        search.setIconifiedByDefault(false);
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String query) {
+                name = query;
+                showRecipes();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
+                name = query;
+                showRecipes();
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -86,20 +92,33 @@ public class RecipeActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateRecipeList();
-        if (recipes != null)
-            adapter.notifyDataSetChanged();
+        showRecipes();
     }
 
-    private void updateRecipeList () {
+    private ArrayList<RecipeEntry> updateRecipeList() {
         try {
             RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
             recipeDAO.open();
-            recipes = (ArrayList<RecipeEntry>) recipeDAO.getRecipes();
+            ArrayList<RecipeEntry> result = (ArrayList<RecipeEntry>) recipeDAO.getRecipes(name);
             recipeDAO.close();
+            return result;
         } catch (SQLException e) {
-            recipes = null;
             Toast.makeText(getApplicationContext(), "internal error", Toast.LENGTH_LONG).show();
         }
+        return null;
+    }
+
+    private void showRecipes() {
+        if (recipes == null)
+            recipes = new ArrayList<>();
+        else
+            recipes.clear();
+        recipes.addAll(updateRecipeList());
+        if (adapter == null) {
+            adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
+            ListView lst = (ListView) findViewById(R.id.lst_recipes);
+            lst.setAdapter(adapter);
+        } else
+            adapter.notifyDataSetChanged();
     }
 }

@@ -12,7 +12,6 @@ public class RecipeEntry {
     private double side1 = -1.0;
     private double side2 = -1.0;
     private double diameter = -1.0;
-    private RecipeType type = RecipeType.RECIPE_NOT_VALID;
     private List<IngredientEntry> ingredients = new ArrayList<>();
 
     public long getId() {
@@ -79,11 +78,4 @@ public class RecipeEntry {
         this.shape = shape;
     }
 
-    public RecipeType getType() {
-        return type;
-    }
-
-    public void setType(RecipeType type) {
-        this.type = type;
-    }
 }

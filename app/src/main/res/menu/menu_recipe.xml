@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="recipeconverter.org.recipeconverter.RecipeActivity">
     <item
+        android:id="@+id/action_recipe_activity_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+    <item
         android:id="@+id/action_recipe_activity_add"
         android:icon="@android:drawable/ic_menu_add"
         android:orderInCategory="100"
         android:title="Add a recipe"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_recipe_activity_search"
-        android:actionViewClass="android.widget.SearchView"
-        android:icon="@android:drawable/ic_menu_add"
-        android:showAsAction="ifRoom|collapseActionView"
-        android:title="search" />
 </menu>
