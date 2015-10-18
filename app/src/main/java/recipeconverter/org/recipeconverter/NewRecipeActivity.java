@@ -56,11 +56,13 @@ public class NewRecipeActivity extends ActionBarActivity {
         return true;
     }
 
-    private void configureShapeMenu () {
+    private void configureShapeMenu() {
         //filling pan shape menu
         Spinner spinner = (Spinner) findViewById(R.id.txtRecipePan);
         List<String> list = new ArrayList<>();
-        list.add("Rectangle"); list.add("Square"); list.add("Circle");
+        list.add("Rectangle");
+        list.add("Square");
+        list.add("Circle");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -71,6 +73,7 @@ public class NewRecipeActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 setPanShape(pos);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
@@ -88,7 +91,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (name.compareTo("") == 0)
             throw new WrongInputs();
         //check if the name is already used
-        boolean alreadyPresent = false;
+        boolean alreadyPresent;
         try {
             RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
             recipeDAO.open();
@@ -137,7 +140,7 @@ public class NewRecipeActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        //int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -175,21 +178,21 @@ public class NewRecipeActivity extends ActionBarActivity {
                 intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
                 if (recipe.getShape() != ShapeType.SHAPE_NOT_VALID) {
                     switch (recipe.getShape()) {
-                    case SHAPE_RECTANGLE:
-                        intent.putExtra("side1", recipe.getSide1());
-                        intent.putExtra("side2", recipe.getSide2());
-                        break;
-                    case SHAPE_SQUARE:
-                        intent.putExtra("side", recipe.getSide1());
-                        break;
-                    case SHAPE_CIRCLE:
-                        intent.putExtra("diameter", recipe.getDiameter());
-                        break;
+                        case SHAPE_RECTANGLE:
+                            intent.putExtra("side1", recipe.getSide1());
+                            intent.putExtra("side2", recipe.getSide2());
+                            break;
+                        case SHAPE_SQUARE:
+                            intent.putExtra("side", recipe.getSide1());
+                            break;
+                        case SHAPE_CIRCLE:
+                            intent.putExtra("diameter", recipe.getDiameter());
+                            break;
                     }
                 }
                 startActivity(intent);
                 finish();
-            }
+        }
     }
 
     private void setVisibleItems() {

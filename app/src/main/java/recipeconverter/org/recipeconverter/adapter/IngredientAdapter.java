@@ -1,13 +1,12 @@
 package recipeconverter.org.recipeconverter.adapter;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import android.graphics.Typeface;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -52,6 +51,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         holder.quantity.setText(formatDouble);
         holder.unit.setText(UnitType.toString(ingredients.get(position).getUnit()));
         holder.id.setText(Long.toString(ingredients.get(position).getId()));
+
         return view;
     }
 

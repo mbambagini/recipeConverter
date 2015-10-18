@@ -52,7 +52,7 @@ public class RecipeDAO {
         String whereClause = null;
 
         if (name != null && !name.isEmpty())
-            whereClause = DBHelper.COLUMN_RECIPES_NAME + " like \"" + name + "\"";
+            whereClause = DBHelper.COLUMN_RECIPES_NAME + " like \"%" + name + "%\"";
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -86,7 +86,7 @@ public class RecipeDAO {
         db.insert(DBHelper.TABLE_INGREDIENTS, null, values);
     }
 
-    public boolean recipeAlreadyPresent (String name) {
+    public boolean recipeAlreadyPresent(String name) {
         return countInstances(name) != 0;
     }
 

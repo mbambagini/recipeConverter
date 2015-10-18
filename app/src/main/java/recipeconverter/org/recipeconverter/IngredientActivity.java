@@ -36,23 +36,23 @@ public class IngredientActivity extends ActionBarActivity {
 
     private RecipeEntry recipe = null;
 
-    private RecipeEntry buildRecipe () {
+    private RecipeEntry buildRecipe() {
         RecipeEntry r = new RecipeEntry();
         //id = getIntent().getExtras().getLong("id", -1);
         r.setName(getIntent().getExtras().getString("name", ""));
         r.setNum_people(getIntent().getIntExtra("num_people", -1));
         r.setShape(ShapeType.fromInteger(getIntent().getIntExtra("shape", ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
         switch (r.getShape()) {
-        case SHAPE_RECTANGLE:
-            r.setSide1(getIntent().getExtras().getDouble("side1", -1));
-            r.setSide2(getIntent().getExtras().getDouble("side2", -1));
-            break;
-        case SHAPE_SQUARE:
-            r.setSide1(getIntent().getExtras().getDouble("side", -1));
-            break;
-        case SHAPE_CIRCLE:
-            r.setDiameter(getIntent().getExtras().getDouble("diameter", -1));
-            break;
+            case SHAPE_RECTANGLE:
+                r.setSide1(getIntent().getExtras().getDouble("side1", -1));
+                r.setSide2(getIntent().getExtras().getDouble("side2", -1));
+                break;
+            case SHAPE_SQUARE:
+                r.setSide1(getIntent().getExtras().getDouble("side", -1));
+                break;
+            case SHAPE_CIRCLE:
+                r.setDiameter(getIntent().getExtras().getDouble("diameter", -1));
+                break;
         }
         return r;
     }
@@ -141,11 +141,10 @@ public class IngredientActivity extends ActionBarActivity {
                 RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
                 recipeDAO.open();
                 recipe.setIngredients(ingredientList);
-                long id = recipeDAO.addRecipe(recipe);
+                recipeDAO.addRecipe(recipe);
                 recipeDAO.close();
                 Toast.makeText(getApplicationContext(), "Recipe added successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
-                //intent.putExtra("id", id);
                 finish();
                 startActivity(intent);
             } catch (SQLException | RecipeNotCreated e) {
