@@ -22,6 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RECIPES_SIDE_1 = "side_1";
     public static final String COLUMN_RECIPES_SIDE_2 = "side_2";
     public static final String COLUMN_RECIPES_DIAMETER = "diameter";
+    public static final String COLUMN_RECIPES_DIM_UNIT = "dim_unit";
     //creation queries
     private static final String DATABASE_CREATE_RECIPES = "create table "
             + TABLE_RECIPES + "("
@@ -31,7 +32,8 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_RECIPES_SHAPE + " integer,"
             + COLUMN_RECIPES_SIDE_1 + " float,"
             + COLUMN_RECIPES_SIDE_2 + " float,"
-            + COLUMN_RECIPES_DIAMETER + " float);";
+            + COLUMN_RECIPES_DIAMETER + " float,"
+            + COLUMN_RECIPES_DIM_UNIT + " integer);";
     public static final String COLUMN_INGREDIENTS_ID = "_id";
     public static final String COLUMN_INGREDIENTS_NAME = "name";
     public static final String COLUMN_INGREDIENTS_QUANTITY = "quantity";
@@ -46,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_INGREDIENTS_ID_RECIPE + " integer);";
 
     //version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     //file
     private static final String DATABASE_NAME = "recipes.db";
 

@@ -35,6 +35,8 @@ public class NewRecipeActivity extends ActionBarActivity {
     static final int _SHAPE_SQUARE = 1;
     static final int _SHAPE_CIRCLE = 2;
 
+    private int configuration_unit = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +69,34 @@ public class NewRecipeActivity extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        fillUnitSpinner();
+
         //added callback which updates the shown pan inputs
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 setPanShape(pos);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+    }
+
+    private void fillUnitSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.spnRecipeUnit);
+        List<String> list = new ArrayList<>();
+        list.add("Centimeter");
+        list.add("Inch");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        //added callback which updates the shown pan inputs
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                configuration_unit = pos;
             }
 
             @Override
@@ -113,6 +138,8 @@ public class NewRecipeActivity extends ActionBarActivity {
         //pan
         if (configuration_recipe == _ONLY_PAN) {
             recipe.setShape(ShapeType.fromInteger(configuration_shape));
+            recipe.setDimUnit(configuration_unit);
+            Toast.makeText(getApplicationContext(), " " + configuration_unit, Toast.LENGTH_SHORT).show();
             switch (configuration_shape) {
                 case _SHAPE_RECTANGLE:
                     double side1 = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeSide1)).getText().toString());
@@ -177,6 +204,7 @@ public class NewRecipeActivity extends ActionBarActivity {
                 intent.putExtra("num_people", recipe.getNum_people());
                 intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
                 if (recipe.getShape() != ShapeType.SHAPE_NOT_VALID) {
+                    intent.putExtra("unit", recipe.getDimUnit());
                     switch (recipe.getShape()) {
                         case SHAPE_RECTANGLE:
                             intent.putExtra("side1", recipe.getSide1());
@@ -206,6 +234,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);
         //shape type fields
         boolean enabled = (configuration_recipe == _ONLY_PAN);
+        findViewById(R.id.layoutShapeDimUnit).setVisibility((enabled) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == _SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);

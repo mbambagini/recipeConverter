@@ -12,6 +12,7 @@ public class RecipeEntry {
     private double side1 = -1.0;
     private double side2 = -1.0;
     private double diameter = -1.0;
+    private int dimUnit = 0;
     private List<IngredientEntry> ingredients = new ArrayList<>();
 
     public long getId() {
@@ -78,4 +79,11 @@ public class RecipeEntry {
         this.shape = shape;
     }
 
+    public int getDimUnit() {
+        return dimUnit;
+    }
+
+    public void setDimUnit(int dimUnit) {
+        this.dimUnit = dimUnit;
+    }
 }

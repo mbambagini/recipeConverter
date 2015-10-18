@@ -26,7 +26,8 @@ public class RecipeDAO {
             DBHelper.COLUMN_RECIPES_SHAPE,
             DBHelper.COLUMN_RECIPES_SIDE_1,
             DBHelper.COLUMN_RECIPES_SIDE_2,
-            DBHelper.COLUMN_RECIPES_DIAMETER};
+            DBHelper.COLUMN_RECIPES_DIAMETER,
+            DBHelper.COLUMN_RECIPES_DIM_UNIT};
 
     private String[] allIngredientsColumns = {
             DBHelper.COLUMN_INGREDIENTS_ID,
@@ -108,6 +109,7 @@ public class RecipeDAO {
         values.put(DBHelper.COLUMN_RECIPES_SIDE_1, recipe.getSide1());
         values.put(DBHelper.COLUMN_RECIPES_SIDE_2, recipe.getSide2());
         values.put(DBHelper.COLUMN_RECIPES_DIAMETER, recipe.getDiameter());
+        values.put(DBHelper.COLUMN_RECIPES_DIM_UNIT, recipe.getDimUnit());
         try {
             id = db.insert(DBHelper.TABLE_RECIPES, null, values);
         } catch (Exception e) {
@@ -164,6 +166,7 @@ public class RecipeDAO {
         recipe.setSide1(cursor.getFloat(4));
         recipe.setSide2(cursor.getFloat(5));
         recipe.setDiameter(cursor.getFloat(6));
+        recipe.setDimUnit(cursor.getInt(7));
         return recipe;
     }
 

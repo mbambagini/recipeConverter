@@ -7,15 +7,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import recipeconverter.org.recipeconverter.adapter.IngredientAdapter;
 import recipeconverter.org.recipeconverter.dao.IngredientEntry;
@@ -27,9 +29,13 @@ import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 
 public class ConversionActivity extends ActionBarActivity {
 
+    static final double inch_to_cm = 2.54;
+
     static final double pi_ = 3.14;
 
-    IngredientAdapter adapter;
+    private int actual_unit;
+
+    private IngredientAdapter adapter;
     private ArrayList<IngredientEntry> ingredients = null;
     private ArrayList<IngredientEntry> ingredients_original = null;
     
@@ -61,6 +67,7 @@ public class ConversionActivity extends ActionBarActivity {
         loadRecipe(id);
 
         showFields();
+        fillUnitSpinner();
 
         ListView lst = (ListView) findViewById(R.id.lst_converted_ingredients);
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredients);
@@ -71,6 +78,31 @@ public class ConversionActivity extends ActionBarActivity {
         myTextView.setTypeface(typeFace);
     }
 
+    private void fillUnitSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.spnConversionUnit);
+        List<String> list = new ArrayList<>();
+        list.add("Centimeter");
+        list.add("Inch");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        Toast.makeText(getApplicationContext(), " " + recipe.getDimUnit(), Toast.LENGTH_SHORT).show();
+        spinner.setSelection(recipe.getDimUnit());
+        //added callback which updates the shown pan inputs
+/*
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                configuration_unit = pos;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        */
+    }
+
     private void showFields() {
         EditText txt;
 
@@ -79,13 +111,16 @@ public class ConversionActivity extends ActionBarActivity {
             txt = (EditText)findViewById(R.id.txtConvertedRecipePeople);
             txt.setText(""+recipe.getNum_people(), TextView.BufferType.EDITABLE);
             original_people = recipe.getNum_people();
-        } else
+            findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.GONE);
+        } else {
             findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.GONE);
+            findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.VISIBLE);
+        }
 
         findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.GONE);
         findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
         findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
-
+        actual_unit = recipe.getDimUnit();
         switch (recipe.getShape()) {
             case SHAPE_CIRCLE:
                 findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
@@ -172,29 +207,30 @@ public class ConversionActivity extends ActionBarActivity {
         //error detection
         if (ingredients == null || ingredients.size() == 0 || recipe == null)
             return null;
+        DecimalFormat format = new DecimalFormat("0.00");
         //header
         String buffer = "Recipe \"" + recipe.getName() + "\" for ";
         if (recipe.getNum_people() != -1)
             buffer += converted_num_people + " people\n";
         else {
-            DecimalFormat format = new DecimalFormat("0.00");
+            String sUnit = (actual_unit == 0) ? "cm" : "inch";
             switch(recipe.getShape()) {
             case SHAPE_CIRCLE:
-                buffer += "circular pan with diameter: " + format.format(converted_diameter) + " cm\n";
+                buffer += "circular pan with diameter: " + format.format(converted_diameter) + " " + sUnit + "\n";
                 break;
             case SHAPE_RECTANGLE:
                 buffer += "rectangular pan with size: " + format.format(converted_side1) + " x " +
-                          format.format(converted_side2) + " cm\n";
+                        format.format(converted_side2) + " " + sUnit + "\n";
                 break;
             case SHAPE_SQUARE:
                 buffer += "squared pan: " + format.format(converted_side) + " x " +
-                          format.format(converted_side) + " cm\n";
+                        format.format(converted_side) + " " + sUnit + "\n";
                 break;
             }
         }
         //body
         for (IngredientEntry ingredient : ingredients)
-            buffer += ingredient.getQuantity() + " " +
+            buffer += format.format(ingredient.getQuantity()) + " " +
                       UnitType.toString(ingredient.getUnit()) + " - " +
                       ingredient.getName() + "\n";
         return buffer;
@@ -209,11 +245,19 @@ public class ConversionActivity extends ActionBarActivity {
                 converted_num_people = new_people;
             }
         } else {
+            actual_unit = ((Spinner) findViewById(R.id.spnConversionUnit)).getSelectedItemPosition();
+            double inch_factor = 1.0;
+            if (actual_unit != recipe.getDimUnit()) {
+                if (recipe.getDimUnit() == 1)
+                    inch_factor = 1.0 / inch_to_cm;
+                else
+                    inch_factor = inch_to_cm;
+            }
             switch (recipe.getShape()) {
             case SHAPE_CIRCLE:
                 double new_diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
                 if (new_diameter > 0) {
-                    factor = (new_diameter * new_diameter * pi_) / original_area;
+                    factor = (new_diameter * inch_factor * new_diameter * inch_factor * pi_) / original_area;
                     converted_diameter = new_diameter;
                 }
                 break;
@@ -221,7 +265,7 @@ public class ConversionActivity extends ActionBarActivity {
                 double new_side1 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
                 double new_side2 = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
                 if (new_side1 > 0 && new_side2 > 0) {
-                    factor = (new_side1 * new_side2) / original_area;
+                    factor = (new_side1 * inch_factor * new_side2 * inch_factor) / original_area;
                     converted_side1 = new_side1;
                     converted_side2 = new_side2;
                 }
@@ -229,7 +273,7 @@ public class ConversionActivity extends ActionBarActivity {
             case SHAPE_SQUARE:
                 double new_side = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
                 if (new_side > 0) {
-                    factor = (new_side * new_side) / original_area;
+                    factor = (new_side * inch_factor * new_side * inch_factor) / original_area;
                     converted_side = new_side;
                 }
                 break;
