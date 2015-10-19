@@ -5,6 +5,10 @@ import java.util.List;
 
 public class RecipeEntry {
 
+    static final double inch_to_cm_ = 2.54;
+
+    static final double pi_ = 3.14;
+
     private long id;
     private String name;
     private int num_people = -1;
@@ -21,6 +25,23 @@ public class RecipeEntry {
 
     public boolean isRecipeWRTPan () {
         return ((num_people < 1) && (shape != ShapeType.SHAPE_NOT_VALID));
+    }
+
+    public double getSurfaceCM2 () {
+        if (!isRecipeWRTPan())
+            return -1.0;
+
+        double scale_factor = (dimUnit == 0) ? 1.0 : inch_to_cm_;
+        switch (shape) {
+            case SHAPE_RECTANGLE:
+                return side1 * side2 * scale_factor * scale_factor;
+            case SHAPE_SQUARE:
+                return side1 * side1 * scale_factor * scale_factor;
+            case SHAPE_CIRCLE:
+                return diameter * diameter * scale_factor * scale_factor * pi_;
+        }
+
+        return -1.0;
     }
 
     public long getId() {
