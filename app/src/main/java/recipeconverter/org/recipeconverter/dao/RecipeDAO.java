@@ -54,7 +54,7 @@ public class RecipeDAO {
 
         if (name != null && !name.isEmpty())
             whereClause = DBHelper.COLUMN_RECIPES_NAME + " like \"%" + name + "%\"";
-        Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
+        Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, DBHelper.COLUMN_RECIPES_ID + " DESC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             recipes.add(cursorToRecipe(cursor));
