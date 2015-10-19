@@ -49,6 +49,27 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutConversionPan"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Pan shape"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spnConversionPanShape"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/layoutConvertedShapeCircle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

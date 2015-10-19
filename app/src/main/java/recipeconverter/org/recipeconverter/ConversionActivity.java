@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import recipeconverter.org.recipeconverter.adapter.IngredientAdapter;
 import recipeconverter.org.recipeconverter.dao.IngredientEntry;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
+import recipeconverter.org.recipeconverter.dao.ShapeType;
 import recipeconverter.org.recipeconverter.dao.UnitType;
 import recipeconverter.org.recipeconverter.exception.EntryError;
 import recipeconverter.org.recipeconverter.exception.EntryNotFound;
@@ -31,6 +33,8 @@ import recipeconverter.org.recipeconverter.exception.WrongInputs;
 public class ConversionActivity extends ActionBarActivity {
 
     private IngredientAdapter adapter;
+
+    private int shapeSelection = 0;
 
     private RecipeEntry recipe_orig = null;
     private RecipeEntry recipe_conv = null;
@@ -48,8 +52,9 @@ public class ConversionActivity extends ActionBarActivity {
             finish();
         }
 
-        showFields();
         fillUnitSpinner();
+        fillShapeSpinner();
+        showFields();
 
         ListView lst = (ListView) findViewById(R.id.lst_converted_ingredients);
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, recipe_conv.getIngredients());
@@ -97,6 +102,7 @@ public class ConversionActivity extends ActionBarActivity {
         findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
         if (recipe_orig.isRecipeWRTPan()) {
             //set the fields as visible and their initial values
+            findViewById(R.id.layoutConversionPan).setVisibility(View.VISIBLE);
             findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.VISIBLE);
             switch (recipe_orig.getShape()) {
                 case SHAPE_CIRCLE:
@@ -120,6 +126,7 @@ public class ConversionActivity extends ActionBarActivity {
         } else {
             //set the fields as not visible
             findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.GONE);
+            findViewById(R.id.layoutConversionPan).setVisibility(View.GONE);
         }
     }
 
@@ -132,6 +139,37 @@ public class ConversionActivity extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(recipe_orig.getDimUnit());
+    }
+
+    private void fillShapeSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.spnConversionPanShape);
+        List<String> list = new ArrayList<>();
+        list.add("Rectangle");
+        list.add("Square");
+        list.add("Circle");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                updatePanShapeFields(pos);
+                shapeSelection = pos;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        spinner.setSelection(ShapeType.toInteger(recipe_orig.getShape()));
+        shapeSelection = ShapeType.toInteger(recipe_orig.getShape());
+    }
+
+    private void updatePanShapeFields(int selection) {
+        findViewById(R.id.layoutConvertedShapeRect).setVisibility((selection == 0) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutConvertedShapeSquare).setVisibility((selection == 1) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutConvertedShapeCircle).setVisibility((selection == 2) ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -205,6 +243,7 @@ public class ConversionActivity extends ActionBarActivity {
         }
         if (recipe_orig.isRecipeWRTPan()) {
             recipe_conv.setDimUnit(((Spinner) findViewById(R.id.spnConversionUnit)).getSelectedItemPosition());
+            recipe_conv.setShape(ShapeType.fromInteger(shapeSelection));
             switch (recipe_conv.getShape()) {
             case SHAPE_CIRCLE:
                 double new_diameter = Double.parseDouble(((EditText)findViewById(R.id.txtConvertedRecipeDiameter)).getText().toString());
