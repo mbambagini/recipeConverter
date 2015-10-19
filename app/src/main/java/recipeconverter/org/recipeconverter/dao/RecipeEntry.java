@@ -115,4 +115,20 @@ public class RecipeEntry {
     public void setDimUnit(int dimUnit) {
         this.dimUnit = dimUnit;
     }
+    
+    public RecipeEntry clone() {
+        RecipeEntry r = new RecipeEntry();
+        r.id = id;
+        r.name = name;
+        r.num_people = num_people;
+        r. shape = shape;
+        r.side1 = side1;
+        r.side2 = side2;
+        r.diameter = diameter;
+        r.dimUnit = dimUnit;
+        for (IngredientEntry ingredient : ingredients)
+            r.ingredients.add(ingredient.clone());
+        return r;
+    }
+
 }
