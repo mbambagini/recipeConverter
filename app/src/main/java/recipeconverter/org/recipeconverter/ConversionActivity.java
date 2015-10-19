@@ -68,7 +68,7 @@ public class ConversionActivity extends ActionBarActivity {
             recipeDAO.close();
             if (recipe_orig == null)
                 return false;
-            recip_conv = recipe_orig.close();
+            recipe_conv = recipe_orig.clone();
             return true;
         } catch (SQLException e) {
             Toast.makeText(getApplicationContext(), "DB error", Toast.LENGTH_LONG).show();
@@ -167,7 +167,7 @@ public class ConversionActivity extends ActionBarActivity {
         //header
         String buffer = "Recipe \"" + recipe_conv.getName() + "\"";
         if (recipe_conv.isRecipeWRTPeople())
-            buffer += " for " + converted_num_people + " people\n";
+            buffer += " for " + recipe_conv.getNum_people() + " people\n";
         if (recipe_conv.isRecipeWRTPan()) {
             switch(recipe_conv.getShape()) {
             case SHAPE_CIRCLE:
@@ -176,13 +176,13 @@ public class ConversionActivity extends ActionBarActivity {
                 break;
             case SHAPE_RECTANGLE:
                 buffer += "for rectangular pan with size: " +
-                          format.format(recipe_conv.side1()) + " x " +
-                          format.format(recipe_conv.side2());
+                          format.format(recipe_conv.getSide1()) + " x " +
+                          format.format(recipe_conv.getSide2());
                 break;
             case SHAPE_SQUARE:
                 buffer += "for squared pan: " +
-                          format.format(recipe_conv.side1()) + " x " +
-                          format.format(recipe_conv.side1());
+                          format.format(recipe_conv.getSide1()) + " x " +
+                          format.format(recipe_conv.getSide1());
                 break;
             }
             buffer += " " + ((recipe_conv.getDimUnit() == 0) ? "cm" : "inch") + "\n";
