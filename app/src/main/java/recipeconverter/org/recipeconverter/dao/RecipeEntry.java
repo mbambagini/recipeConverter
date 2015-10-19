@@ -15,6 +15,14 @@ public class RecipeEntry {
     private int dimUnit = 0;
     private List<IngredientEntry> ingredients = new ArrayList<>();
 
+    public boolean isRecipeWRTPeople () {
+        return (num_people > 0);
+    }
+
+    public boolean isRecipeWRTPan () {
+        return ((num_people < 1) && (shape != ShapeType.SHAPE_NOT_VALID));
+    }
+
     public long getId() {
         return id;
     }
