@@ -92,6 +92,9 @@ public class ConversionActivity extends ActionBarActivity {
             findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.GONE);            
         }
 
+        findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.GONE);
+        findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
+        findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
         if (recipe_orig.isRecipeWRTPan()) {
             //set the fields as visible and their initial values
             findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.VISIBLE);
@@ -117,9 +120,6 @@ public class ConversionActivity extends ActionBarActivity {
         } else {
             //set the fields as not visible
             findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.GONE);
-            findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.GONE);
-            findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
-            findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
         }
     }
 
@@ -171,16 +171,16 @@ public class ConversionActivity extends ActionBarActivity {
         if (recipe_conv.isRecipeWRTPan()) {
             switch(recipe_conv.getShape()) {
             case SHAPE_CIRCLE:
-                buffer += "for circular pan with diameter: " +
+                buffer += " for circular pan with diameter: " +
                           format.format(recipe_conv.getDiameter());
                 break;
             case SHAPE_RECTANGLE:
-                buffer += "for rectangular pan with size: " +
+                buffer += " for rectangular pan with size: " +
                           format.format(recipe_conv.getSide1()) + " x " +
                           format.format(recipe_conv.getSide2());
                 break;
             case SHAPE_SQUARE:
-                buffer += "for squared pan: " +
+                buffer += " for squared pan: " +
                           format.format(recipe_conv.getSide1()) + " x " +
                           format.format(recipe_conv.getSide1());
                 break;
@@ -231,10 +231,20 @@ public class ConversionActivity extends ActionBarActivity {
                 break;
             }
         }
-        
-        double factor = recipe_conv.getSurfaceCM2() / recipe_orig.getSurfaceCM2();
-        for (IngredientEntry ingredient : recipe_conv.getIngredients())
-            ingredient.setQuantity( ingredient.getQuantity() * factor );
+
+        double factor = 1.0;
+        if (recipe_orig.isRecipeWRTPeople()) {
+            factor = recipe_conv.getNum_people() / recipe_orig.getNum_people();
+        }
+        if (recipe_orig.isRecipeWRTPan()) {
+            factor = recipe_conv.getSurfaceCM2() / recipe_orig.getSurfaceCM2();
+        }
+        recipe_conv.getIngredients().clear();
+        for (IngredientEntry ingredient : recipe_orig.getIngredients()) {
+            IngredientEntry tmp = ingredient.clone();
+            tmp.setQuantity(tmp.getQuantity() * factor);
+            recipe_conv.getIngredients().add(tmp);
+        }
     }
 
     public void onClick(View v) {
