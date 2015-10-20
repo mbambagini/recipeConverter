@@ -69,7 +69,6 @@ public class RecipeActivity extends ActionBarActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
                 name = query;
                 showRecipes();
                 return true;
@@ -81,10 +80,8 @@ public class RecipeActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_recipe_activity_add) {
-            Intent intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
-            startActivity(intent);
-        }
+        if (item.getItemId() == R.id.action_recipe_activity_add)
+            startActivity(new Intent(RecipeActivity.this, NewRecipeActivity.class));
 
         return super.onOptionsItemSelected(item);
     }
@@ -103,7 +100,9 @@ public class RecipeActivity extends ActionBarActivity {
             recipeDAO.close();
             return result;
         } catch (SQLException e) {
-            Toast.makeText(getApplicationContext(), "internal error", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),
+                           getResources().getString(R.string.toast_internal_error),
+                           Toast.LENGTH_LONG).show();
         }
         return null;
     }
