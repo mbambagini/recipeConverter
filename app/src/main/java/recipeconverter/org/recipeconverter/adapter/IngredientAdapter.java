@@ -53,15 +53,15 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         holder.quantity.setText(formatDouble);
         holder.unit.setText(UnitType.toString(ingredients.get(position).getUnit()));
         holder.id.setText(Long.toString(ingredients.get(position).getId()));
-        holder.btn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-			    String name = ((TextView)arg0.view.findViewById(R.id.txt_ingredient_name)).getText().toString();
-			    for (IngredientEntry ingredient : ingredients)
-			        if (ingredient.getName().compareTo(name) == 0) {
-			            ingredients.remove(ingredient);
-			            notifyDataSetChanged();
-			        }
+        holder.btn.setOnClickListener(new View.OnClickListener() {
+	    @Override
+	    public void onClick(View arg0) {
+	    String name = ((TextView)arg0.view.findViewById(R.id.txt_ingredient_name)).getText().toString();
+		    for (IngredientEntry ingredient : ingredients)
+		        if (ingredient.getName().compareTo(name) == 0) {
+		            ingredients.remove(ingredient);
+		            notifyDataSetChanged();
+		        }
 			}
 		});
         return view;
