@@ -139,7 +139,6 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (configuration_recipe == _ONLY_PAN) {
             recipe.setShape(ShapeType.fromInteger(configuration_shape));
             recipe.setDimUnit(configuration_unit);
-            Toast.makeText(getApplicationContext(), " " + configuration_unit, Toast.LENGTH_SHORT).show();
             switch (configuration_shape) {
                 case _SHAPE_RECTANGLE:
                     double side1 = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeSide1)).getText().toString());
@@ -193,10 +192,14 @@ public class NewRecipeActivity extends ActionBarActivity {
                 try {
                     recipe = readInputs();
                 } catch (WrongInputs | NullPointerException | NumberFormatException e) {
-                    Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                                   getResources().getString(R.string.toast_wrong_input),
+                                   Toast.LENGTH_SHORT).show();
                     return;
                 } catch (RecipeAlreadyPresent e) {
-                    Toast.makeText(getApplicationContext(), "Name already in use", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                                   getResources().getString(R.string.toast_duplicated_recipe),
+                                   Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
