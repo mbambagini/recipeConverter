@@ -132,7 +132,7 @@ public class RecipeDAO {
         synchronized public void updateRecipe(RecipeEntry cl) {
         }
     */
-/*
+
     synchronized public void deleteRecipe(int id) throws EntryNotFound, EntryError {
         String whereClause = DBHelper.COLUMN_RECIPES_ID + " = " + id;
         int num = db.delete(DBHelper.TABLE_RECIPES, whereClause, null);
@@ -143,7 +143,7 @@ public class RecipeDAO {
         whereClause = DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + id;
         db.delete(DBHelper.TABLE_INGREDIENTS, whereClause, null);
     }
-*/
+
     private List<IngredientEntry> getIngredients(long idRecipe) {
         List<IngredientEntry> ingredients = new ArrayList<>();
         String whereClause = DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + idRecipe;
