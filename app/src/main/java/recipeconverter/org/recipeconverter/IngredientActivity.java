@@ -75,7 +75,7 @@ public class IngredientActivity extends ActionBarActivity {
 
         ListView lst = (ListView) findViewById(R.id.lst_ingredients);
         ingredientList = new ArrayList<>();
-        adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList);
+        adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
         lst.setAdapter(adapter);
 
         TextView myTextView = (TextView) findViewById(R.id.txt_new_ingredients_headline);

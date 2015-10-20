@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -20,11 +20,14 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
 
     private static Typeface typeFace = null;
 
+    private boolean enableDelete = true;
+
     private Activity context;
     private List<IngredientEntry> ingredients;
 
-    public IngredientAdapter(Activity context, int textViewResourceId, List<IngredientEntry> values) {
+    public IngredientAdapter(Activity context, int textViewResourceId, List<IngredientEntry> values, boolean enableDelete) {
         super(context, textViewResourceId, values);
+        this.enableDelete = enableDelete;
         this.context = context;
         ingredients = values;
         if (typeFace == null)
@@ -32,7 +35,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) { //reuse view
             LayoutInflater inflater = context.getLayoutInflater();
@@ -53,21 +56,17 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         holder.quantity.setText(formatDouble);
         holder.unit.setText(UnitType.toString(ingredients.get(position).getUnit()));
         holder.id.setText(Long.toString(ingredients.get(position).getId()));
-        holder.btn.setOnClickListener(new View.OnClickListener() {
-	    @Override
-	    public void onClick(View arg0) {
-	    	TextView tmp = (TextView)(arg0.findViewById(R.id.txt_ingredient_name));
-	    	if (tmp == null)
-	    	    return;
-	    	String name = tmp.getText().toString();
-		for (IngredientEntry ingredient : ingredients)
-		    if (ingredient.getName().compareTo(name) == 0) {
-			ingredients.remove(ingredient);
-			notifyDataSetChanged();
-			break;
-		    }
-	    }
-	});
+        if (enableDelete) {
+            holder.btn.setVisibility(View.VISIBLE);
+            holder.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    ingredients.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+        } else
+            holder.btn.setVisibility(View.GONE);
         return view;
     }
 

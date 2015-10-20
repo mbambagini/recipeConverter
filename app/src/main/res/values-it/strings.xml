@@ -20,7 +20,7 @@
     <string name="font_handwritten">fonts/JennaSue.ttf</string>
 
     <!-- Toast messages -->
-    <string name="toast_internal_error">Qualcosa &#232; andato storto... scusa!</string>
+    <string name="toast_internal_error">Qualcosa &#232; andato storto&#8230; scusa!</string>
     <string name="toast_duplicated_recipe">Nome gi&#224; usato</string>
     <string name="toast_duplicated_ingredient">Ingrediente gi&#224; inserito</string>
     <string name="toast_wrong_input">Completa tutti i campi correttamente</string>
@@ -69,5 +69,5 @@
     <string name="txt_separator"> - </string>
 
     <string name="action_settings">Impostazioni</string>
-    
+
 </resources>

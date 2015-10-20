@@ -59,7 +59,7 @@ public class ConversionActivity extends ActionBarActivity {
         showFields();
 
         ListView lst = (ListView) findViewById(R.id.lst_converted_ingredients);
-        adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, recipe_conv.getIngredients());
+        adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, recipe_conv.getIngredients(), false);
         lst.setAdapter(adapter);
 
         TextView myTextView = (TextView) findViewById(R.id.txt_conversion_headline);
