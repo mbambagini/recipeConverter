@@ -140,7 +140,7 @@ public class IngredientActivity extends ActionBarActivity {
         if (item.getItemId() == R.id.action_ingredient_save) {
             if (ingredientList != null && ingredientList.size() == 0) {
                 Toast.makeText(getApplicationContext(),
-                               "Insert at least one ingredient",
+                               getResources().getString(R.string.toast_empty_ingredients),
                                Toast.LENGTH_SHORT).show();
                 return true;
             }
