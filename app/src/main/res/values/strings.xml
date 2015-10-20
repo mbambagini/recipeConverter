@@ -10,6 +10,12 @@
     <string name="title_activity_conversion">ConversionActivity</string>
     <string name="title_activity_recipe">RecipeActivity</string>
 
+    <!-- Activity headlines -->
+    <string name="headline_activity_main">Convert a recipe</string>
+    <string name="headline_activity_ingredient">Add ingredients</string>
+    <string name="headline_activity_conversion">Convert ingredients</string>
+    <string name="headline_activity_recipe">Your recipes!</string>
+
     <!-- Other -->
     <string name="font_handwritten">fonts/JennaSue.ttf</string>
 
@@ -42,10 +48,25 @@
     <string name="intent_side">side</string>
     <string name="intent_diameter">diameter</string>
 
-    <!-- Menu -->
-    
     <!-- Text fields -->
-
+    <string name="txt_discard">Discard</string>
+    <string name="txt_save">Save</string>
+    <string name="txt_search">Search</string>
+    <string name="txt_convert">Convert</string>
+    <string name="txt_unit">Unit</string>
+    <string name="txt_name">Name</string>
+    <string name="txt_quantity">Quantity</string>
+    <string name="txt_side">Side</string>
+    <string name="txt_size">Size</string>
+    <string name="txt_diameter">Diameter</string>
+    <string name="txt_how_many_people">How many people</string>
+    <string name="txt_pan_shape">Pan shape</string>
+    <string name="txt_add_ingredient">Add ingredient</string>
+    <string name="txt_add_ingredients">Add ingredients</string>
+    <string name="txt_share_it">Share it!</string>
+    <string name="txt_add_recipe">Add recipe</string>
+    <string name="txt_times">x</string>
+    <string name="txt_separator"> - </string>
 
     <string name="action_settings">Settings</string>
     
