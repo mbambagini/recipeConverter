@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="pan_shapes">
-        <item>No pan</item>
-        <item>Circle</item>
-        <item>Rectangle</item>
-        <item>Square</item>
-    </string-array>
-</resources>
