@@ -117,9 +117,13 @@ public class IngredientActivity extends ActionBarActivity {
                 adapter.notifyDataSetChanged();
                 cleanInptuts();
             } catch (WrongInputs | NullPointerException | NumberFormatException e) {
-                Toast.makeText(getApplicationContext(), "Set all inputs correctly", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                               getResources().getString(R.string.toast_wrong_input),
+                               Toast.LENGTH_SHORT).show();
             } catch (IngredientAlreadyPresent e) {
-                Toast.makeText(getApplicationContext(), "Ingredient already present", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                               getResources().getString(R.string.toast_duplicated_ingredient),
+                               Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -135,7 +139,9 @@ public class IngredientActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_ingredient_save) {
             if (ingredientList != null && ingredientList.size() == 0) {
-                Toast.makeText(getApplicationContext(), "Insert at least one ingredient", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                               "Insert at least one ingredient",
+                               Toast.LENGTH_SHORT).show();
                 return true;
             }
             try {
@@ -144,21 +150,25 @@ public class IngredientActivity extends ActionBarActivity {
                 recipe.setIngredients(ingredientList);
                 recipeDAO.addRecipe(recipe);
                 recipeDAO.close();
-                Toast.makeText(getApplicationContext(), "Recipe added successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
+                Toast.makeText(getApplicationContext(),
+                               getResources().getString(R.string.toast_recipe_added),
+                               Toast.LENGTH_SHORT).show();
                 finish();
-                startActivity(intent);
+                startActivity(new Intent(IngredientActivity.this, RecipeActivity.class));
             } catch (SQLException | RecipeNotCreated e) {
-                Toast.makeText(getApplicationContext(), "Internal error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                               getResources().getString(R.string.toast_internal_error),
+                               Toast.LENGTH_SHORT).show();
             } catch (RecipeAlreadyPresent e) {
-                Toast.makeText(getApplicationContext(), "Already present", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                               getResources().getString(R.string.toast_duplicated_recipe),
+                               Toast.LENGTH_SHORT).show();
             }
             return true;
         }
         if (item.getItemId() == R.id.action_ingredient_discard) {
             finish();
-            Intent intent = new Intent(IngredientActivity.this, RecipeActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(IngredientActivity.this, RecipeActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
