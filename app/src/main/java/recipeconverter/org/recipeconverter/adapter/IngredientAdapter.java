@@ -56,14 +56,18 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         holder.btn.setOnClickListener(new View.OnClickListener() {
 	    @Override
 	    public void onClick(View arg0) {
-	    String name = ((TextView)arg0.view.findViewById(R.id.txt_ingredient_name)).getText().toString();
-		    for (IngredientEntry ingredient : ingredients)
-		        if (ingredient.getName().compareTo(name) == 0) {
-		            ingredients.remove(ingredient);
-		            notifyDataSetChanged();
-		        }
-			}
-		});
+	    	TextView tmp = (TextView)(arg0.findViewById(R.id.txt_ingredient_name));
+	    	if (tmp == null)
+	    	    return;
+	    	String name = tmp.getText().toString();
+		for (IngredientEntry ingredient : ingredients)
+		    if (ingredient.getName().compareTo(name) == 0) {
+			ingredients.remove(ingredient);
+			notifyDataSetChanged();
+			break;
+		    }
+	    }
+	});
         return view;
     }
 
