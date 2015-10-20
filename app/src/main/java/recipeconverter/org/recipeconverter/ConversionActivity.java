@@ -46,7 +46,9 @@ public class ConversionActivity extends ActionBarActivity {
 
         long id = getIntent().getExtras().getLong("id", -1);
         if (id == -1 || !loadRecipe(id)) {
-            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),
+                           getResources().getString(R.string.toast_internal_error),
+                           Toast.LENGTH_LONG).show();
 //          Intent intent = new Intent(ConversionActivity.this, RecipeActivity.class);
 //          startActivity(intent);
             finish();
@@ -65,7 +67,7 @@ public class ConversionActivity extends ActionBarActivity {
         myTextView.setTypeface(typeFace);
     }
 
-    private boolean loadRecipe(long id) {
+    private boolean loadRecipe (long id) {
         try {
             RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
             recipeDAO.open();
@@ -74,13 +76,10 @@ public class ConversionActivity extends ActionBarActivity {
             if (recipe_orig == null)
                 return false;
             recipe_conv = recipe_orig.clone();
-            return true;
-        } catch (SQLException e) {
-            Toast.makeText(getApplicationContext(), "DB error", Toast.LENGTH_LONG).show();
-        } catch (EntryNotFound | EntryError e) {
-            Toast.makeText(getApplicationContext(), "internal error", Toast.LENGTH_LONG).show();
+        } catch (EntryNotFound | EntryError | SQLException e) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     private void showFields() {
@@ -189,7 +188,9 @@ public class ConversionActivity extends ActionBarActivity {
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, "share"));
             } else {
-                Toast.makeText(this, "impossible to share", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,
+                               getResources().getString(R.string.toast_no_sharing),
+                               Toast.LENGTH_LONG).show();
             }
         }
 
@@ -292,7 +293,9 @@ public class ConversionActivity extends ActionBarActivity {
                 updateRecipe();
                 adapter.notifyDataSetChanged();
             } catch (NullPointerException | NumberFormatException | WrongInputs e) {
-                Toast.makeText(this, "Insert valid data", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,
+                               getResources().getString(R.string.toast_wrong_input),
+                               Toast.LENGTH_LONG).show();
             }
         }
     }
