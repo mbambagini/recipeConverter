@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Application name -->
     <string name="app_name">recipeConverter</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- Activity names -->
     <string name="title_activity_main">MainActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_ingredient">IngredientActivity</string>
     <string name="title_activity_conversion">ConversionActivity</string>
     <string name="title_activity_recipe">RecipeActivity</string>
+
+    <!-- Other -->
+    <string name="font_handwritten">fonts/JennaSue.ttf</string>
 
     <!-- Toast messages -->
     <string name="toast_internal_error">Something went wrong... sorry!</string>
@@ -18,5 +20,33 @@
     <string name="toast_wrong_input">Set all inputs correctly</string>
     <string name="toast_no_sharing">Nothing to share</string>
     <string name="toast_recipe_added">Recipe added successfully</string>
+    <string name="toast_empty_ingredients">Insert at least one ingredient</string>
 
+    <!-- Size units -->
+    <string name="str_cm">Centimeter</string>
+    <string name="str_in">Inch</string>
+
+    <!-- Pan shapres -->
+    <string name="str_rect">Rectangle</string>
+    <string name="str_squa">Square</string>
+    <string name="str_circ">Circle</string>
+
+    <!-- Intent argument identifiers -->
+    <string name="intent_id">id</string>
+    <string name="intent_name">name</string>
+    <string name="intent_people">num_people</string>
+    <string name="intent_shape">shape</string>
+    <string name="intent_unit">unit</string>
+    <string name="intent_side1">side1</string>
+    <string name="intent_side2">side2</string>
+    <string name="intent_side">side</string>
+    <string name="intent_diameter">diameter</string>
+
+    <!-- Menu -->
+    
+    <!-- Text fields -->
+
+
+    <string name="action_settings">Settings</string>
+    
 </resources>
