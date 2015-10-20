@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Application name -->
+    <string name="app_name">recipeConverter</string>
+
+    <!-- Activity names -->
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_ingredient">IngredientActivity</string>
+    <string name="title_activity_conversion">ConversionActivity</string>
+    <string name="title_activity_recipe">RecipeActivity</string>
+
+    <!-- Activity headlines -->
+    <string name="headline_activity_main">Inserisci una ricetta</string>
+    <string name="headline_activity_ingredient">Aggiungi ingredienti</string>
+    <string name="headline_activity_conversion">Converti ingredienti</string>
+    <string name="headline_activity_recipe">Le tue ricette!</string>
+
+    <!-- Other -->
+    <string name="font_handwritten">fonts/JennaSue.ttf</string>
+
+    <!-- Toast messages -->
+    <string name="toast_internal_error">Qualcosa &#232; andato storto... scusa!</string>
+    <string name="toast_duplicated_recipe">Nome gi&#224; usato</string>
+    <string name="toast_duplicated_ingredient">Ingrediente gi&#224; inserito</string>
+    <string name="toast_wrong_input">Completa tutti i campi correttamente</string>
+    <string name="toast_no_sharing">Nulla da condividere</string>
+    <string name="toast_recipe_added">Ricetta salvata correttamente</string>
+    <string name="toast_empty_ingredients">Inserisci almeno un ingrediente</string>
+
+    <!-- Size units -->
+    <string name="str_cm">Centimetri</string>
+    <string name="str_in">Pollici</string>
+
+    <!-- Pan shapres -->
+    <string name="str_rect">Rettangolare</string>
+    <string name="str_squa">Quadrata</string>
+    <string name="str_circ">Circolare</string>
+
+    <!-- Intent argument identifiers -->
+    <string name="intent_id">id</string>
+    <string name="intent_name">name</string>
+    <string name="intent_people">num_people</string>
+    <string name="intent_shape">shape</string>
+    <string name="intent_unit">unit</string>
+    <string name="intent_side1">side1</string>
+    <string name="intent_side2">side2</string>
+    <string name="intent_side">side</string>
+    <string name="intent_diameter">diameter</string>
+
+    <!-- Text fields -->
+    <string name="txt_discard">Annulla</string>
+    <string name="txt_save">Salva</string>
+    <string name="txt_search">Cerca</string>
+    <string name="txt_convert">Converti</string>
+    <string name="txt_unit">Unit&#225;</string>
+    <string name="txt_name">Nome</string>
+    <string name="txt_quantity">Quantit&#224;</string>
+    <string name="txt_side">Lato</string>
+    <string name="txt_size">Dimensione</string>
+    <string name="txt_diameter">Diametro</string>
+    <string name="txt_how_many_people">Quante persone</string>
+    <string name="txt_pan_shape">Forma teglia</string>
+    <string name="txt_add_ingredient">Aggiungi ingrediente</string>
+    <string name="txt_add_ingredients">Aggiungi ingredienti</string>
+    <string name="txt_share_it">Condividila!</string>
+    <string name="txt_add_recipe">Aggiungi ricetta</string>
+    <string name="txt_times">x</string>
+    <string name="txt_separator"> - </string>
+
+    <string name="action_settings">Impostazioni</string>
+    
+</resources>
