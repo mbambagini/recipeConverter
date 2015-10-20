@@ -42,7 +42,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
             viewHolder.quantity = (TextView) view.findViewById(R.id.txt_ingredient_quantity);
             viewHolder.unit = (TextView) view.findViewById(R.id.txt_ingredient_unit);
             viewHolder.id = (TextView) view.findViewById(R.id.txt_ingredient_id);
-            viewHolder.btn = (TextView) view.findViewById(R.id.btnDeleteIngredient);
+            viewHolder.btn = (ImageButton) view.findViewById(R.id.btnDeleteIngredient);
             view.setTag(viewHolder);
         }
         ViewHolder holder = (ViewHolder) view.getTag();
