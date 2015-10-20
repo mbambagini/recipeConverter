@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.ImageButton;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -19,8 +20,8 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
 
     private static Typeface typeFace = null;
 
-    private final Activity context;
-    private final List<IngredientEntry> ingredients;
+    private Activity context;
+    private List<IngredientEntry> ingredients;
 
     public IngredientAdapter(Activity context, int textViewResourceId, List<IngredientEntry> values) {
         super(context, textViewResourceId, values);
@@ -41,6 +42,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
             viewHolder.quantity = (TextView) view.findViewById(R.id.txt_ingredient_quantity);
             viewHolder.unit = (TextView) view.findViewById(R.id.txt_ingredient_unit);
             viewHolder.id = (TextView) view.findViewById(R.id.txt_ingredient_id);
+            viewHolder.btn = (TextView) view.findViewById(R.id.btnDeleteIngredient);
             view.setTag(viewHolder);
         }
         ViewHolder holder = (ViewHolder) view.getTag();
@@ -51,7 +53,17 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         holder.quantity.setText(formatDouble);
         holder.unit.setText(UnitType.toString(ingredients.get(position).getUnit()));
         holder.id.setText(Long.toString(ingredients.get(position).getId()));
-
+        holder.btn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+			    String name = ((TextView)arg0.view.findViewById(R.id.txt_ingredient_name)).getText().toString();
+			    for (IngredientEntry ingredient : ingredients)
+			        if (ingredient.getName().compareTo(name) == 0) {
+			            ingredients.remove(ingredient);
+			            notifyDataSetChanged();
+			        }
+			}
+		});
         return view;
     }
 
@@ -60,6 +72,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         public TextView quantity;
         public TextView unit;
         public TextView id;
+        public ImageButton btn;
     }
 
 }
