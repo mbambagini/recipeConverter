@@ -38,7 +38,7 @@ public class IngredientActivity extends ActionBarActivity {
 
     private RecipeEntry buildRecipe() {
         RecipeEntry r = new RecipeEntry();
-        //id = getIntent().getExtras().getLong("id", -1);
+        r.setId(getIntent().getExtras().getLong("id", -1));
         r.setName(getIntent().getExtras().getString("name", ""));
         r.setNum_people(getIntent().getIntExtra("num_people", -1));
         r.setShape(ShapeType.fromInteger(getIntent().getIntExtra("shape", ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
@@ -74,7 +74,10 @@ public class IngredientActivity extends ActionBarActivity {
         spinner.setAdapter(adp);
 
         ListView lst = (ListView) findViewById(R.id.lst_ingredients);
-        ingredientList = new ArrayList<>();
+        if (recipe.getId() == -1)
+            ingredientList = new ArrayList<>();
+        else
+            ingredientList = recipe.getIngredients();
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
         lst.setAdapter(adapter);
 
@@ -147,8 +150,11 @@ public class IngredientActivity extends ActionBarActivity {
             try {
                 RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
                 recipeDAO.open();
-                recipe.setIngredients(ingredientList);
-                recipeDAO.addRecipe(recipe);
+                if (recipe.getId() == -1) {
+                    recipe.setIngredients(ingredientList);
+                    recipeDAO.addRecipe(recipe);
+                } else
+                    recipeDAO.addRecipe(recipe); //TODO: update recipe
                 recipeDAO.close();
                 Toast.makeText(getApplicationContext(),
                                getResources().getString(R.string.toast_recipe_added),
