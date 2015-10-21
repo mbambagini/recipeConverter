@@ -16,7 +16,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View.OnClickListener;
 
+import android.widget.Toast;
+
+import recipeconverter.org.recipeconverter.dao.RecipeDAO;
+
+import java.sql.SQLException;
+
+import recipeconverter.org.recipeconverter.exception.EntryError;
+import recipeconverter.org.recipeconverter.exception.EntryNotFound;
+
 import java.util.List;
+
+import recipeconverter.org.recipeconverter.NewRecipeActivity;
 
 import recipeconverter.org.recipeconverter.R;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
@@ -69,8 +80,8 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
                             recipes.remove(pos);
                             notifyDataSetChanged();
                         } catch (EntryNotFound | EntryError | SQLException e) {
-                            Toast.makeText(getApplicationContext(),
-                                getResources().getString(R.string.toast_internal_error),
+                            Toast.makeText(getContext(),
+                                "Error",
                                 Toast.LENGTH_LONG).show();
                         }
                     }
@@ -90,7 +101,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
             public void onClick(View arg0) {
                 Intent intent = new Intent(arg0.getContext(), NewRecipeActivity.class);
                 intent.putExtra("id", recipes.get(pos).getId());
-                startActivity(intent);
+                getContext().startActivity(intent);
             }
         });
 
