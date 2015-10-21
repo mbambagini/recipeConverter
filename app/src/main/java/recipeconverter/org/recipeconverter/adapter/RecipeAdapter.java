@@ -1,5 +1,7 @@
 package recipeconverter.org.recipeconverter.adapter;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -9,6 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ImageButton;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.View.OnClickListener;
 
 import java.util.List;
 
@@ -32,6 +38,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final int pos = position;
         View view = convertView;
         if (view == null) { //reuse view
             LayoutInflater inflater = context.getLayoutInflater();
@@ -51,15 +58,15 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
-                            RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+                            RecipeDAO recipeDAO = new RecipeDAO(getContext());
                             recipeDAO.open();
-                            recipeDAO.deleteRecipe(recipes.get(position).getId());
+                            recipeDAO.deleteRecipe(recipes.get(pos).getId());
                             recipeDAO.close();
-                            recipes.remove(position);
+                            recipes.remove(pos);
                             notifyDataSetChanged();
                         } catch (EntryNotFound | EntryError | SQLException e) {
                             Toast.makeText(getApplicationContext(),
@@ -68,9 +75,9 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
                         }
                     }
                 });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        dialog.cancel();
                     }
                 });
                 builder.setMessage("are you sure?").setTitle("are you sure?");
@@ -81,8 +88,8 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(getApplicationContext(), NewRecipeActivity.class);
-                intent.putExtra("id", recipes.get(position).getId());
+                Intent intent = new Intent(arg0.getContext(), NewRecipeActivity.class);
+                intent.putExtra("id", recipes.get(pos).getId());
                 startActivity(intent);
             }
         });
