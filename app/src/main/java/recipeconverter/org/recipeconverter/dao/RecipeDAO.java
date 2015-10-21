@@ -133,7 +133,7 @@ public class RecipeDAO {
         }
     */
 
-    synchronized public void deleteRecipe(int id) throws EntryNotFound, EntryError {
+    synchronized public void deleteRecipe(long id) throws EntryNotFound, EntryError {
         String whereClause = DBHelper.COLUMN_RECIPES_ID + " = " + id;
         int num = db.delete(DBHelper.TABLE_RECIPES, whereClause, null);
         if (num == 0)
