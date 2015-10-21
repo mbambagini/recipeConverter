@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ImageButton;
 
 import java.util.List;
 
@@ -40,10 +41,51 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
             viewHolder.id = (TextView) view.findViewById(R.id.txt_recipe_id);
             viewHolder.pan = (ImageView) view.findViewById(R.id.imgIconPan);
             viewHolder.people = (ImageView) view.findViewById(R.id.imgIconPeople);
+            viewHolder.btnEdit = (ImageButton) view.findViewById(R.id.btnEditRecipe);
+            viewHolder.btnDelete = (ImageButton) view.findViewById(R.id.btnDeleteRecipe);
             view.setTag(viewHolder);
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(recipes.get(position).getName());
+
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        try {
+                            RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+                            recipeDAO.open();
+                            recipeDAO.deleteRecipe(recipes.get(position).getId());
+                            recipeDAO.close();
+                            recipes.remove(position);
+                            notifyDataSetChanged();
+                        } catch (EntryNotFound | EntryError | SQLException e) {
+                            Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.toast_internal_error),
+                                Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                builder.setMessage("are you sure?").setTitle("are you sure?");
+                AlertDialog dialog = builder.create();
+            }
+        });
+
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(getApplicationContext(), NewRecipeActivity.class);
+                intent.putExtra("id", recipes.get(position).getId());
+                startActivity(intent);
+            }
+        });
 
         holder.name.setTypeface(typeFace);
 
@@ -60,6 +102,8 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         public ImageView pan;
         public ImageView people;
         public TextView id;
+        public ImageButton btnDelete;
+        public ImageButton btnEdit;
     }
 
 }
