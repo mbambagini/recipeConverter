@@ -77,7 +77,7 @@ public class IngredientActivity extends ActionBarActivity {
         if (recipe.getId() == -1)
             ingredientList = new ArrayList<>();
         else
-            ingredientList = (ArrayList<>())recipe.getIngredients();
+            ingredientList = (ArrayList<IngredientEntry>) recipe.getIngredients();
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
         lst.setAdapter(adapter);
 
