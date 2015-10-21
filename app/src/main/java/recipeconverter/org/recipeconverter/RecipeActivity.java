@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
+import android.view.MotionEvent;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,19 +23,21 @@ import recipeconverter.org.recipeconverter.adapter.RecipeAdapter;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 
-public class RecipeActivity extends ActionBarActivity {
+public class RecipeActivity extends ActionBarActivity implements GestureDetector.OnGestureListener {
 
     private String name = null;
     private ArrayList<RecipeEntry> recipes = null;
     private RecipeAdapter adapter = null;
 
+    private GestureDetectorCompat mDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
-
+        mDetector = new GestureDetectorCompat(this, this);
         ListView lst = (ListView) findViewById(R.id.lst_recipes);
-        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+/*        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
@@ -45,7 +48,7 @@ public class RecipeActivity extends ActionBarActivity {
                 }
             }
         });
-
+*/
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
         myTextView.setTypeface(typeFace);
@@ -121,5 +124,46 @@ public class RecipeActivity extends ActionBarActivity {
             lst.setAdapter(adapter);
         } else
             adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.mDetector.onTouchEvent(event);
+        // Be sure to call the superclass implementation
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        Toast.makeText(getApplicationContext(), "DOWN", Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        Toast.makeText(getApplicationContext(), "SHOWPRESS", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        Toast.makeText(getApplicationContext(), "TAP", Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        Toast.makeText(getApplicationContext(), "SCROLL", Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        Toast.makeText(getApplicationContext(), "LONGPRESS", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        Toast.makeText(getApplicationContext(), "FLING", Toast.LENGTH_LONG).show();
+        return false;
     }
 }

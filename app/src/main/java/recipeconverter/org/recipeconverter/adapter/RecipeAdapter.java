@@ -44,6 +44,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
+
         View view = convertView;
         if (view == null) { //reuse view
             LayoutInflater inflater = context.getLayoutInflater();

@@ -41,9 +41,10 @@ public class IngredientActivity extends ActionBarActivity {
     private RecipeEntry buildRecipe() {
         RecipeEntry r;
         long id_ = getIntent().getExtras().getLong("id", -1);
-        if (id_ == -1)
+        if (id_ == -1) {
             r = new RecipeEntry();
-        else {
+            r.setId(-1);
+        } else {
             try {
                 RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
                 recipeDAO.open();
