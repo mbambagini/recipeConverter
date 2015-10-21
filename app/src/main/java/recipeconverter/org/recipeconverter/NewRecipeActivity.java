@@ -23,6 +23,8 @@ import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.dao.ShapeType;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
+import recipeconverter.org.recipeconverter.exception.EntryNotFound;
+import recipeconverter.org.recipeconverter.exception.EntryError;
 
 public class NewRecipeActivity extends ActionBarActivity {
 
