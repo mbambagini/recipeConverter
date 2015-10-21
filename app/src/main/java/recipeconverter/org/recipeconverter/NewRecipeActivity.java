@@ -79,7 +79,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         recipe_name = r.getName();
         if (r.isRecipeWRTPeople()) {
             configuration_recipe = _ONLY_PEOPLE;
-            ((EditText) findViewById(R.id.txtRecipePeople)).setText(r.getNum_People());
+            ((EditText) findViewById(R.id.txtRecipePeople)).setText(String.valueOf(r.getNum_People()));
         }
         if (r.isRecipeWRTPan()) {
             configuration_recipe = _ONLY_PAN;
@@ -87,14 +87,14 @@ public class NewRecipeActivity extends ActionBarActivity {
             configuration_unit = recipe.getDimUnit();
             switch (configuration_shape) {
                 case _SHAPE_RECTANGLE:
-                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(r.getSide1());
-                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(r.getSide2());
+                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(String.valueOf(r.getSide1()));
+                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(String.valueOf(r.getSide2()));
                     break;
                 case _SHAPE_SQUARE:
-                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(r.getSide1());
+                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(String.valueOf(r.getSide1()));
                     break;
                 case _SHAPE_CIRCLE:
-                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(r.getDiameter());
+                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(String.valueOf(r.getDiameter()));
                     break;
                 default:
                     throw new EntryError();
