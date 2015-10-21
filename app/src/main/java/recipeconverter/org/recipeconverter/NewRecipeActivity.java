@@ -35,12 +35,17 @@ public class NewRecipeActivity extends ActionBarActivity {
     static final int _SHAPE_SQUARE = 1;
     static final int _SHAPE_CIRCLE = 2;
 
+    private long recipe_to_update_id = -1;
+    private String recipe_name = null;
+
     private int configuration_unit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_recipe);
+
+        loadRecipeToUpdate();
 
         //configure shape pan menu
         configureShapeMenu();
@@ -50,6 +55,49 @@ public class NewRecipeActivity extends ActionBarActivity {
         TextView myTextView = (TextView) findViewById(R.id.txt_new_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
         myTextView.setTypeface(typeFace);
+    }
+
+    private void loadRecipeToUpdate() {
+        recipe_to_update_id = getIntent().getExtras().getLong("id", -1);
+        if (recipe_to_update_id == -1)
+            return;
+        try {
+            RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+            recipeDAO.open();
+            RecipeEntry recipe = recipeDAO.getRecipe(recipe_to_update_id);
+            recipeDAO.close();
+            setFieldsFromRecipe(recipe);
+        } catch (EntryNotFound | EntryError | SQLException e) {
+            recipe_to_update_id = -1;
+        }
+    }
+
+    private void setFieldsFromRecipe (RecipeEntry r) throws EntryError {
+        ((EditText) findViewById(R.id.txtRecipeName)).setText(r.getName());
+        recipe_name = r.getName();
+        if (r.isRecipeWRTPeople()) {
+            configuration_recipe = _ONLY_PEOPLE;
+            ((EditText) findViewById(R.id.txtRecipePeople)).setText(r.getNum_People());
+        }
+        if (r.isRecipeWRTPan()) {
+            configuration_recipe = _ONLY_PAN;
+            configuration_shape = ShapeType.toInteger(r.getShape());
+            configuration_unit = recipe.getDimUnit();
+            switch (configuration_shape) {
+                case _SHAPE_RECTANGLE:
+                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(r.getSide1());
+                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(r.getSide2());
+                    break;
+                case _SHAPE_SQUARE:
+                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(r.getSide1());
+                    break;
+                case _SHAPE_CIRCLE:
+                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(r.getDiameter());
+                    break;
+                default:
+                    throw new EntryError();
+            }
+        }
     }
 
     @Override
@@ -116,17 +164,19 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (name.compareTo("") == 0)
             throw new WrongInputs();
         //check if the name is already used
-        boolean alreadyPresent;
-        try {
-            RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
-            recipeDAO.open();
-            alreadyPresent = recipeDAO.recipeAlreadyPresent(name);
-            recipeDAO.close();
-        } catch (SQLException e) {
-            throw new WrongInputs();
+        if (recipe_to_update_id == -1 || name.compareTo(recipe_name) != 0) {
+            boolean alreadyPresent;
+            try {
+                RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+                recipeDAO.open();
+                alreadyPresent = recipeDAO.recipeAlreadyPresent(name);
+                recipeDAO.close();
+            } catch (SQLException e) {
+                throw new WrongInputs();
+            }
+            if (alreadyPresent)
+                throw new RecipeAlreadyPresent();
         }
-        if (alreadyPresent)
-            throw new RecipeAlreadyPresent();
         recipe.setName(name);
         //people
         if (configuration_recipe == _ONLY_PEOPLE) {
@@ -203,6 +253,7 @@ public class NewRecipeActivity extends ActionBarActivity {
                     return;
                 }
                 Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
+                intent.putExtra("id", recipe_to_update_id);
                 intent.putExtra("name", recipe.getName());
                 intent.putExtra("num_people", recipe.getNum_people());
                 intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
