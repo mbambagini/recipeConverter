@@ -79,7 +79,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         recipe_name = r.getName();
         if (r.isRecipeWRTPeople()) {
             configuration_recipe = _ONLY_PEOPLE;
-            ((EditText) findViewById(R.id.txtRecipePeople)).setText(String.valueOf(r.getNum_People()));
+            ((EditText) findViewById(R.id.txtRecipePeople)).setText(String.valueOf(r.getNum_people()));
         }
         if (r.isRecipeWRTPan()) {
             configuration_recipe = _ONLY_PAN;
