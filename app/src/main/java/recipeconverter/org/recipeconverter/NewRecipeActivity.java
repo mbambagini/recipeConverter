@@ -84,7 +84,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (r.isRecipeWRTPan()) {
             configuration_recipe = _ONLY_PAN;
             configuration_shape = ShapeType.toInteger(r.getShape());
-            configuration_unit = recipe.getDimUnit();
+            configuration_unit = r.getDimUnit();
             switch (configuration_shape) {
                 case _SHAPE_RECTANGLE:
                     ((EditText) findViewById(R.id.txtRecipeSide1)).setText(String.valueOf(r.getSide1()));
