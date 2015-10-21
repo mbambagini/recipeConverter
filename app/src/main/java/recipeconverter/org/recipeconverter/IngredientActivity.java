@@ -24,6 +24,8 @@ import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.dao.ShapeType;
 import recipeconverter.org.recipeconverter.dao.UnitType;
+import recipeconverter.org.recipeconverter.exception.EntryError;
+import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 import recipeconverter.org.recipeconverter.exception.IngredientAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
@@ -37,8 +39,21 @@ public class IngredientActivity extends ActionBarActivity {
     private RecipeEntry recipe = null;
 
     private RecipeEntry buildRecipe() {
-        RecipeEntry r = new RecipeEntry();
-        r.setId(getIntent().getExtras().getLong("id", -1));
+        RecipeEntry r;
+        long id_ = getIntent().getExtras().getLong("id", -1);
+        if (id_ == -1)
+            r = new RecipeEntry();
+        else {
+            try {
+                RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+                recipeDAO.open();
+                r = recipeDAO.getRecipe(id_);
+                recipeDAO.close();
+            } catch (EntryNotFound | EntryError | SQLException e) {
+                return null;
+            }
+        }
+        Toast.makeText(getApplicationContext(), "" + r.getId(), Toast.LENGTH_LONG).show();
         r.setName(getIntent().getExtras().getString("name", ""));
         r.setNum_people(getIntent().getIntExtra("num_people", -1));
         r.setShape(ShapeType.fromInteger(getIntent().getIntExtra("shape", ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
@@ -78,6 +93,7 @@ public class IngredientActivity extends ActionBarActivity {
             ingredientList = new ArrayList<>();
         else
             ingredientList = (ArrayList<IngredientEntry>) recipe.getIngredients();
+        Toast.makeText(getApplicationContext(), "NUM: " + recipe.getIngredients().size(), Toast.LENGTH_LONG).show();
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
         lst.setAdapter(adapter);
 
@@ -154,7 +170,7 @@ public class IngredientActivity extends ActionBarActivity {
                     recipe.setIngredients(ingredientList);
                     recipeDAO.addRecipe(recipe);
                 } else
-                    recipeDAO.addRecipe(recipe); //TODO: update recipe
+                    recipeDAO.updateRecipe(recipe);
                 recipeDAO.close();
                 Toast.makeText(getApplicationContext(),
                                getResources().getString(R.string.toast_recipe_added),

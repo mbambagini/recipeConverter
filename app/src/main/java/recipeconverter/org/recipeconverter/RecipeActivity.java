@@ -80,8 +80,10 @@ public class RecipeActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_recipe_activity_add)
-            startActivity(new Intent(RecipeActivity.this, NewRecipeActivity.class));
+        if (item.getItemId() == R.id.action_recipe_activity_add) {
+            Intent intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -101,8 +103,8 @@ public class RecipeActivity extends ActionBarActivity {
             return result;
         } catch (SQLException e) {
             Toast.makeText(getApplicationContext(),
-                           getResources().getString(R.string.toast_internal_error),
-                           Toast.LENGTH_LONG).show();
+                    getResources().getString(R.string.toast_internal_error),
+                    Toast.LENGTH_LONG).show();
         }
         return null;
     }

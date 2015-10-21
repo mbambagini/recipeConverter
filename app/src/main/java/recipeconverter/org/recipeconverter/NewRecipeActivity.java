@@ -21,10 +21,10 @@ import java.util.List;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.dao.ShapeType;
+import recipeconverter.org.recipeconverter.exception.EntryError;
+import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
-import recipeconverter.org.recipeconverter.exception.EntryNotFound;
-import recipeconverter.org.recipeconverter.exception.EntryError;
 
 public class NewRecipeActivity extends ActionBarActivity {
 
@@ -60,7 +60,10 @@ public class NewRecipeActivity extends ActionBarActivity {
     }
 
     private void loadRecipeToUpdate() {
-        recipe_to_update_id = getIntent().getExtras().getLong("id", -1);
+        Bundle b = getIntent().getExtras();
+        if (b == null)
+            return;
+        recipe_to_update_id = b.getLong("id", -1);
         if (recipe_to_update_id == -1)
             return;
         try {
@@ -74,7 +77,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         }
     }
 
-    private void setFieldsFromRecipe (RecipeEntry r) throws EntryError {
+    private void setFieldsFromRecipe(RecipeEntry r) throws EntryError {
         ((EditText) findViewById(R.id.txtRecipeName)).setText(r.getName());
         recipe_name = r.getName();
         if (r.isRecipeWRTPeople()) {
@@ -245,13 +248,13 @@ public class NewRecipeActivity extends ActionBarActivity {
                     recipe = readInputs();
                 } catch (WrongInputs | NullPointerException | NumberFormatException e) {
                     Toast.makeText(getApplicationContext(),
-                                   getResources().getString(R.string.toast_wrong_input),
-                                   Toast.LENGTH_SHORT).show();
+                            getResources().getString(R.string.toast_wrong_input),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 } catch (RecipeAlreadyPresent e) {
                     Toast.makeText(getApplicationContext(),
-                                   getResources().getString(R.string.toast_duplicated_recipe),
-                                   Toast.LENGTH_SHORT).show();
+                            getResources().getString(R.string.toast_duplicated_recipe),
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);

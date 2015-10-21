@@ -128,10 +128,27 @@ public class RecipeDAO {
         return id;
     }
 
-    /*
-        synchronized public void updateRecipe(RecipeEntry cl) {
+    synchronized public void updateRecipe(RecipeEntry r) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_RECIPES_NAME, r.getName());
+        values.put(DBHelper.COLUMN_RECIPES_PEOPLE_NUMBER, r.getNum_people());
+        values.put(DBHelper.COLUMN_RECIPES_SHAPE, ShapeType.toInteger(r.getShape()));
+        values.put(DBHelper.COLUMN_RECIPES_SIDE_1, r.getSide1());
+        values.put(DBHelper.COLUMN_RECIPES_SIDE_2, r.getSide2());
+        values.put(DBHelper.COLUMN_RECIPES_DIAMETER, r.getDiameter());
+        values.put(DBHelper.COLUMN_RECIPES_DIM_UNIT, r.getDimUnit());
+        db.update(DBHelper.TABLE_RECIPES, values, DBHelper.COLUMN_RECIPES_ID + " = " + String.valueOf(r.getId()), null);
+
+        String whereClause = DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + r.getId();
+        db.delete(DBHelper.TABLE_INGREDIENTS, whereClause, null);
+        for (IngredientEntry ingredient : r.getIngredients()) {
+            try {
+                addIngredient(ingredient, r.getId());
+            } catch (EntryError e) {
+                break;
+            }
         }
-    */
+    }
 
     synchronized public void deleteRecipe(long id) throws EntryNotFound, EntryError {
         String whereClause = DBHelper.COLUMN_RECIPES_ID + " = " + id;
