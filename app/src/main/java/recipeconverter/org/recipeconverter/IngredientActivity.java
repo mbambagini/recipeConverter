@@ -54,7 +54,6 @@ public class IngredientActivity extends ActionBarActivity {
                 return null;
             }
         }
-        Toast.makeText(getApplicationContext(), "" + r.getId(), Toast.LENGTH_LONG).show();
         r.setName(getIntent().getExtras().getString("name", ""));
         r.setNum_people(getIntent().getIntExtra("num_people", -1));
         r.setShape(ShapeType.fromInteger(getIntent().getIntExtra("shape", ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
@@ -94,7 +93,6 @@ public class IngredientActivity extends ActionBarActivity {
             ingredientList = new ArrayList<>();
         else
             ingredientList = (ArrayList<IngredientEntry>) recipe.getIngredients();
-        Toast.makeText(getApplicationContext(), "NUM: " + recipe.getIngredients().size(), Toast.LENGTH_LONG).show();
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
         lst.setAdapter(adapter);
 
@@ -126,6 +124,7 @@ public class IngredientActivity extends ActionBarActivity {
 
     private void cleanInptuts() {
         ((EditText) findViewById(R.id.txtIngredientName)).getText().clear();
+        ((EditText) findViewById(R.id.txtIngredientName)).requestFocus();
         ((EditText) findViewById(R.id.txtIngredientQuantity)).getText().clear();
     }
 

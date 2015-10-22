@@ -22,16 +22,19 @@
             android:name=".NewRecipeActivity"
             android:label="@string/title_activity_main"
             android:parentActivityName=".RecipeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".IngredientActivity"
             android:label="@string/title_activity_ingredient"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".ConversionActivity"
             android:label="@string/title_activity_conversion"
             android:parentActivityName=".RecipeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".RecipeActivity"
             android:label="@string/title_activity_recipe"

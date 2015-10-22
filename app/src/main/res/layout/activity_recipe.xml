@@ -20,7 +20,7 @@
         android:text="@string/headline_activity_recipe"
         android:textSize="70dp" />
 
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/lst_recipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

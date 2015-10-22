@@ -1,30 +1,19 @@
 package recipeconverter.org.recipeconverter.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.SQLException;
 import java.util.List;
 
-import recipeconverter.org.recipeconverter.ConversionActivity;
-import recipeconverter.org.recipeconverter.NewRecipeActivity;
 import recipeconverter.org.recipeconverter.R;
-import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
-import recipeconverter.org.recipeconverter.exception.EntryError;
-import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 
 public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
 
@@ -60,7 +49,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(recipes.get(position).getName());
-
+/*
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -100,7 +89,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
                 getContext().startActivity(intent);
             }
         });
-
+*/
         holder.name.setTypeface(typeFace);
 
         boolean en_people = recipes.get(position).getNum_people() > 0;
@@ -108,7 +97,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         holder.pan.setVisibility(en_people ? View.GONE : View.VISIBLE);
 
         holder.id.setText(Long.toString(recipes.get(position).getId()));
-
+/*
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +105,7 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
                 intent.putExtra("id", recipes.get(pos).getId());
                 getContext().startActivity(intent);
             }
-        });
+        });*/
 
         return view;
     }

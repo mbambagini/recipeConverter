@@ -3,7 +3,9 @@ package recipeconverter.org.recipeconverter;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -12,6 +14,11 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,7 +38,46 @@ public class RecipeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
-        ListView lst = (ListView) findViewById(R.id.lst_recipes);
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "open" item
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                        0xCE)));
+                // set item width
+                openItem.setWidth(90);
+                // set item title
+                openItem.setTitle("Open");
+                // set item title fontsize
+                openItem.setTitleSize(18);
+                // set item title font color
+                openItem.setTitleColor(Color.WHITE);
+                openItem.setIcon(android.R.drawable.ic_menu_delete);
+                // add to menu
+                menu.addMenuItem(openItem);
+
+
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(90);
+                // set a icon
+                deleteItem.setIcon(android.R.drawable.ic_menu_edit);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        SwipeMenuListView lst = (SwipeMenuListView) findViewById(R.id.lst_recipes);
+        lst.setMenuCreator(creator);
 /*        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -44,6 +90,22 @@ public class RecipeActivity extends ActionBarActivity {
             }
         });
 */
+        lst.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                Toast.makeText(getApplicationContext(), "CLICK ON " + position + "..." + index, Toast.LENGTH_LONG).show();
+                switch (index) {
+                    case 0:
+                        // open
+                        break;
+                    case 1:
+                        // delete
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return false;
+            }
+        });
 
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");

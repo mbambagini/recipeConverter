@@ -274,7 +274,7 @@ public class ConversionActivity extends ActionBarActivity {
 
         double factor = 1.0;
         if (recipe_orig.isRecipeWRTPeople()) {
-            factor = recipe_conv.getNum_people() / recipe_orig.getNum_people();
+            factor = (double) recipe_conv.getNum_people() / recipe_orig.getNum_people();
         }
         if (recipe_orig.isRecipeWRTPan()) {
             factor = recipe_conv.getSurfaceCM2() / recipe_orig.getSurfaceCM2();
