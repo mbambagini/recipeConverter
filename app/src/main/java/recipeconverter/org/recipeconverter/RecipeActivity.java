@@ -23,19 +23,17 @@ import recipeconverter.org.recipeconverter.adapter.RecipeAdapter;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 
-public class RecipeActivity extends ActionBarActivity implements GestureDetector.OnGestureListener {
+public class RecipeActivity extends ActionBarActivity {
 
     private String name = null;
     private ArrayList<RecipeEntry> recipes = null;
     private RecipeAdapter adapter = null;
 
-    private GestureDetectorCompat mDetector;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
-        mDetector = new GestureDetectorCompat(this, this);
+
         ListView lst = (ListView) findViewById(R.id.lst_recipes);
 /*        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -49,6 +47,7 @@ public class RecipeActivity extends ActionBarActivity implements GestureDetector
             }
         });
 */
+
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
         myTextView.setTypeface(typeFace);
@@ -126,44 +125,4 @@ public class RecipeActivity extends ActionBarActivity implements GestureDetector
             adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        this.mDetector.onTouchEvent(event);
-        // Be sure to call the superclass implementation
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e) {
-        Toast.makeText(getApplicationContext(), "DOWN", Toast.LENGTH_LONG).show();
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-        Toast.makeText(getApplicationContext(), "SHOWPRESS", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        Toast.makeText(getApplicationContext(), "TAP", Toast.LENGTH_LONG).show();
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        Toast.makeText(getApplicationContext(), "SCROLL", Toast.LENGTH_LONG).show();
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-        Toast.makeText(getApplicationContext(), "LONGPRESS", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        Toast.makeText(getApplicationContext(), "FLING", Toast.LENGTH_LONG).show();
-        return false;
-    }
 }
