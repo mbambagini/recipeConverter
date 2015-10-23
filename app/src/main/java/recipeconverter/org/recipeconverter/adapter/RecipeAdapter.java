@@ -43,8 +43,8 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
             viewHolder.id = (TextView) view.findViewById(R.id.txt_recipe_id);
             viewHolder.pan = (ImageView) view.findViewById(R.id.imgIconPan);
             viewHolder.people = (ImageView) view.findViewById(R.id.imgIconPeople);
-            viewHolder.btnEdit = (ImageButton) view.findViewById(R.id.btnEditRecipe);
-            viewHolder.btnDelete = (ImageButton) view.findViewById(R.id.btnDeleteRecipe);
+//            viewHolder.btnEdit = (ImageButton) view.findViewById(R.id.btnEditRecipe);
+//            viewHolder.btnDelete = (ImageButton) view.findViewById(R.id.btnDeleteRecipe);
             view.setTag(viewHolder);
         }
         ViewHolder holder = (ViewHolder) view.getTag();
@@ -115,8 +115,8 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         public ImageView pan;
         public ImageView people;
         public TextView id;
-        public ImageButton btnDelete;
-        public ImageButton btnEdit;
+        //public ImageButton btnDelete;
+        //public ImageButton btnEdit;
     }
 
 }
