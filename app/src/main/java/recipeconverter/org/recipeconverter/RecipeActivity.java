@@ -39,39 +39,33 @@ public class RecipeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_recipe);
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
-
             @Override
             public void create(SwipeMenu menu) {
-                // create "open" item
-                SwipeMenuItem openItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                        0xCE)));
-                // set item width
-                openItem.setWidth(90);
-                // set item title
-                openItem.setTitle("Open");
-                // set item title fontsize
-                openItem.setTitleSize(18);
-                // set item title font color
-                openItem.setTitleColor(Color.WHITE);
-                openItem.setIcon(android.R.drawable.ic_menu_delete);
-                // add to menu
+                // create "convert" item
+                SwipeMenuItem openItem = new SwipeMenuItem(getApplicationContext());
+                openItem.setBackground(new ColorDrawable(Color.rgb(0x00, 0xFF, 0x00)));
+                //openItem.setWidth(90);
+                //openItem.setTitle("Edit");
+                //openItem.setTitleSize(18);
+                //openItem.setTitleColor(Color.WHITE);
+                openItem.setIcon(android.R.drawable.ic_menu_preferences);
                 menu.addMenuItem(openItem);
 
+                // create "edit" item
+                SwipeMenuItem editItem = new SwipeMenuItem(getApplicationContext());
+                editItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0xFF, 0xFF)));
+                //editItem.setWidth(90);
+                //editItem.setTitle("Edit");
+                //editItem.setTitleSize(18);
+                //editItem.setTitleColor(Color.WHITE);
+                editItem.setIcon(android.R.drawable.ic_menu_edit);
+                menu.addMenuItem(editItem);
 
                 // create "delete" item
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
-                // set item width
-                deleteItem.setWidth(90);
-                // set a icon
-                deleteItem.setIcon(android.R.drawable.ic_menu_edit);
-                // add to menu
+                SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x00, 0x00)));
+                //deleteItem.setWidth(90);
+                deleteItem.setIcon(android.R.drawable.ic_menu_delete);
                 menu.addMenuItem(deleteItem);
             }
         };
@@ -93,10 +87,19 @@ public class RecipeActivity extends ActionBarActivity {
         lst.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                Toast.makeText(getApplicationContext(), "CLICK ON " + position + "..." + index, Toast.LENGTH_LONG).show();
+                Intent intent;
                 switch (index) {
                     case 0:
                         // open
+                        intent = new Intent(getContext(), ConversionActivity.class);
+                        intent.putExtra("id", recipes.get(index).getId());
+                        getContext().startActivity(intent);
+                        break;
+                    case 1:
+                        // edit
+                        intent = new Intent(arg0.getContext(), NewRecipeActivity.class);
+                        intent.putExtra("id", recipes.get(index).getId());
+                        getContext().startActivity(intent);
                         break;
                     case 1:
                         // delete
