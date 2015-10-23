@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.AlertDialog;
+
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import recipeconverter.org.recipeconverter.adapter.RecipeAdapter;
 import recipeconverter.org.recipeconverter.dao.RecipeDAO;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
+import recipeconverter.org.recipeconverter.exception.*;
 
 public class RecipeActivity extends ActionBarActivity {
 
@@ -103,6 +106,7 @@ public class RecipeActivity extends ActionBarActivity {
                         break;
                     case 2:
                         // delete
+                        deleteRecipe(index);
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -113,6 +117,35 @@ public class RecipeActivity extends ActionBarActivity {
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
         myTextView.setTypeface(typeFace);
+    }
+
+    private void deleteRecipe(int index) {
+        final int pos = index;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                try {
+                    RecipeDAO recipeDAO = new RecipeDAO(getContext());
+                    recipeDAO.open();
+                    recipeDAO.deleteRecipe(recipes.get(pos).getId());
+                    recipeDAO.close();
+                    recipes.remove(pos);
+                    notifyDataSetChanged();
+                } catch (EntryNotFound | EntryError | SQLException e) {
+                    Toast.makeText(getContext(),
+                                   "Error",
+                                   Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.setMessage("are you sure?").setTitle("are you sure?");
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
