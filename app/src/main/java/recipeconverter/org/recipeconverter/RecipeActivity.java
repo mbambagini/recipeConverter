@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.DialogInterface.OnClickListener;
 import android.app.AlertDialog;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -121,7 +122,7 @@ public class RecipeActivity extends ActionBarActivity {
 
     private void deleteRecipe(int index) {
         final int pos = index;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 try {
