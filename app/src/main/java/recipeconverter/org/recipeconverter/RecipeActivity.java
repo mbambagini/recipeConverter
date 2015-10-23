@@ -91,17 +91,17 @@ public class RecipeActivity extends ActionBarActivity {
                 switch (index) {
                     case 0:
                         // open
-                        intent = new Intent(getContext(), ConversionActivity.class);
+                        intent = new Intent(RecipeActivity.this, ConversionActivity.class);
                         intent.putExtra("id", recipes.get(index).getId());
-                        getContext().startActivity(intent);
+                        startActivity(intent);
                         break;
                     case 1:
                         // edit
-                        intent = new Intent(arg0.getContext(), NewRecipeActivity.class);
+                        intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
                         intent.putExtra("id", recipes.get(index).getId());
-                        getContext().startActivity(intent);
+                        startActivity(intent);
                         break;
-                    case 1:
+                    case 2:
                         // delete
                         break;
                 }
