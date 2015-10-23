@@ -129,14 +129,14 @@ public class RecipeActivity extends ActionBarActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 try {
-                    RecipeDAO recipeDAO = new RecipeDAO(getContext());
+                    RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
                     recipeDAO.open();
                     recipeDAO.deleteRecipe(recipes.get(pos).getId());
                     recipeDAO.close();
                     recipes.remove(pos);
-                    notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                 } catch (EntryNotFound | EntryError | SQLException e) {
-                    Toast.makeText(getContext(),
+                    Toast.makeText(getApplicationContext(),
                                    "Error",
                                    Toast.LENGTH_LONG).show();
                 }
