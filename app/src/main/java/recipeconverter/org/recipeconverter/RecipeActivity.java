@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.view.View;
+
+import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.app.AlertDialog;
 
