@@ -289,6 +289,8 @@ public class NewRecipeActivity extends ActionBarActivity {
             configuration_recipe = _NO_CHOISE;
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
+        //name field
+        //findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ? View.VISIBLE : View.GONE);
         //people/shape fields
         findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);

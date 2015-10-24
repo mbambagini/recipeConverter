@@ -5,10 +5,10 @@
     <string name="app_name">recipeConverter</string>
 
     <!-- Activity names -->
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_ingredient">IngredientActivity</string>
-    <string name="title_activity_conversion">ConversionActivity</string>
-    <string name="title_activity_recipe">RecipeActivity</string>
+    <string name="title_activity_main">Nuova ricetta</string>
+    <string name="title_activity_ingredient">Ingredient</string>
+    <string name="title_activity_conversion">Conversione</string>
+    <string name="title_activity_recipe">Ricette</string>
 
     <!-- Activity headlines -->
     <string name="headline_activity_main">Inserisci una ricetta</string>
