@@ -17,7 +17,9 @@
     <string name="headline_activity_recipe">Your recipes!</string>
 
     <!-- Other -->
-    <string name="font_handwritten">fonts/JennaSue.ttf</string>
+    <!-- http://www.drawperfect.com/ -->
+    <string name="font_handwritten">fonts/Postit-Penscript.otf</string>
+    <string name="double_formatting">0.00</string>
 
     <!-- Toast messages -->
     <string name="toast_internal_error">Something went wrong... sorry!</string>
@@ -26,11 +28,14 @@
     <string name="toast_wrong_input">Set all inputs correctly</string>
     <string name="toast_no_sharing">Nothing to share</string>
     <string name="toast_recipe_added">Recipe added successfully</string>
+    <string name="toast_recipe_edited">Recipe edited successfully</string>
     <string name="toast_empty_ingredients">Insert at least one ingredient</string>
 
     <!-- Size units -->
     <string name="str_cm">Centimeter</string>
     <string name="str_in">Inch</string>
+    <string name="str_cm_abbr">cm</string>
+    <string name="str_in_abbr">in</string>
 
     <!-- Pan shapres -->
     <string name="str_rect">Rectangle</string>
@@ -67,7 +72,17 @@
     <string name="txt_add_recipe">Add recipe</string>
     <string name="txt_times">x</string>
     <string name="txt_separator"> - </string>
+    <string name="txt_delete">Delete</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_recipe">Recipe</string>
+    <string name="txt_for">for</string>
+    <string name="txt_people">people</string>
+    <string name="txt_share_rectangle">for rectangular pan with size</string>
+    <string name="txt_share_square">for squared pan with size</string>
+    <string name="txt_share_circle">for circular pan with diameter</string>
 
-    <string name="action_settings">Settings</string>
-    
+    <!-- Alert dialog -->
+    <string name="dlg_delete_title">Delete recipe</string>
+    <string name="dlg_delete_msg">Do you want to delete the recipe?</string>
+
 </resources>

@@ -72,7 +72,8 @@ public class RecipeActivity extends ActionBarActivity {
                 TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
                 if (txt != null) {
                     Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
-                    intent.putExtra("id", Long.parseLong(txt.getText().toString()));
+                    intent.putExtra(getString(R.string.intent_id),
+                                    Long.parseLong(txt.getText().toString()));
                     startActivity(intent);
                 }
             }
@@ -85,7 +86,8 @@ public class RecipeActivity extends ActionBarActivity {
                     case 0:
                         //edit
                         intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
-                        intent.putExtra("id", recipes.get(position).getId());
+                        intent.putExtra(getString(R.string.intent_id),
+                                        recipes.get(position).getId());
                         startActivity(intent);
                         break;
                     case 1:
@@ -99,14 +101,15 @@ public class RecipeActivity extends ActionBarActivity {
         });
         lst.setMenuCreator(creator);
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
-        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
+        Typeface typeFace = Typeface.createFromAsset(getAssets(),
+                                                     getString(R.string.font_handwritten));
         myTextView.setTypeface(typeFace);
     }
 
     private void deleteRecipe(int index) {
         final int pos = index;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.txt_delete), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 try {
                     RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
@@ -117,17 +120,18 @@ public class RecipeActivity extends ActionBarActivity {
                     adapter.notifyDataSetChanged();
                 } catch (EntryNotFound | EntryError | SQLException e) {
                     Toast.makeText(getApplicationContext(),
-                                   "Error",
+                                   getString(R.string.toast_internal_error),
                                    Toast.LENGTH_LONG).show();
                 }
             }
         });
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.txt_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
         });
-        builder.setMessage("are you sure?").setTitle("are you sure?");
+        builder.setMessage(getString(R.string.dlg_delete_msg))
+               .setTitle(getString(R.string.dlg_delete_title));
         builder.create().show();
     }
 
@@ -194,7 +198,10 @@ public class RecipeActivity extends ActionBarActivity {
             recipes = new ArrayList<>();
         else
             recipes.clear();
-        recipes.addAll(updateRecipeList());
+        ArrayList<RecipeEntry> tmp = updateRecipeList();
+        if (tmp == null)
+            return;
+        recipes.addAll(tmp);
         if (adapter == null) {
             adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
             ListView lst = (ListView) findViewById(R.id.lst_recipes);

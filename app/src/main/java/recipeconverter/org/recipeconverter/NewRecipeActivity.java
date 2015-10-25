@@ -55,7 +55,8 @@ public class NewRecipeActivity extends ActionBarActivity {
         setVisibleItems();
         //set font
         TextView myTextView = (TextView) findViewById(R.id.txt_new_recipe_headline);
-        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
+        Typeface typeFace = Typeface.createFromAsset(getAssets(),
+                                                     getString(R.string.font_handwritten));
         myTextView.setTypeface(typeFace);
     }
 
@@ -63,7 +64,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         Bundle b = getIntent().getExtras();
         if (b == null)
             return;
-        recipe_to_update_id = b.getLong("id", -1);
+        recipe_to_update_id = b.getLong(getString(R.string.intent_id), -1);
         if (recipe_to_update_id == -1)
             return;
         try {
@@ -115,9 +116,9 @@ public class NewRecipeActivity extends ActionBarActivity {
         //filling pan shape menu
         Spinner spinner = (Spinner) findViewById(R.id.txtRecipePan);
         List<String> list = new ArrayList<>();
-        list.add("Rectangle");
-        list.add("Square");
-        list.add("Circle");
+        list.add(getString(R.string.str_rect));
+        list.add(getString(R.string.str_squa));
+        list.add(getString(R.string.str_circ));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -141,8 +142,8 @@ public class NewRecipeActivity extends ActionBarActivity {
     private void fillUnitSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spnRecipeUnit);
         List<String> list = new ArrayList<>();
-        list.add("Centimeter");
-        list.add("Inch");
+        list.add(getString(R.string.str_cm));
+        list.add(getString(R.string.str_in));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -167,7 +168,7 @@ public class NewRecipeActivity extends ActionBarActivity {
             throw new WrongInputs();
         //name
         String name = ((EditText) findViewById(R.id.txtRecipeName)).getText().toString();
-        if (name.compareTo("") == 0)
+        if (name.isEmpty())
             throw new WrongInputs();
         //check if the name is already used
         if (recipe_to_update_id == -1 || name.compareTo(recipe_name) != 0) {
@@ -259,22 +260,22 @@ public class NewRecipeActivity extends ActionBarActivity {
                     return;
                 }
                 Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
-                intent.putExtra("id", recipe_to_update_id);
-                intent.putExtra("name", recipe.getName());
-                intent.putExtra("num_people", recipe.getNum_people());
-                intent.putExtra("shape", ShapeType.toInteger(recipe.getShape()));
+                intent.putExtra(getString(R.string.intent_id), recipe_to_update_id);
+                intent.putExtra(getString(R.string.intent_name), recipe.getName());
+                intent.putExtra(getString(R.string.intent_people), recipe.getNum_people());
+                intent.putExtra(getString(R.string.intent_shape), ShapeType.toInteger(recipe.getShape()));
                 if (recipe.getShape() != ShapeType.SHAPE_NOT_VALID) {
-                    intent.putExtra("unit", recipe.getDimUnit());
+                    intent.putExtra(getString(R.string.intent_unit), recipe.getDimUnit());
                     switch (recipe.getShape()) {
                         case SHAPE_RECTANGLE:
-                            intent.putExtra("side1", recipe.getSide1());
-                            intent.putExtra("side2", recipe.getSide2());
+                            intent.putExtra(getString(R.string.intent_side1), recipe.getSide1());
+                            intent.putExtra(getString(R.string.intent_side2), recipe.getSide2());
                             break;
                         case SHAPE_SQUARE:
-                            intent.putExtra("side", recipe.getSide1());
+                            intent.putExtra(getString(R.string.intent_side), recipe.getSide1());
                             break;
                         case SHAPE_CIRCLE:
-                            intent.putExtra("diameter", recipe.getDiameter());
+                            intent.putExtra(getString(R.string.intent_diameter), recipe.getDiameter());
                             break;
                     }
                 }
@@ -290,7 +291,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
         //name field
-        //findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ? View.VISIBLE : View.GONE);
         //people/shape fields
         findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);

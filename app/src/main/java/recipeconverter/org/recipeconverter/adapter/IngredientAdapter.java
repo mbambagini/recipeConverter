@@ -31,7 +31,8 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         this.context = context;
         ingredients = values;
         if (typeFace == null)
-            typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/JennaSue.ttf");
+            typeFace = Typeface.createFromAsset(context.getAssets(),
+                                                context.getString(R.string.font_handwritten));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(ingredients.get(position).getName());
         holder.name.setTypeface(typeFace);
-        DecimalFormat format = new DecimalFormat("0.00");
+        DecimalFormat format = new DecimalFormat(getContext().getString(R.string.double_formatting));
         String formatDouble = format.format(ingredients.get(position).getQuantity());
         holder.quantity.setText(formatDouble);
         holder.unit.setText(UnitType.toString(ingredients.get(position).getUnit()));

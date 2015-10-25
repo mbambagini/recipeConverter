@@ -14,9 +14,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:keepScreenOn="true"
-        android:text="Recipe converter"
+        android:text="@string/app_name"
         android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:textSize="50sp" />
 
 </FrameLayout>

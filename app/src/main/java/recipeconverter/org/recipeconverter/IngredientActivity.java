@@ -40,7 +40,7 @@ public class IngredientActivity extends ActionBarActivity {
 
     private RecipeEntry buildRecipe() {
         RecipeEntry r;
-        long id_ = getIntent().getExtras().getLong("id", -1);
+        long id_ = getIntent().getExtras().getLong(getString(R.string.intent_id), -1);
         if (id_ == -1) {
             r = new RecipeEntry();
             r.setId(-1);
@@ -54,20 +54,21 @@ public class IngredientActivity extends ActionBarActivity {
                 return null;
             }
         }
-        r.setName(getIntent().getExtras().getString("name", ""));
-        r.setNum_people(getIntent().getIntExtra("num_people", -1));
-        r.setShape(ShapeType.fromInteger(getIntent().getIntExtra("shape", ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
-        r.setDimUnit(getIntent().getIntExtra("unit", 0));
+        r.setName(getIntent().getExtras().getString(getString(R.string.intent_name), ""));
+        r.setNum_people(getIntent().getIntExtra(getString(R.string.intent_people), -1));
+        r.setShape(ShapeType.fromInteger(getIntent().getIntExtra(getString(R.string.intent_shape),
+                                                  ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
+        r.setDimUnit(getIntent().getIntExtra(getString(R.string.intent_unit), 0));
         switch (r.getShape()) {
             case SHAPE_RECTANGLE:
-                r.setSide1(getIntent().getExtras().getDouble("side1", -1));
-                r.setSide2(getIntent().getExtras().getDouble("side2", -1));
+                r.setSide1(getIntent().getExtras().getDouble(getString(R.string.intent_side1), -1));
+                r.setSide2(getIntent().getExtras().getDouble(getString(R.string.intent_side2), -1));
                 break;
             case SHAPE_SQUARE:
-                r.setSide1(getIntent().getExtras().getDouble("side", -1));
+                r.setSide1(getIntent().getExtras().getDouble(getString(R.string.intent_side), -1));
                 break;
             case SHAPE_CIRCLE:
-                r.setDiameter(getIntent().getExtras().getDouble("diameter", -1));
+                r.setDiameter(getIntent().getExtras().getDouble(getString(R.string.intent_diameter), -1));
                 break;
         }
         return r;
@@ -84,7 +85,9 @@ public class IngredientActivity extends ActionBarActivity {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < UnitType.getNumber(); i++)
             list.add(UnitType.toString(UnitType.fromInteger(i)));
-        ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adp = new ArrayAdapter<>(this,
+                                                      android.R.layout.simple_spinner_item,
+                                                      list);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp);
 
@@ -93,11 +96,14 @@ public class IngredientActivity extends ActionBarActivity {
             ingredientList = new ArrayList<>();
         else
             ingredientList = (ArrayList<IngredientEntry>) recipe.getIngredients();
-        adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
+        adapter = new IngredientAdapter(this,
+                                        android.R.layout.simple_list_item_1,
+                                        ingredientList,
+                                        true);
         lst.setAdapter(adapter);
 
         TextView myTextView = (TextView) findViewById(R.id.txt_new_ingredients_headline);
-        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/JennaSue.ttf");
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), getString(R.string.font_handwritten));
         myTextView.setTypeface(typeFace);
     }
 
@@ -105,26 +111,28 @@ public class IngredientActivity extends ActionBarActivity {
         IngredientEntry ingredient = new IngredientEntry();
 
         String name = ((EditText) findViewById(R.id.txtIngredientName)).getText().toString();
-        if (name.compareTo("") == 0)
+        if (name.isEmpty())
             throw new WrongInputs();
         for (IngredientEntry entry : ingredientList)
             if (entry.getName().compareTo(name) == 0)
                 throw new IngredientAlreadyPresent();
         ingredient.setName(name);
 
-        double quantity = Double.parseDouble(((EditText) findViewById(R.id.txtIngredientQuantity)).getText().toString());
+        double quantity = Double.parseDouble(((EditText) findViewById(R.id.txtIngredientQuantity)).
+                                                                              getText().toString());
         if (quantity <= 0.0)
             throw new WrongInputs();
         ingredient.setQuantity(quantity);
 
-        ingredient.setUnit(UnitType.fromInteger(((Spinner) findViewById(R.id.spinnerIngredientUnit)).getSelectedItemPosition()));
+        ingredient.setUnit(UnitType.fromInteger(((Spinner)findViewById(R.id.spinnerIngredientUnit)).
+                                                                        getSelectedItemPosition()));
 
         return ingredient;
     }
 
     private void cleanInptuts() {
         ((EditText) findViewById(R.id.txtIngredientName)).getText().clear();
-        ((EditText) findViewById(R.id.txtIngredientName)).requestFocus();
+        findViewById(R.id.txtIngredientName).requestFocus();
         ((EditText) findViewById(R.id.txtIngredientQuantity)).getText().clear();
     }
 
@@ -169,12 +177,17 @@ public class IngredientActivity extends ActionBarActivity {
                 if (recipe.getId() == -1) {
                     recipe.setIngredients(ingredientList);
                     recipeDAO.addRecipe(recipe);
-                } else
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.toast_recipe_added),
+                            Toast.LENGTH_SHORT).show();
+                } else {
                     recipeDAO.updateRecipe(recipe);
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.toast_recipe_edited),
+                            Toast.LENGTH_SHORT).show();
+                }
                 recipeDAO.close();
-                Toast.makeText(getApplicationContext(),
-                               getResources().getString(R.string.toast_recipe_added),
-                               Toast.LENGTH_SHORT).show();
+
                 finish();
                 startActivity(new Intent(IngredientActivity.this, RecipeActivity.class));
             } catch (SQLException | RecipeNotCreated e) {

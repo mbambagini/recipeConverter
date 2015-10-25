@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
+    android:padding="5dp"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
@@ -21,7 +22,7 @@
         android:gravity="left"
         android:paddingRight="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="40dp" />
+        android:textSize="30dp" />
 
     <ImageView
         android:id="@+id/imgIconPan"

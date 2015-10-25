@@ -17,7 +17,8 @@
     <string name="headline_activity_recipe">Le tue ricette!</string>
 
     <!-- Other -->
-    <string name="font_handwritten">fonts/JennaSue.ttf</string>
+    <string name="font_handwritten">fonts/Postit-Penscript.otf</string>
+    <string name="double_formatting">0.00</string>
 
     <!-- Toast messages -->
     <string name="toast_internal_error">Qualcosa &#232; andato storto&#8230; scusa!</string>
@@ -26,11 +27,14 @@
     <string name="toast_wrong_input">Completa tutti i campi correttamente</string>
     <string name="toast_no_sharing">Nulla da condividere</string>
     <string name="toast_recipe_added">Ricetta salvata correttamente</string>
+    <string name="toast_recipe_edited">Ricetta modificata correttamente</string>
     <string name="toast_empty_ingredients">Inserisci almeno un ingrediente</string>
 
     <!-- Size units -->
     <string name="str_cm">Centimetri</string>
     <string name="str_in">Pollici</string>
+    <string name="str_cm_abbr">cm</string>
+    <string name="str_in_abbr">in</string>
 
     <!-- Pan shapres -->
     <string name="str_rect">Rettangolare</string>
@@ -67,7 +71,17 @@
     <string name="txt_add_recipe">Aggiungi ricetta</string>
     <string name="txt_times">x</string>
     <string name="txt_separator"> - </string>
+    <string name="txt_delete">Elimina</string>
+    <string name="txt_cancel">Annulla</string>
+    <string name="txt_recipe">Ricetta</string>
+    <string name="txt_for">per</string>
+    <string name="txt_people">persone</string>
+    <string name="txt_share_rectangle">per teglia rettangolare di dimensione</string>
+    <string name="txt_share_square">per teglia quadrata di dimensione</string>
+    <string name="txt_share_circle">per teglia circolare con diametro</string>
 
-    <string name="action_settings">Impostazioni</string>
+    <!-- Alert dialog -->
+    <string name="dlg_delete_title">Elimina ricetta</string>
+    <string name="dlg_delete_msg">Vuoi eliminare la ricetta?</string>
 
 </resources>
