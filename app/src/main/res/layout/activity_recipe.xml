@@ -22,7 +22,33 @@
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/lst_recipes"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutNoReciceStored"
+        android:visibility="gone"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtNoRecipeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/txt_no_recipe_stored"
+            android:textSize="30dp" />
+
+        <Button
+            android:id="@+id/btnNoRecipeAddOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="@string/txt_add_new_recipe"
+            android:padding="10dp" />
+    </LinearLayout>
 
 </LinearLayout>

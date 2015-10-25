@@ -48,9 +48,7 @@ public class RecipeActivity extends ActionBarActivity {
             public void create(SwipeMenu menu) {
                 // create "edit" item
                 SwipeMenuItem editItem = new SwipeMenuItem(getApplicationContext());
-                //editItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0xFF, 0xFF)));
                 editItem.setWidth(90);
-                //editItem.setTitle("Edit");
                 editItem.setTitleSize(18);
                 editItem.setTitleColor(Color.WHITE);
                 editItem.setIcon(android.R.drawable.ic_menu_edit);
@@ -58,7 +56,6 @@ public class RecipeActivity extends ActionBarActivity {
 
                 // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                //deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x00, 0x00)));
                 deleteItem.setWidth(90);
                 deleteItem.setIcon(android.R.drawable.ic_menu_delete);
                 menu.addMenuItem(deleteItem);
@@ -117,11 +114,11 @@ public class RecipeActivity extends ActionBarActivity {
                     recipeDAO.deleteRecipe(recipes.get(pos).getId());
                     recipeDAO.close();
                     recipes.remove(pos);
-                    adapter.notifyDataSetChanged();
+                    showRecipes();
                 } catch (EntryNotFound | EntryError | SQLException e) {
                     Toast.makeText(getApplicationContext(),
-                                   getString(R.string.toast_internal_error),
-                                   Toast.LENGTH_LONG).show();
+                            getString(R.string.toast_internal_error),
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -140,10 +137,12 @@ public class RecipeActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_recipe, menu);
 
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView search = (SearchView) menu.findItem(R.id.action_recipe_activity_search).getActionView();
+        SearchView search = (SearchView) menu.findItem(R.id.action_recipe_activity_search).
+                getActionView();
         search.setIconifiedByDefault(false);
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+        search.setOnQueryTextListener(new
+                                              android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String query) {
                 name = query;
@@ -199,15 +198,26 @@ public class RecipeActivity extends ActionBarActivity {
         else
             recipes.clear();
         ArrayList<RecipeEntry> tmp = updateRecipeList();
-        if (tmp == null)
-            return;
-        recipes.addAll(tmp);
-        if (adapter == null) {
-            adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
-            ListView lst = (ListView) findViewById(R.id.lst_recipes);
-            lst.setAdapter(adapter);
-        } else
-            adapter.notifyDataSetChanged();
+        if (tmp != null) {
+            recipes.addAll(tmp);
+            if (adapter == null) {
+                adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
+                ListView lst = (ListView) findViewById(R.id.lst_recipes);
+                lst.setAdapter(adapter);
+            } else
+                adapter.notifyDataSetChanged();
+        }
+        findViewById(R.id.lst_recipes).setVisibility(tmp != null && tmp.size() > 0 ?
+                View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutNoReciceStored).setVisibility(tmp == null || tmp.size() == 0 ?
+                View.VISIBLE : View.GONE);
+    }
+
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnNoRecipeAddOne) {
+            Intent intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
+            startActivity(intent);
+        }
     }
 
 }

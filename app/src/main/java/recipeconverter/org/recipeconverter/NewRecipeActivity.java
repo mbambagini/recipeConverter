@@ -119,7 +119,9 @@ public class NewRecipeActivity extends ActionBarActivity {
         list.add(getString(R.string.str_rect));
         list.add(getString(R.string.str_squa));
         list.add(getString(R.string.str_circ));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                                                          android.R.layout.simple_spinner_item,
+                                                          list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(configuration_shape);
@@ -144,7 +146,9 @@ public class NewRecipeActivity extends ActionBarActivity {
         List<String> list = new ArrayList<>();
         list.add(getString(R.string.str_cm));
         list.add(getString(R.string.str_in));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                                                          android.R.layout.simple_spinner_item,
+                                                          list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         //added callback which updates the shown pan inputs
@@ -198,19 +202,19 @@ public class NewRecipeActivity extends ActionBarActivity {
             recipe.setDimUnit(configuration_unit);
             switch (configuration_shape) {
                 case _SHAPE_RECTANGLE:
-                    double side1 = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeSide1)).getText().toString());
-                    double side2 = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeSide2)).getText().toString());
+                    double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide1)).getText().toString());
+                    double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide2)).getText().toString());
                     if (side1 <= 0.0 || side2 <= 0.0) throw new WrongInputs();
                     recipe.setSide1(side1);
                     recipe.setSide2(side2);
                     break;
                 case _SHAPE_SQUARE:
-                    double side = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeSide)).getText().toString());
+                    double side = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide)).getText().toString());
                     if (side <= 0.0) throw new WrongInputs();
                     recipe.setSide1(side);
                     break;
                 case _SHAPE_CIRCLE:
-                    double diameter = Double.parseDouble(((EditText) findViewById(R.id.txtRecipeDiameter)).getText().toString());
+                    double diameter = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeDiameter)).getText().toString());
                     if (diameter <= 0.0) throw new WrongInputs();
                     recipe.setDiameter(diameter);
                     break;
@@ -291,17 +295,27 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
         //name field
-        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ?
+                                                             View.VISIBLE : View.GONE);
         //people/shape fields
-        findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE)?
+                                                             View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ?
+                                                   View.VISIBLE : View.GONE);
         //shape type fields
         boolean enabled = (configuration_recipe == _ONLY_PAN);
         findViewById(R.id.layoutShapeDimUnit).setVisibility((enabled) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == _SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeRect).setVisibility((enabled &&
+                                                         configuration_shape == _SHAPE_RECTANGLE) ?
+                                                         View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeSquare).setVisibility((enabled &&
+                                                           configuration_shape == _SHAPE_SQUARE) ?
+                                                           View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeCircle).setVisibility((enabled &&
+                                                           configuration_shape == _SHAPE_CIRCLE) ?
+                                                           View.VISIBLE : View.GONE);
         //button
-        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOISE) ? View.GONE : View.VISIBLE);
+        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOISE) ?
+                                                      View.GONE : View.VISIBLE);
     }
 }
