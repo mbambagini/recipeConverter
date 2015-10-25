@@ -27,6 +27,7 @@
     <ImageView
         android:id="@+id/imgIconPan"
         android:visibility="gone"
+        android:background="#00FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_pan" />
@@ -34,6 +35,7 @@
     <ImageView
         android:id="@+id/imgIconPeople"
         android:visibility="gone"
+        android:background="#00FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_people" />

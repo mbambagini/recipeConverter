@@ -43,7 +43,7 @@
         android:id="@+id/btnDeleteIngredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FFFFFFFF"
+        android:background="#00FFFFFF"
         android:src="@android:drawable/ic_menu_delete" />
 
     <TextView
