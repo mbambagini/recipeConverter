@@ -16,6 +16,10 @@
     <string name="headline_activity_conversion">Converti ingredienti</string>
     <string name="headline_activity_recipe">Le tue ricette!</string>
 
+    <!-- Splashscreen info -->
+    <string name="splashscreen_title">Recipe converter</string>
+    <string name="splashscreen_version">1.0</string>
+
     <!-- Other -->
     <string name="font_handwritten">fonts/Postit-Penscript.otf</string>
     <string name="double_formatting">0.00</string>

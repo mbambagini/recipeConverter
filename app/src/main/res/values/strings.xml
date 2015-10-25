@@ -16,6 +16,10 @@
     <string name="headline_activity_conversion">Convert ingredients</string>
     <string name="headline_activity_recipe">Your recipes!</string>
 
+    <!-- Splashscreen info -->
+    <string name="splashscreen_title">Recipe converter</string>
+    <string name="splashscreen_version">1.0</string>
+
     <!-- Other -->
     <!-- http://www.drawperfect.com/ -->
     <string name="font_handwritten">fonts/Postit-Penscript.otf</string>
