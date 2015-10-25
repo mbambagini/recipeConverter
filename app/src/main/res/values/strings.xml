@@ -82,6 +82,7 @@
     <string name="txt_share_circle">for circular pan with diameter</string>
     <string name="txt_add_new_recipe">Add new recipe</string>
     <string name="txt_no_recipe_stored">No recipe stored</string>
+    <string name="txt_swipe_right">Swipe to edit/delete a recipe</string>
 
     <!-- Alert dialog -->
     <string name="dlg_delete_title">Delete recipe</string>

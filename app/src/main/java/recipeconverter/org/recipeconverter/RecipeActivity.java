@@ -101,6 +101,7 @@ public class RecipeActivity extends ActionBarActivity {
         Typeface typeFace = Typeface.createFromAsset(getAssets(),
                                                      getString(R.string.font_handwritten));
         myTextView.setTypeface(typeFace);
+
     }
 
     private void deleteRecipe(int index) {
@@ -210,6 +211,8 @@ public class RecipeActivity extends ActionBarActivity {
         findViewById(R.id.lst_recipes).setVisibility(tmp != null && tmp.size() > 0 ?
                 View.VISIBLE : View.GONE);
         findViewById(R.id.layoutNoReciceStored).setVisibility(tmp == null || tmp.size() == 0 ?
+                View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutSwipeAdvise).setVisibility(tmp != null && tmp.size() < 4 ?
                 View.VISIBLE : View.GONE);
     }
 

@@ -22,9 +22,8 @@
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/lst_recipes"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/layoutNoReciceStored"
@@ -33,7 +32,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <TextView
             android:id="@+id/txtNoRecipeText"
             android:layout_width="match_parent"
@@ -41,7 +39,6 @@
             android:gravity="center_horizontal"
             android:text="@string/txt_no_recipe_stored"
             android:textSize="30dp" />
-
         <Button
             android:id="@+id/btnNoRecipeAddOne"
             android:layout_width="match_parent"
@@ -51,4 +48,27 @@
             android:padding="10dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layoutSwipeAdvise"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/swipe_left"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/txt_swipe_right"
+            android:textSize="20dp" />
+    </LinearLayout>
+
 </LinearLayout>
+

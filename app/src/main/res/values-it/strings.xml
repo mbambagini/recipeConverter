@@ -81,6 +81,7 @@
     <string name="txt_share_circle">per teglia circolare con diametro</string>
     <string name="txt_add_new_recipe">Aggiungi una ricetta</string>
     <string name="txt_no_recipe_stored">Nessuna ricetta salvata</string>
+    <string name="txt_swipe_right">Trascina per odificare/eliminare una ricetta</string>
 
     <!-- Alert dialog -->
     <string name="dlg_delete_title">Elimina ricetta</string>
