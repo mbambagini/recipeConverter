@@ -18,7 +18,7 @@
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
         android:text="@string/headline_activity_recipe"
-        android:textSize="50dp" />
+        android:textSize="50sp" />
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/lst_recipes"

@@ -25,18 +25,20 @@
         <ImageButton
             android:id="@+id/btnPeople"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:layout_height="100dp"
             android:layout_width="100dp"
             android:background="#00FFFFFF"
-            android:src="@drawable/icon_people2" />
+            android:src="@drawable/people" />
 
         <ImageButton
             android:id="@+id/btnPan"
             android:onClick="onClick"
+            android:layout_weight="1"
             android:layout_height="100dp"
             android:background="#00FFFFFF"
             android:layout_width="100dp"
-            android:src="@drawable/icon_pan2" />
+            android:src="@drawable/pan" />
     </LinearLayout>
 
     <LinearLayout
