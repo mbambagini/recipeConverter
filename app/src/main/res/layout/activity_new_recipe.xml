@@ -62,7 +62,7 @@
             android:id="@+id/txtRecipeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Type the recipe name here!"
+            android:hint="@string/hint_recipe_name"
             android:layout_weight="1"
             android:maxLength="40"
             android:maxLines="1"
