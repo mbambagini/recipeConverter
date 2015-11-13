@@ -85,13 +85,11 @@ public class ConversionActivity extends ActionBarActivity {
     }
 
     private void showFields() {
-        EditText txt;
-
         if (recipe_orig.isRecipeWRTPeople()) {
             //set the field as visible
             findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.VISIBLE);
             //set field initial value
-            txt = (EditText)findViewById(R.id.txtConvertedRecipePeople);
+            EditText txt = (EditText)findViewById(R.id.txtConvertedRecipePeople);
             txt.setText(String.valueOf(recipe_orig.getNum_people()), TextView.BufferType.EDITABLE);
         } else {
             //set the field as not visible
@@ -105,23 +103,37 @@ public class ConversionActivity extends ActionBarActivity {
             //set the fields as visible and their initial values
             findViewById(R.id.layoutConversionPan).setVisibility(View.VISIBLE);
             findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.VISIBLE);
+            EditText txt_diameter = (EditText)findViewById(R.id.txtConvertedRecipeDiameter);
+            EditText txt_side1 = (EditText)findViewById(R.id.txtConvertedRecipeSide1);
+            EditText txt_side2 = (EditText)findViewById(R.id.txtConvertedRecipeSide2);
+            EditText txt_side = (EditText)findViewById(R.id.txtConvertedRecipeSide);
+            double side_ = 0.0;
             switch (recipe_orig.getShape()) {
                 case SHAPE_CIRCLE:
                     findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
-                    txt = (EditText)findViewById(R.id.txtConvertedRecipeDiameter);
-                    txt.setText(String.valueOf(recipe_orig.getDiameter()), TextView.BufferType.EDITABLE);
+                    txt_diameter.setText(String.valueOf(recipe_orig.getDiameter()), TextView.BufferType.EDITABLE);
+                    side_ = Math.sqrt(recipe_orig.getSurfaceCM2());
+                    txt_side1.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_side2.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_side.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
                     break;
                 case SHAPE_RECTANGLE:
                     findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.VISIBLE);
-                    txt = (EditText)findViewById(R.id.txtConvertedRecipeSide1);
-                    txt.setText(String.valueOf(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
-                    txt = (EditText)findViewById(R.id.txtConvertedRecipeSide2);
-                    txt.setText(String.valueOf(recipe_orig.getSide2()), TextView.BufferType.EDITABLE);
+                    txt_side1.setText(String.valueOf(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
+                    txt_side2.setText(String.valueOf(recipe_orig.getSide2()), TextView.BufferType.EDITABLE);
+                    side_ = Math.sqrt(recipe_orig.getSurfaceCM2());
+                    txt_side.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    side_ = Math.sqrt(recipe_orig.getSurfaceCM2()/RecipeEntry.pi_);
+                    txt_diameter.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
                     break;
                 case SHAPE_SQUARE:
                     findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.VISIBLE);
-                    txt = (EditText)findViewById(R.id.txtConvertedRecipeSide);
-                    txt.setText(String.valueOf(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
+                    txt_side.setText(String.valueOf(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
+                    side_ = Math.sqrt(recipe_orig.getSurfaceCM2());
+                    txt_side1.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_side2.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    side_ = Math.sqrt(recipe_orig.getSurfaceCM2()/RecipeEntry.pi_);
+                    txt_diameter.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
                     break;
             }
         } else {
