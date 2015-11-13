@@ -88,7 +88,7 @@
     <string name="txt_swipe_right">Trascina per modificare/eliminare una ricetta</string>
 
     <!-- Hints -->
-    <string name="hint_ingredient_name">Nome dell'ingrediente qui!</string>
+    <string name="hint_ingredient_name">Nome dell\'ingrediente qui!</string>
     <string name="hint_recipe_name">Nome della ricetta qui!</string>
 
     <!-- Alert dialog -->
