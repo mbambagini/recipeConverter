@@ -41,7 +41,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:layout_weight="1"
-            android:hint="Type the ingredient name here!" />
+            android:hint="@string/hint_ingredient_name" />
     </LinearLayout>
 
     <LinearLayout
