@@ -87,6 +87,10 @@
     <string name="txt_no_recipe_stored">Nessuna ricetta salvata</string>
     <string name="txt_swipe_right">Trascina per modificare/eliminare una ricetta</string>
 
+    <!-- Hints -->
+    <string name="hint_ingredient_name">Nome dell'ingrediente qui!</string>
+    <string name="hint_recipe_name">Nome della ricetta qui!</string>
+
     <!-- Alert dialog -->
     <string name="dlg_delete_title">Elimina ricetta</string>
     <string name="dlg_delete_msg">Vuoi eliminare la ricetta?</string>
