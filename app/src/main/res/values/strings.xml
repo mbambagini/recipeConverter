@@ -88,6 +88,10 @@
     <string name="txt_no_recipe_stored">No recipe stored</string>
     <string name="txt_swipe_right">Swipe to edit/delete a recipe</string>
 
+    <!-- Hints -->
+    <string name="hint_ingredient_name">Type the ingredient name here!</string>
+    <string name="hint_recipe_name">Type the recipe name here!</string>
+
     <!-- Alert dialog -->
     <string name="dlg_delete_title">Delete recipe</string>
     <string name="dlg_delete_msg">Do you want to delete the recipe?</string>
