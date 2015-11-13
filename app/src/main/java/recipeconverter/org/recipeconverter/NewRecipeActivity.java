@@ -151,6 +151,8 @@ public class NewRecipeActivity extends ActionBarActivity {
                                                           list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(configuration_unit);
+
         //added callback which updates the shown pan inputs
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
