@@ -107,33 +107,34 @@ public class ConversionActivity extends ActionBarActivity {
             EditText txt_side1 = (EditText)findViewById(R.id.txtConvertedRecipeSide1);
             EditText txt_side2 = (EditText)findViewById(R.id.txtConvertedRecipeSide2);
             EditText txt_side = (EditText)findViewById(R.id.txtConvertedRecipeSide);
+            DecimalFormat format = new DecimalFormat(getString(R.string.double_formatting));
             double side_ = 0.0;
             switch (recipe_orig.getShape()) {
                 case SHAPE_CIRCLE:
                     findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
-                    txt_diameter.setText(String.valueOf(recipe_orig.getDiameter()), TextView.BufferType.EDITABLE);
+                    txt_diameter.setText(format.format(recipe_orig.getDiameter()), TextView.BufferType.EDITABLE);
                     side_ = Math.sqrt(recipe_orig.getSurfaceCM2());
-                    txt_side1.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
-                    txt_side2.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
-                    txt_side.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_side1.setText(format.format(side_), TextView.BufferType.EDITABLE);
+                    txt_side2.setText(format.format(side_), TextView.BufferType.EDITABLE);
+                    txt_side.setText(format.format(side_), TextView.BufferType.EDITABLE);
                     break;
                 case SHAPE_RECTANGLE:
                     findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.VISIBLE);
-                    txt_side1.setText(String.valueOf(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
-                    txt_side2.setText(String.valueOf(recipe_orig.getSide2()), TextView.BufferType.EDITABLE);
+                    txt_side1.setText(format.format(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
+                    txt_side2.setText(format.format(recipe_orig.getSide2()), TextView.BufferType.EDITABLE);
                     side_ = Math.sqrt(recipe_orig.getSurfaceCM2());
-                    txt_side.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_side.setText(format.format(side_), TextView.BufferType.EDITABLE);
                     side_ = Math.sqrt(recipe_orig.getSurfaceCM2()/RecipeEntry.pi_);
-                    txt_diameter.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_diameter.setText(format.format(side_), TextView.BufferType.EDITABLE);
                     break;
                 case SHAPE_SQUARE:
                     findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.VISIBLE);
-                    txt_side.setText(String.valueOf(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
+                    txt_side.setText(format.format(recipe_orig.getSide1()), TextView.BufferType.EDITABLE);
                     side_ = Math.sqrt(recipe_orig.getSurfaceCM2());
-                    txt_side1.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
-                    txt_side2.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_side1.setText(format.format(side_), TextView.BufferType.EDITABLE);
+                    txt_side2.setText(format.format(side_), TextView.BufferType.EDITABLE);
                     side_ = Math.sqrt(recipe_orig.getSurfaceCM2()/RecipeEntry.pi_);
-                    txt_diameter.setText(String.valueOf(side_), TextView.BufferType.EDITABLE);
+                    txt_diameter.setText(format.format(side_), TextView.BufferType.EDITABLE);
                     break;
             }
         } else {
