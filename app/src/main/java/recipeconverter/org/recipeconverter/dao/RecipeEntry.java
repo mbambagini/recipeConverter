@@ -5,9 +5,9 @@ import java.util.List;
 
 public class RecipeEntry {
 
-    static final double inch_to_cm_ = 2.54;
+    public static final double inch_to_cm_ = 2.54;
 
-    static final double pi_ = 3.14;
+    public static final double pi_ = 3.14;
 
     private long id;
     private String name;
