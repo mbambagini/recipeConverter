@@ -242,7 +242,8 @@ public class ConversionActivity extends ActionBarActivity {
         //body
         for (IngredientEntry ingredient : recipe_conv.getIngredients())
             buffer += format.format(ingredient.getQuantity()) + " " +
-                      UnitType.toString(ingredient.getUnit()) + getString(R.string.txt_separator) +
+                      UnitType.toString(ingredient.getUnit()) + " " +
+                      getString(R.string.txt_separator) + " " +
                       ingredient.getName() + "\n";
         return buffer;
     }
