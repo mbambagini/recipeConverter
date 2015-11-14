@@ -31,8 +31,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         this.context = context;
         ingredients = values;
         if (typeFace == null)
-            typeFace = Typeface.createFromAsset(context.getAssets(),
-                                                context.getString(R.string.font_handwritten));
+            typeFace = Typeface.createFromAsset(context.getAssets(), context.getString(R.string.font_handwritten));
     }
 
     @Override

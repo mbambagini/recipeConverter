@@ -78,8 +78,7 @@ public class RecipeActivity extends ActionBarActivity {
                 TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
                 if (txt != null) {
                     Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
-                    intent.putExtra(getString(R.string.intent_id),
-                                    Long.parseLong(txt.getText().toString()));
+                    intent.putExtra(getString(R.string.intent_id), Long.parseLong(txt.getText().toString()));
                     startActivity(intent);
                 }
             }
@@ -92,8 +91,7 @@ public class RecipeActivity extends ActionBarActivity {
                     case 0:
                         //edit
                         intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
-                        intent.putExtra(getString(R.string.intent_id),
-                                        recipes.get(position).getId());
+                        intent.putExtra(getString(R.string.intent_id), recipes.get(position).getId());
                         startActivity(intent);
                         break;
                     case 1:
@@ -107,8 +105,7 @@ public class RecipeActivity extends ActionBarActivity {
         });
         lst.setMenuCreator(creator);
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
-        Typeface typeFace = Typeface.createFromAsset(getAssets(),
-                                                     getString(R.string.font_handwritten));
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), getString(R.string.font_handwritten));
         myTextView.setTypeface(typeFace);
 
     }
@@ -131,9 +128,7 @@ public class RecipeActivity extends ActionBarActivity {
                     recipes.remove(pos);
                     showRecipes();
                 } catch (EntryNotFound | EntryError | SQLException e) {
-                    Toast.makeText(getApplicationContext(),
-                            getString(R.string.toast_internal_error),
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_internal_error), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -142,8 +137,7 @@ public class RecipeActivity extends ActionBarActivity {
                 dialog.cancel();
             }
         });
-        builder.setMessage(getString(R.string.dlg_delete_msg))
-               .setTitle(getString(R.string.dlg_delete_title));
+        builder.setMessage(getString(R.string.dlg_delete_msg)).setTitle(getString(R.string.dlg_delete_title));
         builder.create().show();
     }
 
@@ -198,9 +192,7 @@ public class RecipeActivity extends ActionBarActivity {
             recipeDAO.close();
             return result;
         } catch (SQLException e) {
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.toast_internal_error),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_internal_error), Toast.LENGTH_LONG).show();
         }
         return null;
     }

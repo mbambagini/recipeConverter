@@ -46,11 +46,7 @@ public class ConversionActivity extends ActionBarActivity {
 
         long id = getIntent().getExtras().getLong(getString(R.string.intent_id), -1);
         if (id == -1 || !loadRecipe(id)) {
-            Toast.makeText(getApplicationContext(),
-                           getResources().getString(R.string.toast_internal_error),
-                           Toast.LENGTH_LONG).show();
-//          Intent intent = new Intent(ConversionActivity.this, RecipeActivity.class);
-//          startActivity(intent);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_internal_error), Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -149,9 +145,7 @@ public class ConversionActivity extends ActionBarActivity {
         List<String> list = new ArrayList<>();
         list.add(getString(R.string.str_cm));
         list.add(getString(R.string.str_in));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                                                          android.R.layout.simple_spinner_item,
-                                                          list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(recipe_orig.getDimUnit());
@@ -185,12 +179,9 @@ public class ConversionActivity extends ActionBarActivity {
     }
 
     private void updatePanShapeFields(int selection) {
-        findViewById(R.id.layoutConvertedShapeRect).setVisibility((selection == 0) ?
-                                                                    View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutConvertedShapeSquare).setVisibility((selection == 1) ?
-                                                                    View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutConvertedShapeCircle).setVisibility((selection == 2) ?
-                                                                    View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutConvertedShapeRect).setVisibility((selection == 0) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutConvertedShapeSquare).setVisibility((selection == 1) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutConvertedShapeCircle).setVisibility((selection == 2) ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -210,9 +201,7 @@ public class ConversionActivity extends ActionBarActivity {
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, "share"));
             } else {
-                Toast.makeText(this,
-                               getResources().getString(R.string.toast_no_sharing),
-                               Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.toast_no_sharing), Toast.LENGTH_LONG).show();
             }
         }
 
@@ -249,8 +238,7 @@ public class ConversionActivity extends ActionBarActivity {
                           format.format(recipe_conv.getSide1()) + " ";
                 break;
             }
-            buffer += ((recipe_conv.getDimUnit() == 0) ? getString(R.string.str_cm_abbr) :
-                                                         getString(R.string.str_in_abbr)) + "\n";
+            buffer += ((recipe_conv.getDimUnit() == 0) ? getString(R.string.str_cm_abbr) : getString(R.string.str_in_abbr)) + "\n";
         }
         //body
         for (IngredientEntry ingredient : recipe_conv.getIngredients())

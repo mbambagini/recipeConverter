@@ -85,9 +85,7 @@ public class IngredientActivity extends ActionBarActivity {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < UnitType.getNumber(); i++)
             list.add(UnitType.toString(UnitType.fromInteger(i)));
-        ArrayAdapter<String> adp = new ArrayAdapter<>(this,
-                                                      android.R.layout.simple_spinner_item,
-                                                      list);
+        ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp);
 
@@ -96,10 +94,7 @@ public class IngredientActivity extends ActionBarActivity {
             ingredientList = new ArrayList<>();
         else
             ingredientList = (ArrayList<IngredientEntry>) recipe.getIngredients();
-        adapter = new IngredientAdapter(this,
-                                        android.R.layout.simple_list_item_1,
-                                        ingredientList,
-                                        true);
+        adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
         lst.setAdapter(adapter);
 
         TextView myTextView = (TextView) findViewById(R.id.txt_new_ingredients_headline);
@@ -118,14 +113,12 @@ public class IngredientActivity extends ActionBarActivity {
                 throw new IngredientAlreadyPresent();
         ingredient.setName(name);
 
-        double quantity = Double.parseDouble(((EditText) findViewById(R.id.txtIngredientQuantity)).
-                                                                              getText().toString());
+        double quantity = Double.parseDouble(((EditText) findViewById(R.id.txtIngredientQuantity)).getText().toString());
         if (quantity <= 0.0)
             throw new WrongInputs();
         ingredient.setQuantity(quantity);
 
-        ingredient.setUnit(UnitType.fromInteger(((Spinner)findViewById(R.id.spinnerIngredientUnit)).
-                                                                        getSelectedItemPosition()));
+        ingredient.setUnit(UnitType.fromInteger(((Spinner) findViewById(R.id.spinnerIngredientUnit)).getSelectedItemPosition()));
 
         return ingredient;
     }
@@ -144,13 +137,9 @@ public class IngredientActivity extends ActionBarActivity {
                 adapter.notifyDataSetChanged();
                 cleanInptuts();
             } catch (WrongInputs | NullPointerException | NumberFormatException e) {
-                Toast.makeText(getApplicationContext(),
-                               getResources().getString(R.string.toast_wrong_input),
-                               Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
             } catch (IngredientAlreadyPresent e) {
-                Toast.makeText(getApplicationContext(),
-                               getResources().getString(R.string.toast_duplicated_ingredient),
-                               Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_duplicated_ingredient), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -166,9 +155,7 @@ public class IngredientActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_ingredient_save) {
             if (ingredientList != null && ingredientList.size() == 0) {
-                Toast.makeText(getApplicationContext(),
-                               getResources().getString(R.string.toast_empty_ingredients),
-                               Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_empty_ingredients), Toast.LENGTH_SHORT).show();
                 return true;
             }
             try {
@@ -177,27 +164,19 @@ public class IngredientActivity extends ActionBarActivity {
                 if (recipe.getId() == -1) {
                     recipe.setIngredients(ingredientList);
                     recipeDAO.addRecipe(recipe);
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.toast_recipe_added),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_recipe_added), Toast.LENGTH_SHORT).show();
                 } else {
                     recipeDAO.updateRecipe(recipe);
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.toast_recipe_edited),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_recipe_edited), Toast.LENGTH_SHORT).show();
                 }
                 recipeDAO.close();
 
                 finish();
                 startActivity(new Intent(IngredientActivity.this, RecipeActivity.class));
             } catch (SQLException | RecipeNotCreated e) {
-                Toast.makeText(getApplicationContext(),
-                               getResources().getString(R.string.toast_internal_error),
-                               Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_internal_error), Toast.LENGTH_SHORT).show();
             } catch (RecipeAlreadyPresent e) {
-                Toast.makeText(getApplicationContext(),
-                               getResources().getString(R.string.toast_duplicated_recipe),
-                               Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_duplicated_recipe), Toast.LENGTH_SHORT).show();
             }
             return true;
         }

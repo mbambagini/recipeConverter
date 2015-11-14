@@ -56,8 +56,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         setVisibleItems();
         //set font
         TextView myTextView = (TextView) findViewById(R.id.txt_new_recipe_headline);
-        Typeface typeFace = Typeface.createFromAsset(getAssets(),
-                                                     getString(R.string.font_handwritten));
+        Typeface typeFace = Typeface.createFromAsset(getAssets(), getString(R.string.font_handwritten));
         myTextView.setTypeface(typeFace);
     }
 
@@ -137,9 +136,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         list.add(getString(R.string.str_rect));
         list.add(getString(R.string.str_squa));
         list.add(getString(R.string.str_circ));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                                                          android.R.layout.simple_spinner_item,
-                                                          list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(configuration_shape);
@@ -164,9 +161,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         List<String> list = new ArrayList<>();
         list.add(getString(R.string.str_cm));
         list.add(getString(R.string.str_in));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                                                          android.R.layout.simple_spinner_item,
-                                                          list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(configuration_unit);
@@ -273,14 +268,10 @@ public class NewRecipeActivity extends ActionBarActivity {
                 try {
                     recipe = readInputs();
                 } catch (WrongInputs | NullPointerException | NumberFormatException e) {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.toast_wrong_input),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
                     return;
                 } catch (RecipeAlreadyPresent e) {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.toast_duplicated_recipe),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_duplicated_recipe), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(NewRecipeActivity.this, IngredientActivity.class);
@@ -315,27 +306,17 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
         //name field
-        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ?
-                                                             View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ? View.VISIBLE : View.GONE);
         //people/shape fields
-        findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE)?
-                                                             View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ?
-                                                   View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);
         //shape type fields
         boolean enabled = (configuration_recipe == _ONLY_PAN);
         findViewById(R.id.layoutShapeDimUnit).setVisibility((enabled) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeRect).setVisibility((enabled &&
-                                                         configuration_shape == _SHAPE_RECTANGLE) ?
-                                                         View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeSquare).setVisibility((enabled &&
-                                                           configuration_shape == _SHAPE_SQUARE) ?
-                                                           View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeCircle).setVisibility((enabled &&
-                                                           configuration_shape == _SHAPE_CIRCLE) ?
-                                                           View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == _SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
         //button
-        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOISE) ?
-                                                      View.GONE : View.VISIBLE);
+        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOISE) ? View.GONE : View.VISIBLE);
     }
 }
