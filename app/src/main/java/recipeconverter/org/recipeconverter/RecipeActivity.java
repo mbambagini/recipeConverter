@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -38,10 +39,18 @@ public class RecipeActivity extends ActionBarActivity {
     private ArrayList<RecipeEntry> recipes = null;
     private RecipeAdapter adapter = null;
 
+    private boolean fired = true;
+
+    private Handler h = new Handler();
+
+    final static int DefaultSwipeInfoDuration = 5000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+
+        fired = false;
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -104,6 +113,11 @@ public class RecipeActivity extends ActionBarActivity {
 
     }
 
+    private void hideSwipeInfo() {
+        fired = true;
+        findViewById(R.id.layoutSwipeAdvise).setVisibility(View.GONE);
+    }
+
     private void deleteRecipe(int index) {
         final int pos = index;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -138,12 +152,10 @@ public class RecipeActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_recipe, menu);
 
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView search = (SearchView) menu.findItem(R.id.action_recipe_activity_search).
-                getActionView();
+        SearchView search = (SearchView) menu.findItem(R.id.action_recipe_activity_search).getActionView();
         search.setIconifiedByDefault(false);
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-        search.setOnQueryTextListener(new
-                                              android.support.v7.widget.SearchView.OnQueryTextListener() {
+        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String query) {
                 name = query;
@@ -208,12 +220,19 @@ public class RecipeActivity extends ActionBarActivity {
             } else
                 adapter.notifyDataSetChanged();
         }
-        findViewById(R.id.lst_recipes).setVisibility(tmp != null && tmp.size() > 0 ?
-                View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutNoReciceStored).setVisibility(tmp == null || tmp.size() == 0 ?
-                View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutSwipeAdvise).setVisibility(tmp != null && tmp.size() < 4 ?
-                View.VISIBLE : View.GONE);
+        findViewById(R.id.lst_recipes).setVisibility(tmp != null && tmp.size() > 0 ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutNoReciceStored).setVisibility(tmp == null || tmp.size() == 0 ? View.VISIBLE : View.GONE);
+        if (!fired && tmp != null && tmp.size() < 4) {
+            findViewById(R.id.layoutSwipeAdvise).setVisibility(View.VISIBLE);
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideSwipeInfo();
+                }
+            }, DefaultSwipeInfoDuration);
+        } else {
+            findViewById(R.id.layoutSwipeAdvise).setVisibility(View.GONE);
+        }
     }
 
     public void onClick(View v) {

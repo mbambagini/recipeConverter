@@ -6,6 +6,7 @@
 
     <!-- Activity names -->
     <string name="title_activity_main">New recipe</string>
+    <string name="title_activity_main2">Edit recipe</string>
     <string name="title_activity_ingredient">Ingredients</string>
     <string name="title_activity_conversion">Conversion</string>
     <string name="title_activity_recipe">Recipes</string>
@@ -13,7 +14,7 @@
     <!-- Activity headlines -->
     <string name="headline_activity_main">Recipe info</string>
     <string name="headline_activity_ingredient">Add ingredients</string>
-    <string name="headline_activity_conversion">Convert ingredients</string>
+    <string name="headline_activity_conversion">Convert recipe</string>
     <string name="headline_activity_recipe">Your recipes!</string>
 
     <!-- Splashscreen info -->

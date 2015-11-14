@@ -23,7 +23,7 @@
             android:label="@string/title_activity_main"
             android:parentActivityName=".RecipeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".IngredientActivity"
             android:label="@string/title_activity_ingredient"
@@ -39,12 +39,6 @@
             android:name=".RecipeActivity"
             android:label="@string/title_activity_recipe"
             android:screenOrientation="portrait">
-
-            <!--
-                        <intent-filter>
-                            <action android:name="android.intent.action.SEARCH" />
-                        </intent-filter>
-            -->
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

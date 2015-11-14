@@ -44,6 +44,20 @@ public class RecipeEntry {
         return -1.0;
     }
 
+    public double getSurface() {
+        if (!isRecipeWRTPan())
+            return -1.0;
+        switch (shape) {
+            case SHAPE_RECTANGLE:
+                return side1 * side2;
+            case SHAPE_SQUARE:
+                return side1 * side1;
+            case SHAPE_CIRCLE:
+                return diameter * diameter * pi_;
+        }
+        return -1.0;
+    }
+
     public long getId() {
         return id;
     }

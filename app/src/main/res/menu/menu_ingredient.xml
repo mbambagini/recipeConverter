@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_ingredient_discard"
         android:orderInCategory="100"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:title="Discard"
         app:showAsAction="always" />
     <item

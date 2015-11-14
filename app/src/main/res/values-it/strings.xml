@@ -6,14 +6,15 @@
 
     <!-- Activity names -->
     <string name="title_activity_main">Nuova ricetta</string>
+    <string name="title_activity_main2">Modifica ricetta</string>
     <string name="title_activity_ingredient">Ingredient</string>
     <string name="title_activity_conversion">Conversione</string>
     <string name="title_activity_recipe">Ricette</string>
 
     <!-- Activity headlines -->
-    <string name="headline_activity_main">Inserisci una ricetta</string>
-    <string name="headline_activity_ingredient">Aggiungi ingredienti</string>
-    <string name="headline_activity_conversion">Converti ingredienti</string>
+    <string name="headline_activity_main">Tipo ricetta</string>
+    <string name="headline_activity_ingredient">Lista ingredienti</string>
+    <string name="headline_activity_conversion">Converti ricetta</string>
     <string name="headline_activity_recipe">Le tue ricette!</string>
 
     <!-- Splashscreen info -->

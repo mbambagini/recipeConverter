@@ -30,6 +30,7 @@ public class SplashScreenActivity extends Activity {
         //finish();
         fired = true;
         Intent intent = new Intent(SplashScreenActivity.this, RecipeActivity.class);
+        finish();
         startActivity(intent);
     }
 

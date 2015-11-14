@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         recipe_to_update_id = b.getLong(getString(R.string.intent_id), -1);
         if (recipe_to_update_id == -1)
             return;
+        setTitle(getString(R.string.title_activity_main2));
         try {
             RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
             recipeDAO.open();
@@ -89,16 +91,32 @@ public class NewRecipeActivity extends ActionBarActivity {
             configuration_recipe = _ONLY_PAN;
             configuration_shape = ShapeType.toInteger(r.getShape());
             configuration_unit = r.getDimUnit();
+            DecimalFormat format = new DecimalFormat(getString(R.string.double_formatting));
             switch (configuration_shape) {
                 case _SHAPE_RECTANGLE:
+                    //actual shape
                     ((EditText) findViewById(R.id.txtRecipeSide1)).setText(String.valueOf(r.getSide1()));
                     ((EditText) findViewById(R.id.txtRecipeSide2)).setText(String.valueOf(r.getSide2()));
+                    //other shapes
+                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(format.format(Math.sqrt(r.getSurface())).replace(',', '.'));
+                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(format.format(Math.sqrt(r.getSurface() / RecipeEntry.pi_)).replace(',', '.'));
                     break;
                 case _SHAPE_SQUARE:
+                    //actual shape
                     ((EditText) findViewById(R.id.txtRecipeSide)).setText(String.valueOf(r.getSide1()));
+                    //other shapes
+                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(String.valueOf(r.getSide1()));
+                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(String.valueOf(r.getSide1()));
+                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(format.format(Math.sqrt(r.getSurface() / RecipeEntry.pi_)).replace(',', '.'));
                     break;
                 case _SHAPE_CIRCLE:
+                    //actual shape
                     ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(String.valueOf(r.getDiameter()));
+                    //other shapes
+                    String side_ = format.format(Math.sqrt(r.getSurface())).replace(',', '.');
+                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(side_);
+                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(side_);
+                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(side_);
                     break;
                 default:
                     throw new EntryError();
