@@ -7,9 +7,15 @@
     android:background="@drawable/background_repeated"
     tools:context=".SplashScreenActivity">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:minHeight="100dp"
+        android:minWidth="100dp"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/imageView" />
+
     <TextView
         android:id="@+id/fullscreen_title"
         android:layout_width="match_parent"
@@ -28,4 +34,5 @@
         android:keepScreenOn="true"
         android:text="@string/splashscreen_version"
         android:textSize="20sp" />
+
 </LinearLayout>

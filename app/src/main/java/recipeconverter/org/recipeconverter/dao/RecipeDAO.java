@@ -94,7 +94,9 @@ public class RecipeDAO {
     private int countInstances(String name) {
         String whereClause = DBHelper.COLUMN_RECIPES_NAME + " = \"" + name + "\"";
         Cursor cursor = db.query(DBHelper.TABLE_RECIPES, allRecipeColumns, whereClause, null, null, null, null);
-        return cursor.getCount();
+        int ret = cursor.getCount();
+        cursor.close();
+        return ret;
     }
 
     synchronized public long addRecipe(RecipeEntry recipe) throws RecipeNotCreated, RecipeAlreadyPresent {
