@@ -74,7 +74,11 @@ public class ConversionActivity extends ActionBarActivity {
             if (recipe_orig == null)
                 return false;
             recipe_conv = recipe_orig.clone();
-        } catch (EntryNotFound | EntryError | SQLException e) {
+        } catch (EntryNotFound e) {
+            return false;
+        } catch (EntryError e) {
+            return false;
+        } catch (SQLException e) {
             return false;
         }
         return true;
@@ -142,10 +146,10 @@ public class ConversionActivity extends ActionBarActivity {
 
     private void fillUnitSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spnConversionUnit);
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<String>();
         list.add(getString(R.string.str_cm));
         list.add(getString(R.string.str_in));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(recipe_orig.getDimUnit());
@@ -153,11 +157,11 @@ public class ConversionActivity extends ActionBarActivity {
 
     private void fillShapeSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spnConversionPanShape);
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<String>();
         list.add(getString(R.string.str_rect));
         list.add(getString(R.string.str_squa));
         list.add(getString(R.string.str_circ));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                                                           android.R.layout.simple_spinner_item,
                                                           list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -304,7 +308,11 @@ public class ConversionActivity extends ActionBarActivity {
             try {
                 updateRecipe();
                 adapter.notifyDataSetChanged();
-            } catch (NullPointerException | NumberFormatException | WrongInputs e) {
+            } catch (NullPointerException e) {
+                Toast.makeText(this, getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_LONG).show();
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_LONG).show();
+            } catch (WrongInputs e) {
                 Toast.makeText(this, getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_LONG).show();
             }
         }

@@ -74,7 +74,11 @@ public class NewRecipeActivity extends ActionBarActivity {
             RecipeEntry recipe = recipeDAO.getRecipe(recipe_to_update_id);
             recipeDAO.close();
             setFieldsFromRecipe(recipe);
-        } catch (EntryNotFound | EntryError | SQLException e) {
+        } catch (EntryNotFound e) {
+            recipe_to_update_id = -1;
+        } catch (EntryError e) {
+            recipe_to_update_id = -1;
+        } catch (SQLException e) {
             recipe_to_update_id = -1;
         }
     }
@@ -132,11 +136,11 @@ public class NewRecipeActivity extends ActionBarActivity {
     private void configureShapeMenu() {
         //filling pan shape menu
         Spinner spinner = (Spinner) findViewById(R.id.txtRecipePan);
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<String>();
         list.add(getString(R.string.str_rect));
         list.add(getString(R.string.str_squa));
         list.add(getString(R.string.str_circ));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(configuration_shape);
@@ -158,10 +162,10 @@ public class NewRecipeActivity extends ActionBarActivity {
 
     private void fillUnitSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spnRecipeUnit);
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<String>();
         list.add(getString(R.string.str_cm));
         list.add(getString(R.string.str_in));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(configuration_unit);
@@ -267,7 +271,13 @@ public class NewRecipeActivity extends ActionBarActivity {
                 RecipeEntry recipe;
                 try {
                     recipe = readInputs();
-                } catch (WrongInputs | NullPointerException | NumberFormatException e) {
+                } catch (WrongInputs e) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
+                    return;
+                } catch (NullPointerException e) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
+                    return;
+                } catch (NumberFormatException e) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
                     return;
                 } catch (RecipeAlreadyPresent e) {

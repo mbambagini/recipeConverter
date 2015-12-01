@@ -17,7 +17,7 @@ public class RecipeEntry {
     private double side2 = -1.0;
     private double diameter = -1.0;
     private int dimUnit = 0;
-    private List<IngredientEntry> ingredients = new ArrayList<>();
+    private List<IngredientEntry> ingredients = new ArrayList<IngredientEntry>();
 
     public boolean isRecipeWRTPeople () {
         return (num_people > 0);

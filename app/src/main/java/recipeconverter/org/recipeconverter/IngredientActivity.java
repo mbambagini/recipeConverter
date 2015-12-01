@@ -50,7 +50,11 @@ public class IngredientActivity extends ActionBarActivity {
                 recipeDAO.open();
                 r = recipeDAO.getRecipe(id_);
                 recipeDAO.close();
-            } catch (EntryNotFound | EntryError | SQLException e) {
+            } catch (EntryNotFound e) {
+                return null;
+            } catch (EntryError e) {
+                return null;
+            } catch (SQLException e) {
                 return null;
             }
         }
@@ -82,16 +86,16 @@ public class IngredientActivity extends ActionBarActivity {
         recipe = buildRecipe();
 
         Spinner spinner = (Spinner) findViewById(R.id.spinnerIngredientUnit);
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<String>();
         for (int i = 0; i < UnitType.getNumber(); i++)
             list.add(UnitType.toString(UnitType.fromInteger(i)));
-        ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp);
 
         ListView lst = (ListView) findViewById(R.id.lst_ingredients);
         if (recipe.getId() == -1)
-            ingredientList = new ArrayList<>();
+            ingredientList = new ArrayList<IngredientEntry>();
         else
             ingredientList = (ArrayList<IngredientEntry>) recipe.getIngredients();
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
@@ -136,7 +140,11 @@ public class IngredientActivity extends ActionBarActivity {
                 ingredientList.add(ingredient);
                 adapter.notifyDataSetChanged();
                 cleanInptuts();
-            } catch (WrongInputs | NullPointerException | NumberFormatException e) {
+            } catch (WrongInputs e) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
+            } catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
+            } catch (NumberFormatException e) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
             } catch (IngredientAlreadyPresent e) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_duplicated_ingredient), Toast.LENGTH_SHORT).show();
@@ -173,7 +181,9 @@ public class IngredientActivity extends ActionBarActivity {
 
                 finish();
                 startActivity(new Intent(IngredientActivity.this, RecipeActivity.class));
-            } catch (SQLException | RecipeNotCreated e) {
+            } catch (SQLException e) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_internal_error), Toast.LENGTH_SHORT).show();
+            } catch (RecipeNotCreated e) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_internal_error), Toast.LENGTH_SHORT).show();
             } catch (RecipeAlreadyPresent e) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_duplicated_recipe), Toast.LENGTH_SHORT).show();

@@ -127,7 +127,11 @@ public class RecipeActivity extends ActionBarActivity {
                     recipeDAO.close();
                     recipes.remove(pos);
                     showRecipes();
-                } catch (EntryNotFound | EntryError | SQLException e) {
+                } catch (EntryNotFound e) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_internal_error), Toast.LENGTH_LONG).show();
+                } catch (EntryError e) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_internal_error), Toast.LENGTH_LONG).show();
+                } catch (SQLException e) {
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_internal_error), Toast.LENGTH_LONG).show();
                 }
             }
@@ -199,7 +203,7 @@ public class RecipeActivity extends ActionBarActivity {
 
     private void showRecipes() {
         if (recipes == null)
-            recipes = new ArrayList<>();
+            recipes = new ArrayList<RecipeEntry>();
         else
             recipes.clear();
         ArrayList<RecipeEntry> tmp = updateRecipeList();

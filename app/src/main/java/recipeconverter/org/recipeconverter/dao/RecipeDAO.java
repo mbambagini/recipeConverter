@@ -49,7 +49,7 @@ public class RecipeDAO {
     }
 
     synchronized public List<RecipeEntry> getRecipes(String name) {
-        List<RecipeEntry> recipes = new ArrayList<>();
+        List<RecipeEntry> recipes = new ArrayList<RecipeEntry>();
         String whereClause = null;
 
         if (name != null && !name.isEmpty())
@@ -162,7 +162,7 @@ public class RecipeDAO {
     }
 
     private List<IngredientEntry> getIngredients(long idRecipe) {
-        List<IngredientEntry> ingredients = new ArrayList<>();
+        List<IngredientEntry> ingredients = new ArrayList<IngredientEntry>();
         String whereClause = DBHelper.COLUMN_INGREDIENTS_ID_RECIPE + " = " + idRecipe;
         Cursor cursor = db.query(DBHelper.TABLE_INGREDIENTS, allIngredientsColumns, whereClause, null, null, null, null);
         cursor.moveToFirst();
