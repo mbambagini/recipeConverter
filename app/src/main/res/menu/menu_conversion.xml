@@ -6,6 +6,6 @@
         android:id="@+id/action_conversion_share"
         android:icon="@android:drawable/ic_menu_share"
         android:orderInCategory="100"
-        android:title="Share it!"
+        android:title="@string/txt_share_it"
         app:showAsAction="always" />
 </menu>

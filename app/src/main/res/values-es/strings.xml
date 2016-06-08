@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Application name -->
+    <string name="app_name">recipeConverter</string>
+
+    <!-- Activity names -->
+    <string name="title_activity_main">Nueva receta</string>
+    <string name="title_activity_main2">Editar receta</string>
+    <string name="title_activity_ingredient">Ingredientes</string>
+    <string name="title_activity_conversion">Conversi&#243;n</string>
+    <string name="title_activity_recipe">Recetas</string>
+
+    <!-- Activity headlines -->
+    <string name="headline_activity_main">Tipo de receta</string>
+    <string name="headline_activity_ingredient">Lista de ingredientes</string>
+    <string name="headline_activity_conversion">Convertir receta</string>
+    <string name="headline_activity_recipe">Sus recetas!</string>
+
+    <!-- Splashscreen info -->
+    <string name="splashscreen_title">Recipe converter</string>
+    <string name="splashscreen_version">1.2</string>
+
+    <!-- Other -->
+    <string name="font_handwritten">fonts/Postit-Penscript.otf</string>
+    <string name="double_formatting">0.00</string>
+
+    <!-- Toast messages -->
+    <string name="toast_internal_error">Algo sali&#243; mal&#8230; excusa!</string>
+    <string name="toast_duplicated_recipe">Nombre ya utilizado</string>
+    <string name="toast_duplicated_ingredient">Ingrediente a&#241;adido ya</string>
+    <string name="toast_wrong_input">Completar todos los campos correctamente</string>
+    <string name="toast_no_sharing">Nada para compartir</string>
+    <string name="toast_recipe_added">Receta guardado correctamente</string>
+    <string name="toast_recipe_edited">Receta modificado adecuadamente</string>
+    <string name="toast_empty_ingredients">Introduzca al menos un ingrediente</string>
+
+    <!-- Size units -->
+    <string name="str_cm">Cent&#237;metros</string>
+    <string name="str_in">Pulgada</string>
+    <string name="str_cm_abbr">cm</string>
+    <string name="str_in_abbr">in</string>
+
+    <!-- Pan shapres -->
+    <string name="str_rect">Rectangular</string>
+    <string name="str_squa">Plaza</string>
+    <string name="str_circ">Circular</string>
+
+    <!-- Intent argument identifiers -->
+    <string name="intent_id">id</string>
+    <string name="intent_name">name</string>
+    <string name="intent_people">num_people</string>
+    <string name="intent_shape">shape</string>
+    <string name="intent_unit">unit</string>
+    <string name="intent_side1">side1</string>
+    <string name="intent_side2">side2</string>
+    <string name="intent_side">side</string>
+    <string name="intent_diameter">diameter</string>
+
+    <!-- Text fields -->
+    <string name="txt_discard">Cancelar</string>
+    <string name="txt_save">Guardar</string>
+    <string name="txt_search">B&#250;squeda</string>
+    <string name="txt_convert">Convertir</string>
+    <string name="txt_unit">Unidad</string>
+    <string name="txt_name">Nombre</string>
+    <string name="txt_quantity">Cantidad</string>
+    <string name="txt_side">Lado</string>
+    <string name="txt_size">Tama&#241;o</string>
+    <string name="txt_diameter">Di&#225;metro</string>
+    <string name="txt_how_many_people">Cu&#225;ntas personas</string>
+    <string name="txt_pan_shape">Forma de bandeja</string>
+    <string name="txt_add_ingredient">A&#241;adir ingrediente</string>
+    <string name="txt_add_ingredients">A&#241;adir los ingredientes</string>
+    <string name="txt_share_it">Compartirlo!</string>
+    <string name="txt_add_recipe">A&#241;adir la receta</string>
+    <string name="txt_times">x</string>
+    <string name="txt_separator"> - </string>
+    <string name="txt_delete">Borrar</string>
+    <string name="txt_cancel">Cancelar</string>
+    <string name="txt_recipe">Receta</string>
+    <string name="txt_for">para</string>
+    <string name="txt_people">personas</string>
+    <string name="txt_share_rectangle">tama&#241;o del plato rectangular</string>
+    <string name="txt_share_square">de una plaza de un molde de tama&#241;o</string>
+    <string name="txt_share_circle">pan circular con un di&#225;metro</string>
+    <string name="txt_add_new_recipe">Aggiungi una ricetta</string>
+    <string name="txt_no_recipe_stored">No hay recetas guardan</string>
+    <string name="txt_swipe_right">Arrastre para editar/borrar una receta</string>
+
+    <!-- Hints -->
+    <string name="hint_ingredient_name">Nombre del ingrediente aqu&#237;!</string>
+    <string name="hint_recipe_name">Nombre de la receta aqu&#237;!</string>
+
+    <!-- Alert dialog -->
+    <string name="dlg_delete_title">Eliminar receta</string>
+    <string name="dlg_delete_msg">Que desea borrar la receta?</string>
+
+</resources>

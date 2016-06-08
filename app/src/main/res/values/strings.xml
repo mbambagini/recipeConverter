@@ -27,7 +27,7 @@
     <string name="double_formatting">0.00</string>
 
     <!-- Toast messages -->
-    <string name="toast_internal_error">Something went wrong... sorry!</string>
+    <string name="toast_internal_error">Something went wrong&#8230; sorry!</string>
     <string name="toast_duplicated_recipe">Name already in use</string>
     <string name="toast_duplicated_ingredient">Ingredient already in use</string>
     <string name="toast_wrong_input">Set all inputs correctly</string>

@@ -7,7 +7,7 @@
     <!-- Activity names -->
     <string name="title_activity_main">Nuova ricetta</string>
     <string name="title_activity_main2">Modifica ricetta</string>
-    <string name="title_activity_ingredient">Ingredient</string>
+    <string name="title_activity_ingredient">Ingredienti</string>
     <string name="title_activity_conversion">Conversione</string>
     <string name="title_activity_recipe">Ricette</string>
 
@@ -19,7 +19,7 @@
 
     <!-- Splashscreen info -->
     <string name="splashscreen_title">Recipe converter</string>
-    <string name="splashscreen_version">1.0</string>
+    <string name="splashscreen_version">1.2</string>
 
     <!-- Other -->
     <string name="font_handwritten">fonts/Postit-Penscript.otf</string>

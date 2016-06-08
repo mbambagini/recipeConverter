@@ -19,14 +19,14 @@
 
     <!-- Splashscreen info -->
     <string name="splashscreen_title">Recipe converter</string>
-    <string name="splashscreen_version">1.0</string>
+    <string name="splashscreen_version">1.2</string>
 
     <!-- Other -->
     <string name="font_handwritten">fonts/Postit-Penscript.otf</string>
     <string name="double_formatting">0.00</string>
 
     <!-- Toast messages -->
-    <string name="toast_internal_error">Quelque chose a mal tourn&#233;, excuser!</string>
+    <string name="toast_internal_error">Quelque chose a mal tourn&#233;&#8230; excuser!</string>
     <string name="toast_duplicated_recipe">Nom d&#233;j&#224; utilis&#233;</string>
     <string name="toast_duplicated_ingredient">Ingr&#233;dient d&#233;j&#224; entr&#233;</string>
     <string name="toast_wrong_input">S\'il vous pla&#238;t remplir tous les champs correctement</string>
