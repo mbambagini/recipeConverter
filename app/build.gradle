@@ -15,8 +15,8 @@ android {
         applicationId "recipeconverter.org.recipeconverter"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 5
-        versionName "2.4"
+        versionCode 4
+        versionName "1.4"
     }
 /*
     lintOptions {
