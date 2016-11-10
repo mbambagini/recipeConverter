@@ -91,56 +91,35 @@ public class ConversionActivity extends ActionBarActivity {
             //set field initial value
             EditText txt = (EditText)findViewById(R.id.txtConvertedRecipePeople);
             txt.setText(String.valueOf(recipe_orig.getNum_people()), TextView.BufferType.EDITABLE);
-        } else {
-            //set the field as not visible
-            findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.GONE);            
-        }
 
-        findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.GONE);
-        findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
-        findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
-        if (recipe_orig.isRecipeWRTPan()) {
+            // set pan fields not visible
+            findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.GONE);
+            findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.GONE);
+            findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.GONE);
+            findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.GONE);
+            findViewById(R.id.layoutConversionPan).setVisibility(View.GONE);
+        } else {
+            // it is pan
+
+            //set the people field as not visible
+            findViewById(R.id.layoutConvertedHowManyPeople).setVisibility(View.GONE);            
+
             //set the fields as visible and their initial values
             findViewById(R.id.layoutConversionPan).setVisibility(View.VISIBLE);
             findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.VISIBLE);
+
             EditText txt_diameter = (EditText)findViewById(R.id.txtConvertedRecipeDiameter);
             EditText txt_side1 = (EditText)findViewById(R.id.txtConvertedRecipeSide1);
             EditText txt_side2 = (EditText)findViewById(R.id.txtConvertedRecipeSide2);
             EditText txt_side = (EditText)findViewById(R.id.txtConvertedRecipeSide);
             DecimalFormat format = new DecimalFormat(getString(R.string.double_formatting));
-            double side_;
-            switch (recipe_orig.getShape()) {
-                case SHAPE_CIRCLE:
-                    findViewById(R.id.layoutConvertedShapeCircle).setVisibility(View.VISIBLE);
-                    txt_diameter.setText(format.format(recipe_orig.getDiameter()).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    side_ = Math.sqrt(recipe_orig.getSurface());
-                    txt_side1.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    txt_side2.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    txt_side.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    break;
-                case SHAPE_RECTANGLE:
-                    findViewById(R.id.layoutConvertedShapeRect).setVisibility(View.VISIBLE);
-                    txt_side1.setText(format.format(recipe_orig.getSide1()).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    txt_side2.setText(format.format(recipe_orig.getSide2()).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    side_ = Math.sqrt(recipe_orig.getSurface());
-                    txt_side.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    side_ = Math.sqrt(recipe_orig.getSurface() / RecipeEntry.pi_);
-                    txt_diameter.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    break;
-                case SHAPE_SQUARE:
-                    findViewById(R.id.layoutConvertedShapeSquare).setVisibility(View.VISIBLE);
-                    txt_side.setText(format.format(recipe_orig.getSide1()).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    side_ = Math.sqrt(recipe_orig.getSurface());
-                    txt_side1.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    txt_side2.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    side_ = Math.sqrt(recipe_orig.getSurface() / RecipeEntry.pi_);
-                    txt_diameter.setText(format.format(side_).replace(',', '.'), TextView.BufferType.EDITABLE);
-                    break;
-            }
-        } else {
-            //set the fields as not visible
-            findViewById(R.id.layoutConversionShapeDimUnit).setVisibility(View.GONE);
-            findViewById(R.id.layoutConversionPan).setVisibility(View.GONE);
+            txt_diameter.setText(format.format(recipe_orig.getDiameter()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            txt_side.setText(format.format(recipe_orig.getSideSQ()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            txt_side1.setText(format.format(recipe_orig.getSideL1()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            txt_side2.setText(format.format(recipe_orig.getSideL2()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            findViewById(R.id.layoutConvertedShapeCircle).setVisibility(recipe_orig.getShape()==ShapeType.SHAPE_CIRCLE ? View.VISIBLE : View.GONE);
+            findViewById(R.id.layoutConvertedShapeRect).setVisibility(recipe_orig.getShape()==ShapeType.SHAPE_RECTANGLE ? View.VISIBLE : View.GONE);
+            findViewById(R.id.layoutConvertedShapeSquare).setVisibility(recipe_orig.getShape()==ShapeType.SHAPE_SQUARE ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -231,15 +210,15 @@ public class ConversionActivity extends ActionBarActivity {
                 break;
             case SHAPE_RECTANGLE:
                 buffer += getString(R.string.txt_share_rectangle) + ": " +
-                          format.format(recipe_conv.getSide1()) + " " +
+                          format.format(recipe_conv.getSideL1()) + " " +
                           getString(R.string.txt_times) + " " +
-                          format.format(recipe_conv.getSide2()) + " ";
+                          format.format(recipe_conv.getSideL2()) + " ";
                 break;
             case SHAPE_SQUARE:
                 buffer += getString(R.string.txt_share_square) + ": " +
-                          format.format(recipe_conv.getSide1()) + " " +
+                          format.format(recipe_conv.getSideSQ()) + " " +
                           getString(R.string.txt_times) + " " +
-                          format.format(recipe_conv.getSide1()) + " ";
+                          format.format(recipe_conv.getSideSQ()) + " ";
                 break;
             }
             buffer += ((recipe_conv.getDimUnit() == 0) ? getString(R.string.str_cm_abbr) : getString(R.string.str_in_abbr)) + "\n";
@@ -276,19 +255,20 @@ public class ConversionActivity extends ActionBarActivity {
                 double new_side1 = Double.parseDouble(((EditText) findViewById(R.id.txtConvertedRecipeSide1)).getText().toString());
                 double new_side2 = Double.parseDouble(((EditText) findViewById(R.id.txtConvertedRecipeSide2)).getText().toString());
                 if (new_side1 > 0.0 && new_side2 > 0.0) {
-                    recipe_conv.setSide1(new_side1);
-                    recipe_conv.setSide2(new_side2);
+                    recipe_conv.setSideL1(new_side1);
+                    recipe_conv.setSideL2(new_side2);
                 } else
                     throw new WrongInputs();
                 break;
             case SHAPE_SQUARE:
                 double new_side = Double.parseDouble(((EditText) findViewById(R.id.txtConvertedRecipeSide)).getText().toString());
                 if (new_side > 0.0)
-                    recipe_conv.setSide1(new_side);
+                    recipe_conv.setSideSQ(new_side);
                 else
                     throw new WrongInputs();
                 break;
             }
+            recipe_conv.scaleSides();
         }
         double factor = 1.0;
         if (recipe_orig.isRecipeWRTPeople())

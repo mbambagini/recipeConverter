@@ -60,21 +60,21 @@ public class IngredientActivity extends ActionBarActivity {
         }
         r.setName(getIntent().getExtras().getString(getString(R.string.intent_name), ""));
         r.setNum_people(getIntent().getIntExtra(getString(R.string.intent_people), -1));
-        r.setShape(ShapeType.fromInteger(getIntent().getIntExtra(getString(R.string.intent_shape),
-                                                  ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
+        r.setShape(ShapeType.fromInteger(getIntent().getIntExtra(getString(R.string.intent_shape), ShapeType.toInteger(ShapeType.SHAPE_NOT_VALID))));
         r.setDimUnit(getIntent().getIntExtra(getString(R.string.intent_unit), 0));
         switch (r.getShape()) {
             case SHAPE_RECTANGLE:
-                r.setSide1(getIntent().getExtras().getDouble(getString(R.string.intent_side1), -1));
-                r.setSide2(getIntent().getExtras().getDouble(getString(R.string.intent_side2), -1));
+                r.setSideL1(getIntent().getExtras().getDouble(getString(R.string.intent_side1), -1));
+                r.setSideL2(getIntent().getExtras().getDouble(getString(R.string.intent_side2), -1));
                 break;
             case SHAPE_SQUARE:
-                r.setSide1(getIntent().getExtras().getDouble(getString(R.string.intent_side), -1));
+                r.setSideSQ(getIntent().getExtras().getDouble(getString(R.string.intent_side), -1));
                 break;
             case SHAPE_CIRCLE:
                 r.setDiameter(getIntent().getExtras().getDouble(getString(R.string.intent_diameter), -1));
                 break;
         }
+        r.scaleSides();
         return r;
     }
 
@@ -127,7 +127,7 @@ public class IngredientActivity extends ActionBarActivity {
         return ingredient;
     }
 
-    private void cleanInptuts() {
+    private void cleanInputs() {
         ((EditText) findViewById(R.id.txtIngredientName)).getText().clear();
         findViewById(R.id.txtIngredientName).requestFocus();
         ((EditText) findViewById(R.id.txtIngredientQuantity)).getText().clear();
@@ -139,7 +139,7 @@ public class IngredientActivity extends ActionBarActivity {
                 IngredientEntry ingredient = checkInputs();
                 ingredientList.add(ingredient);
                 adapter.notifyDataSetChanged();
-                cleanInptuts();
+                cleanInputs();
             } catch (WrongInputs e) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wrong_input), Toast.LENGTH_SHORT).show();
             } catch (NullPointerException e) {

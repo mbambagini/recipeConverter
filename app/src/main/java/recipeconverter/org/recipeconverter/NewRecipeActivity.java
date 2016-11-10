@@ -31,8 +31,8 @@ public class NewRecipeActivity extends ActionBarActivity {
 
     static final int _ONLY_PEOPLE = 0;
     static final int _ONLY_PAN = 1;
-    static final int _NO_CHOISE = 2;
-    private int configuration_recipe = _NO_CHOISE;
+    static final int _NO_CHOICE = 2;
+    private int configuration_recipe = _NO_CHOICE;
     static final int _SHAPE_RECTANGLE = 0;
     private int configuration_shape = _SHAPE_RECTANGLE;
     static final int _SHAPE_SQUARE = 1;
@@ -95,35 +95,10 @@ public class NewRecipeActivity extends ActionBarActivity {
             configuration_shape = ShapeType.toInteger(r.getShape());
             configuration_unit = r.getDimUnit();
             DecimalFormat format = new DecimalFormat(getString(R.string.double_formatting));
-            switch (configuration_shape) {
-                case _SHAPE_RECTANGLE:
-                    //actual shape
-                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(String.valueOf(r.getSide1()));
-                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(String.valueOf(r.getSide2()));
-                    //other shapes
-                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(format.format(Math.sqrt(r.getSurface())).replace(',', '.'));
-                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(format.format(Math.sqrt(r.getSurface() / RecipeEntry.pi_)).replace(',', '.'));
-                    break;
-                case _SHAPE_SQUARE:
-                    //actual shape
-                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(String.valueOf(r.getSide1()));
-                    //other shapes
-                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(String.valueOf(r.getSide1()));
-                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(String.valueOf(r.getSide1()));
-                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(format.format(Math.sqrt(r.getSurface() / RecipeEntry.pi_)).replace(',', '.'));
-                    break;
-                case _SHAPE_CIRCLE:
-                    //actual shape
-                    ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(String.valueOf(r.getDiameter()));
-                    //other shapes
-                    String side_ = format.format(Math.sqrt(r.getSurface())).replace(',', '.');
-                    ((EditText) findViewById(R.id.txtRecipeSide1)).setText(side_);
-                    ((EditText) findViewById(R.id.txtRecipeSide2)).setText(side_);
-                    ((EditText) findViewById(R.id.txtRecipeSide)).setText(side_);
-                    break;
-                default:
-                    throw new EntryError();
-            }
+            ((EditText) findViewById(R.id.txtRecipeSide1)).setText(format.format(r.getSideL1()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            ((EditText) findViewById(R.id.txtRecipeSide2)).setText(format.format(r.getSideL2()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            ((EditText) findViewById(R.id.txtRecipeSide)).setText(format.format(r.getSideSQ()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(format.format(r.getDiameter()).replace(',', '.'), TextView.BufferType.EDITABLE);
         }
     }
 
@@ -187,7 +162,7 @@ public class NewRecipeActivity extends ActionBarActivity {
         RecipeEntry recipe = new RecipeEntry();
 
         //error early detection
-        if (configuration_recipe == _NO_CHOISE)
+        if (configuration_recipe == _NO_CHOICE)
             throw new WrongInputs();
         //name
         String name = ((EditText) findViewById(R.id.txtRecipeName)).getText().toString();
@@ -224,13 +199,13 @@ public class NewRecipeActivity extends ActionBarActivity {
                     double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide1)).getText().toString());
                     double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide2)).getText().toString());
                     if (side1 <= 0.0 || side2 <= 0.0) throw new WrongInputs();
-                    recipe.setSide1(side1);
-                    recipe.setSide2(side2);
+                    recipe.setSideL1(side1);
+                    recipe.setSideL2(side2);
                     break;
                 case _SHAPE_SQUARE:
                     double side = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide)).getText().toString());
                     if (side <= 0.0) throw new WrongInputs();
-                    recipe.setSide1(side);
+                    recipe.setSideSQ(side);
                     break;
                 case _SHAPE_CIRCLE:
                     double diameter = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeDiameter)).getText().toString());
@@ -240,6 +215,7 @@ public class NewRecipeActivity extends ActionBarActivity {
                 default:
                     throw new WrongInputs();
             }
+            recipe.scaleSides();
         }
         return recipe;
     }
@@ -293,11 +269,11 @@ public class NewRecipeActivity extends ActionBarActivity {
                     intent.putExtra(getString(R.string.intent_unit), recipe.getDimUnit());
                     switch (recipe.getShape()) {
                         case SHAPE_RECTANGLE:
-                            intent.putExtra(getString(R.string.intent_side1), recipe.getSide1());
-                            intent.putExtra(getString(R.string.intent_side2), recipe.getSide2());
+                            intent.putExtra(getString(R.string.intent_side1), recipe.getSideL1());
+                            intent.putExtra(getString(R.string.intent_side2), recipe.getSideL2());
                             break;
                         case SHAPE_SQUARE:
-                            intent.putExtra(getString(R.string.intent_side), recipe.getSide1());
+                            intent.putExtra(getString(R.string.intent_side), recipe.getSideSQ());
                             break;
                         case SHAPE_CIRCLE:
                             intent.putExtra(getString(R.string.intent_diameter), recipe.getDiameter());
@@ -312,11 +288,11 @@ public class NewRecipeActivity extends ActionBarActivity {
     private void setVisibleItems() {
         //error checks
         if (configuration_recipe != _ONLY_PEOPLE && configuration_recipe != _ONLY_PAN)
-            configuration_recipe = _NO_CHOISE;
+            configuration_recipe = _NO_CHOICE;
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
         //name field
-        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOISE) ? View.VISIBLE : View.GONE);
+        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOICE) ? View.VISIBLE : View.GONE);
         //people/shape fields
         findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);
@@ -327,6 +303,6 @@ public class NewRecipeActivity extends ActionBarActivity {
         findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
         findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
         //button
-        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOISE) ? View.GONE : View.VISIBLE);
+        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOICE) ? View.GONE : View.VISIBLE);
     }
 }

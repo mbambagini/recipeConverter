@@ -14,9 +14,9 @@ android {
     defaultConfig {
         applicationId "recipeconverter.org.recipeconverter"
         minSdkVersion 15
-        targetSdkVersion 21
-        versionCode 4
-        versionName "1.4"
+        targetSdkVersion 23
+        versionCode 7
+        versionName "1.7"
     }
 /*
     lintOptions {
@@ -54,4 +54,5 @@ repositories {
 
 dependencies {
     compile('com.baoyz.swipemenulistview:library:1.3.0@aar')
+    androidTestCompile 'junit:junit:4.12'
 }

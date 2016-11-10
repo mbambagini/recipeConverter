@@ -108,8 +108,11 @@ public class RecipeDAO {
         values.put(DBHelper.COLUMN_RECIPES_NAME, recipe.getName());
         values.put(DBHelper.COLUMN_RECIPES_PEOPLE_NUMBER, recipe.getNum_people());
         values.put(DBHelper.COLUMN_RECIPES_SHAPE, ShapeType.toInteger(recipe.getShape()));
-        values.put(DBHelper.COLUMN_RECIPES_SIDE_1, recipe.getSide1());
-        values.put(DBHelper.COLUMN_RECIPES_SIDE_2, recipe.getSide2());
+        if (recipe.isRecipeWRTPan() && recipe.getShape()==ShapeType.SHAPE_SQUARE)
+            values.put(DBHelper.COLUMN_RECIPES_SIDE_1, recipe.getSideSQ());
+        else
+            values.put(DBHelper.COLUMN_RECIPES_SIDE_1, recipe.getSideL1());
+        values.put(DBHelper.COLUMN_RECIPES_SIDE_2, recipe.getSideL2());
         values.put(DBHelper.COLUMN_RECIPES_DIAMETER, recipe.getDiameter());
         values.put(DBHelper.COLUMN_RECIPES_DIM_UNIT, recipe.getDimUnit());
         try {
@@ -135,8 +138,11 @@ public class RecipeDAO {
         values.put(DBHelper.COLUMN_RECIPES_NAME, r.getName());
         values.put(DBHelper.COLUMN_RECIPES_PEOPLE_NUMBER, r.getNum_people());
         values.put(DBHelper.COLUMN_RECIPES_SHAPE, ShapeType.toInteger(r.getShape()));
-        values.put(DBHelper.COLUMN_RECIPES_SIDE_1, r.getSide1());
-        values.put(DBHelper.COLUMN_RECIPES_SIDE_2, r.getSide2());
+        if (r.isRecipeWRTPan() && r.getShape()==ShapeType.SHAPE_SQUARE)
+            values.put(DBHelper.COLUMN_RECIPES_SIDE_1, r.getSideSQ());
+        else
+            values.put(DBHelper.COLUMN_RECIPES_SIDE_1, r.getSideL1());
+        values.put(DBHelper.COLUMN_RECIPES_SIDE_2, r.getSideL2());
         values.put(DBHelper.COLUMN_RECIPES_DIAMETER, r.getDiameter());
         values.put(DBHelper.COLUMN_RECIPES_DIM_UNIT, r.getDimUnit());
         db.update(DBHelper.TABLE_RECIPES, values, DBHelper.COLUMN_RECIPES_ID + " = " + String.valueOf(r.getId()), null);
@@ -182,10 +188,12 @@ public class RecipeDAO {
         recipe.setName(cursor.getString(1));
         recipe.setNum_people(cursor.getInt(2));
         recipe.setShape(ShapeType.fromInteger(cursor.getInt(3)));
-        recipe.setSide1(cursor.getFloat(4));
-        recipe.setSide2(cursor.getFloat(5));
+        recipe.setSideL1(cursor.getFloat(4));
+        recipe.setSideSQ(cursor.getFloat(4));
+        recipe.setSideL2(cursor.getFloat(5));
         recipe.setDiameter(cursor.getFloat(6));
         recipe.setDimUnit(cursor.getInt(7));
+        recipe.scaleSides();
         return recipe;
     }
 
