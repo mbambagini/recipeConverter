@@ -3,7 +3,7 @@ package recipeconverter.org.recipeconverter;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +27,7 @@ import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
 
-public class NewRecipeActivity extends ActionBarActivity {
+public class NewRecipeActivity extends AppCompatActivity {
 
     static final int _ONLY_PEOPLE = 0;
     static final int _ONLY_PAN = 1;
@@ -57,7 +57,8 @@ public class NewRecipeActivity extends ActionBarActivity {
         //set font
         TextView myTextView = (TextView) findViewById(R.id.txt_new_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), getString(R.string.font_handwritten));
-        myTextView.setTypeface(typeFace);
+        if (myTextView != null)
+            myTextView.setTypeface(typeFace);
     }
 
     private void loadRecipeToUpdate() {
@@ -84,21 +85,33 @@ public class NewRecipeActivity extends ActionBarActivity {
     }
 
     private void setFieldsFromRecipe(RecipeEntry r) throws EntryError {
-        ((EditText) findViewById(R.id.txtRecipeName)).setText(r.getName());
+        EditText editText = (EditText) findViewById(R.id.txtRecipeName);
+        if (editText != null)
+            editText.setText(r.getName());
         recipe_name = r.getName();
         if (r.isRecipeWRTPeople()) {
             configuration_recipe = _ONLY_PEOPLE;
-            ((EditText) findViewById(R.id.txtRecipePeople)).setText(String.valueOf(r.getNum_people()));
+            editText = (EditText) findViewById(R.id.txtRecipePeople);
+            if (editText != null)
+                editText.setText(String.valueOf(r.getNum_people()));
         }
         if (r.isRecipeWRTPan()) {
             configuration_recipe = _ONLY_PAN;
             configuration_shape = ShapeType.toInteger(r.getShape());
             configuration_unit = r.getDimUnit();
             DecimalFormat format = new DecimalFormat(getString(R.string.double_formatting));
-            ((EditText) findViewById(R.id.txtRecipeSide1)).setText(format.format(r.getSideL1()).replace(',', '.'), TextView.BufferType.EDITABLE);
-            ((EditText) findViewById(R.id.txtRecipeSide2)).setText(format.format(r.getSideL2()).replace(',', '.'), TextView.BufferType.EDITABLE);
-            ((EditText) findViewById(R.id.txtRecipeSide)).setText(format.format(r.getSideSQ()).replace(',', '.'), TextView.BufferType.EDITABLE);
-            ((EditText) findViewById(R.id.txtRecipeDiameter)).setText(format.format(r.getDiameter()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            editText = (EditText) findViewById(R.id.txtRecipeSide1);
+            if (editText != null)
+                editText.setText(format.format(r.getSideL1()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            editText = (EditText) findViewById(R.id.txtRecipeSide2);
+            if (editText != null)
+                editText.setText(format.format(r.getSideL2()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            editText = (EditText) findViewById(R.id.txtRecipeSide);
+            if (editText != null)
+                editText.setText(format.format(r.getSideSQ()).replace(',', '.'), TextView.BufferType.EDITABLE);
+            editText = (EditText) findViewById(R.id.txtRecipeDiameter);
+            if (editText != null)
+                editText.setText(format.format(r.getDiameter()).replace(',', '.'), TextView.BufferType.EDITABLE);
         }
     }
 
@@ -117,22 +130,23 @@ public class NewRecipeActivity extends ActionBarActivity {
         list.add(getString(R.string.str_circ));
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(configuration_shape);
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+            spinner.setSelection(configuration_shape);
 
-        fillUnitSpinner();
+            fillUnitSpinner();
 
-        //added callback which updates the shown pan inputs
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                setPanShape(pos);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
-        });
+            //added callback which updates the shown pan inputs
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    setPanShape(pos);
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                }
+            });
+        }
     }
 
     private void fillUnitSpinner() {
@@ -142,20 +156,22 @@ public class NewRecipeActivity extends ActionBarActivity {
         list.add(getString(R.string.str_in));
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(configuration_unit);
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
+            spinner.setSelection(configuration_unit);
 
-        //added callback which updates the shown pan inputs
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                configuration_unit = pos;
-            }
+            //added callback which updates the shown pan inputs
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    configuration_unit = pos;
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                }
+            });
+        }
     }
 
     private RecipeEntry readInputs() throws WrongInputs, RecipeAlreadyPresent {
@@ -165,7 +181,10 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (configuration_recipe == _NO_CHOICE)
             throw new WrongInputs();
         //name
-        String name = ((EditText) findViewById(R.id.txtRecipeName)).getText().toString();
+        String name = "";
+        EditText editText = (EditText) findViewById(R.id.txtRecipeName);
+        if (editText != null)
+            name = editText.getText().toString();
         if (name.isEmpty())
             throw new WrongInputs();
         //check if the name is already used
@@ -185,10 +204,13 @@ public class NewRecipeActivity extends ActionBarActivity {
         recipe.setName(name);
         //people
         if (configuration_recipe == _ONLY_PEOPLE) {
-            int n_people = Integer.parseInt(((EditText) findViewById(R.id.txtRecipePeople)).getText().toString());
-            if (n_people <= 0 || n_people >= 100) throw new WrongInputs();
-            recipe.setNum_people(n_people);
-            recipe.setShape(ShapeType.SHAPE_NOT_VALID);
+            editText = (EditText) findViewById(R.id.txtRecipePeople);
+            if (editText != null) {
+                int n_people = Integer.parseInt(editText.getText().toString());
+                if (n_people <= 0 || n_people >= 100) throw new WrongInputs();
+                recipe.setNum_people(n_people);
+                recipe.setShape(ShapeType.SHAPE_NOT_VALID);
+            }
         }
         //pan
         if (configuration_recipe == _ONLY_PAN) {
@@ -196,21 +218,33 @@ public class NewRecipeActivity extends ActionBarActivity {
             recipe.setDimUnit(configuration_unit);
             switch (configuration_shape) {
                 case _SHAPE_RECTANGLE:
-                    double side1 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide1)).getText().toString());
-                    double side2 = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide2)).getText().toString());
+                    editText = (EditText)findViewById(R.id.txtRecipeSide1);
+                    double side1 = -1.0;
+                    if (editText != null)
+                        side1 =Double.parseDouble(editText.getText().toString());
+                    editText = (EditText)findViewById(R.id.txtRecipeSide2);
+                    double side2 = -1.0;
+                    if (editText != null)
+                        side2 = Double.parseDouble(editText.getText().toString());
                     if (side1 <= 0.0 || side2 <= 0.0) throw new WrongInputs();
                     recipe.setSideL1(side1);
                     recipe.setSideL2(side2);
                     break;
                 case _SHAPE_SQUARE:
-                    double side = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeSide)).getText().toString());
-                    if (side <= 0.0) throw new WrongInputs();
-                    recipe.setSideSQ(side);
+                    editText = (EditText)findViewById(R.id.txtRecipeSide);
+                    if (editText != null) {
+                        double side = Double.parseDouble(editText.getText().toString());
+                        if (side <= 0.0) throw new WrongInputs();
+                        recipe.setSideSQ(side);
+                    }
                     break;
                 case _SHAPE_CIRCLE:
-                    double diameter = Double.parseDouble(((EditText)findViewById(R.id.txtRecipeDiameter)).getText().toString());
-                    if (diameter <= 0.0) throw new WrongInputs();
-                    recipe.setDiameter(diameter);
+                    editText = (EditText)findViewById(R.id.txtRecipeDiameter);
+                    if (editText != null) {
+                        double diameter = Double.parseDouble(editText.getText().toString());
+                        if (diameter <= 0.0) throw new WrongInputs();
+                        recipe.setDiameter(diameter);
+                    }
                     break;
                 default:
                     throw new WrongInputs();
@@ -292,17 +326,33 @@ public class NewRecipeActivity extends ActionBarActivity {
         if (configuration_shape < _SHAPE_RECTANGLE || configuration_shape > _SHAPE_CIRCLE)
             configuration_shape = _SHAPE_RECTANGLE;
         //name field
-        findViewById(R.id.layoutNewRecipeName).setVisibility((configuration_recipe != _NO_CHOICE) ? View.VISIBLE : View.GONE);
+        View v = findViewById(R.id.layoutNewRecipeName);
+        if (v != null)
+            v.setVisibility((configuration_recipe != _NO_CHOICE) ? View.VISIBLE : View.GONE);
         //people/shape fields
-        findViewById(R.id.layoutHowManyPeople).setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutPan).setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);
+        v = findViewById(R.id.layoutHowManyPeople);
+        if (v != null)
+            v.setVisibility((configuration_recipe == _ONLY_PEOPLE) ? View.VISIBLE : View.GONE);
+        v = findViewById(R.id.layoutPan);
+        if (v != null)
+            v.setVisibility((configuration_recipe == _ONLY_PAN) ? View.VISIBLE : View.GONE);
         //shape type fields
         boolean enabled = (configuration_recipe == _ONLY_PAN);
-        findViewById(R.id.layoutShapeDimUnit).setVisibility((enabled) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeRect).setVisibility((enabled && configuration_shape == _SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeSquare).setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutShapeCircle).setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
+        v = findViewById(R.id.layoutShapeDimUnit);
+        if (v != null)
+            v.setVisibility((enabled) ? View.VISIBLE : View.GONE);
+        v = findViewById(R.id.layoutShapeRect);
+        if (v != null)
+            v.setVisibility((enabled && configuration_shape == _SHAPE_RECTANGLE) ? View.VISIBLE : View.GONE);
+        v = findViewById(R.id.layoutShapeSquare);
+        if (v != null)
+            v.setVisibility((enabled && configuration_shape == _SHAPE_SQUARE) ? View.VISIBLE : View.GONE);
+        v = findViewById(R.id.layoutShapeCircle);
+        if (v != null)
+            v.setVisibility((enabled && configuration_shape == _SHAPE_CIRCLE) ? View.VISIBLE : View.GONE);
         //button
-        findViewById(R.id.btnAddRecipe).setVisibility((configuration_recipe == _NO_CHOICE) ? View.GONE : View.VISIBLE);
+        v = findViewById(R.id.btnAddRecipe);
+        if (v != null)
+            v.setVisibility((configuration_recipe == _NO_CHOICE) ? View.GONE : View.VISIBLE);
     }
 }

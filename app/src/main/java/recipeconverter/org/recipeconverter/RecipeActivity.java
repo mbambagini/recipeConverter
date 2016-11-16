@@ -9,7 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +33,7 @@ import recipeconverter.org.recipeconverter.dao.RecipeEntry;
 import recipeconverter.org.recipeconverter.exception.EntryError;
 import recipeconverter.org.recipeconverter.exception.EntryNotFound;
 
-public class RecipeActivity extends ActionBarActivity {
+public class RecipeActivity extends AppCompatActivity {
 
     private String name = null;
     private ArrayList<RecipeEntry> recipes = null;
@@ -72,47 +72,52 @@ public class RecipeActivity extends ActionBarActivity {
         };
 
         SwipeMenuListView lst = (SwipeMenuListView) findViewById(R.id.lst_recipes);
-        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
-                if (txt != null) {
-                    Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
-                    intent.putExtra(getString(R.string.intent_id), Long.parseLong(txt.getText().toString()));
-                    startActivity(intent);
-                }
-            }
-        });
-        lst.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                Intent intent;
-                switch (index) {
-                    case 0:
-                        //edit
-                        intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
-                        intent.putExtra(getString(R.string.intent_id), recipes.get(position).getId());
+        if (lst != null) {
+            lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    TextView txt = (TextView) view.findViewById(R.id.txt_recipe_id);
+                    if (txt != null) {
+                        Intent intent = new Intent(RecipeActivity.this, ConversionActivity.class);
+                        intent.putExtra(getString(R.string.intent_id), Long.parseLong(txt.getText().toString()));
                         startActivity(intent);
-                        break;
-                    case 1:
-                        // delete
-                        deleteRecipe(position);
-                        break;
+                    }
                 }
-                // false : close the menu; true : not close the menu
-                return false;
-            }
-        });
-        lst.setMenuCreator(creator);
+            });
+            lst.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                    Intent intent;
+                    switch (index) {
+                        case 0:
+                            //edit
+                            intent = new Intent(RecipeActivity.this, NewRecipeActivity.class);
+                            intent.putExtra(getString(R.string.intent_id), recipes.get(position).getId());
+                            startActivity(intent);
+                            break;
+                        case 1:
+                            // delete
+                            deleteRecipe(position);
+                            break;
+                    }
+                    // false : close the menu; true : not close the menu
+                    return false;
+                }
+            });
+            lst.setMenuCreator(creator);
+        }
         TextView myTextView = (TextView) findViewById(R.id.txt_recipe_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), getString(R.string.font_handwritten));
-        myTextView.setTypeface(typeFace);
+        if (myTextView != null)
+            myTextView.setTypeface(typeFace);
 
     }
 
     private void hideSwipeInfo() {
         fired = true;
-        findViewById(R.id.layoutSwipeAdvise).setVisibility(View.GONE);
+        View v = findViewById(R.id.layoutSwipeAdvise);
+        if (v != null)
+            v.setVisibility(View.GONE);
     }
 
     private void deleteRecipe(int index) {
@@ -207,19 +212,25 @@ public class RecipeActivity extends ActionBarActivity {
         else
             recipes.clear();
         ArrayList<RecipeEntry> tmp = updateRecipeList();
+        ListView lst = (ListView) findViewById(R.id.lst_recipes);
         if (tmp != null) {
             recipes.addAll(tmp);
             if (adapter == null) {
                 adapter = new RecipeAdapter(this, android.R.layout.simple_list_item_1, recipes);
-                ListView lst = (ListView) findViewById(R.id.lst_recipes);
-                lst.setAdapter(adapter);
+                if (lst != null)
+                    lst.setAdapter(adapter);
             } else
                 adapter.notifyDataSetChanged();
         }
-        findViewById(R.id.lst_recipes).setVisibility(tmp != null && tmp.size() > 0 ? View.VISIBLE : View.GONE);
-        findViewById(R.id.layoutNoReciceStored).setVisibility(tmp == null || tmp.size() == 0 ? View.VISIBLE : View.GONE);
+        if (lst != null)
+            lst.setVisibility(tmp != null && tmp.size() > 0 ? View.VISIBLE : View.GONE);
+        View v = findViewById(R.id.layoutNoReciceStored);
+        if (v != null)
+            v.setVisibility(tmp == null || tmp.size() == 0 ? View.VISIBLE : View.GONE);
         if (!fired && tmp != null && tmp.size() < 4) {
-            findViewById(R.id.layoutSwipeAdvise).setVisibility(View.VISIBLE);
+            v = findViewById(R.id.layoutSwipeAdvise);
+            if (v != null)
+                v.setVisibility(View.VISIBLE);
             h.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -227,7 +238,9 @@ public class RecipeActivity extends ActionBarActivity {
                 }
             }, DefaultSwipeInfoDuration);
         } else {
-            findViewById(R.id.layoutSwipeAdvise).setVisibility(View.GONE);
+            v = findViewById(R.id.layoutSwipeAdvise);
+            if (v != null)
+                v.setVisibility(View.GONE);
         }
     }
 

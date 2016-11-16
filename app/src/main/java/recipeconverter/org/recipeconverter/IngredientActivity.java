@@ -3,7 +3,7 @@ package recipeconverter.org.recipeconverter;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +31,7 @@ import recipeconverter.org.recipeconverter.exception.RecipeAlreadyPresent;
 import recipeconverter.org.recipeconverter.exception.RecipeNotCreated;
 import recipeconverter.org.recipeconverter.exception.WrongInputs;
 
-public class IngredientActivity extends ActionBarActivity {
+public class IngredientActivity extends AppCompatActivity {
 
     ArrayList<IngredientEntry> ingredientList;
     IngredientAdapter adapter;
@@ -91,7 +91,9 @@ public class IngredientActivity extends ActionBarActivity {
             list.add(UnitType.toString(UnitType.fromInteger(i)));
         ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adp);
+        if (spinner != null) {
+            spinner.setAdapter(adp);
+        }
 
         ListView lst = (ListView) findViewById(R.id.lst_ingredients);
         if (recipe.getId() == -1)
@@ -99,38 +101,55 @@ public class IngredientActivity extends ActionBarActivity {
         else
             ingredientList = (ArrayList<IngredientEntry>) recipe.getIngredients();
         adapter = new IngredientAdapter(this, android.R.layout.simple_list_item_1, ingredientList, true);
-        lst.setAdapter(adapter);
+        if (lst != null) {
+            lst.setAdapter(adapter);
+        }
 
         TextView myTextView = (TextView) findViewById(R.id.txt_new_ingredients_headline);
         Typeface typeFace = Typeface.createFromAsset(getAssets(), getString(R.string.font_handwritten));
-        myTextView.setTypeface(typeFace);
+        if (myTextView != null) {
+            myTextView.setTypeface(typeFace);
+        }
     }
 
     private IngredientEntry checkInputs() throws WrongInputs, IngredientAlreadyPresent {
         IngredientEntry ingredient = new IngredientEntry();
 
-        String name = ((EditText) findViewById(R.id.txtIngredientName)).getText().toString();
-        if (name.isEmpty())
-            throw new WrongInputs();
-        for (IngredientEntry entry : ingredientList)
-            if (entry.getName().compareTo(name) == 0)
-                throw new IngredientAlreadyPresent();
-        ingredient.setName(name);
+        EditText editText = (EditText) findViewById(R.id.txtIngredientName);
+        if (editText != null) {
+            String name = editText.getText().toString();
+            if (name.isEmpty())
+                throw new WrongInputs();
+            for (IngredientEntry entry : ingredientList)
+                if (entry.getName().compareTo(name) == 0)
+                    throw new IngredientAlreadyPresent();
+            ingredient.setName(name);
+        }
 
-        double quantity = Double.parseDouble(((EditText) findViewById(R.id.txtIngredientQuantity)).getText().toString());
-        if (quantity <= 0.0)
-            throw new WrongInputs();
-        ingredient.setQuantity(quantity);
+        editText = (EditText) findViewById(R.id.txtIngredientQuantity);
+        if (editText != null) {
+            double quantity = Double.parseDouble(editText.getText().toString());
+            if (quantity <= 0.0)
+                throw new WrongInputs();
+            ingredient.setQuantity(quantity);
+        }
 
-        ingredient.setUnit(UnitType.fromInteger(((Spinner) findViewById(R.id.spinnerIngredientUnit)).getSelectedItemPosition()));
+        Spinner spinner = (Spinner) findViewById(R.id.spinnerIngredientUnit);
+        if (spinner != null)
+            ingredient.setUnit(UnitType.fromInteger(spinner.getSelectedItemPosition()));
 
         return ingredient;
     }
 
     private void cleanInputs() {
-        ((EditText) findViewById(R.id.txtIngredientName)).getText().clear();
-        findViewById(R.id.txtIngredientName).requestFocus();
-        ((EditText) findViewById(R.id.txtIngredientQuantity)).getText().clear();
+        EditText editText = (EditText)findViewById(R.id.txtIngredientName);
+        if (editText != null) {
+            editText.getText().clear();
+            editText.requestFocus();
+        }
+        editText = (EditText)findViewById(R.id.txtIngredientQuantity);
+        if (editText != null)
+            editText.getText().clear();
     }
 
     public void onClick(View v) {
