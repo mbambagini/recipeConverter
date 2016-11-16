@@ -2,6 +2,7 @@ package recipeconverter.org.recipeconverter.adapter;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import recipeconverter.org.recipeconverter.R;
 import recipeconverter.org.recipeconverter.dao.RecipeEntry;
@@ -30,10 +32,9 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
                                                 context.getString(R.string.font_handwritten));
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) { //reuse view
             LayoutInflater inflater = context.getLayoutInflater();
@@ -48,20 +49,17 @@ public class RecipeAdapter extends ArrayAdapter<RecipeEntry> {
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(recipes.get(position).getName());
         holder.name.setTypeface(typeFace);
-
         boolean en_people = recipes.get(position).getNum_people() > 0;
         holder.people.setVisibility(en_people ? View.VISIBLE : View.GONE);
         holder.pan.setVisibility(en_people ? View.GONE : View.VISIBLE);
-
-        holder.id.setText(Long.toString(recipes.get(position).getId()));
-
+        holder.id.setText(String.format(Locale.getDefault(), "%d", recipes.get(position).getId()));
         return view;
     }
 
-    static class ViewHolder {
+    static private class ViewHolder {
         public TextView name;
         public ImageView pan;
-        public ImageView people;
+        ImageView people;
         public TextView id;
     }
 

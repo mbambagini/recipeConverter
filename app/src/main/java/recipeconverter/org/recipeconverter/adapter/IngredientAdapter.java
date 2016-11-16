@@ -2,6 +2,7 @@ package recipeconverter.org.recipeconverter.adapter;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Locale;
 
 import recipeconverter.org.recipeconverter.R;
 import recipeconverter.org.recipeconverter.dao.IngredientEntry;
@@ -34,8 +36,9 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
             typeFace = Typeface.createFromAsset(context.getAssets(), context.getString(R.string.font_handwritten));
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) { //reuse view
             LayoutInflater inflater = context.getLayoutInflater();
@@ -55,7 +58,7 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         String formatDouble = format.format(ingredients.get(position).getQuantity());
         holder.quantity.setText(formatDouble);
         holder.unit.setText(UnitType.toString(ingredients.get(position).getUnit()));
-        holder.id.setText(Long.toString(ingredients.get(position).getId()));
+        holder.id.setText(String.format(Locale.getDefault(), "%d", ingredients.get(position).getId()));
         if (enableDelete) {
             holder.btn.setVisibility(View.VISIBLE);
             holder.btn.setOnClickListener(new View.OnClickListener() {
@@ -70,12 +73,12 @@ public class IngredientAdapter extends ArrayAdapter<IngredientEntry> {
         return view;
     }
 
-    static class ViewHolder {
+    static private class ViewHolder {
         public TextView name;
-        public TextView quantity;
-        public TextView unit;
+        TextView quantity;
+        TextView unit;
         public TextView id;
-        public ImageButton btn;
+        ImageButton btn;
     }
 
 }

@@ -9,20 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
  *
  * @author Mario Bambagini
  */
-public class DBHelper extends SQLiteOpenHelper {
+class DBHelper extends SQLiteOpenHelper {
 
     //databases
-    public static final String TABLE_RECIPES = "RECIPES";
-    public static final String TABLE_INGREDIENTS = "INGREDIENTS";
+    static final String TABLE_RECIPES = "RECIPES";
+    static final String TABLE_INGREDIENTS = "INGREDIENTS";
     //columns
-    public static final String COLUMN_RECIPES_ID = "_id";
-    public static final String COLUMN_RECIPES_NAME = "name";
-    public static final String COLUMN_RECIPES_PEOPLE_NUMBER = "people_number";
-    public static final String COLUMN_RECIPES_SHAPE = "shape";
-    public static final String COLUMN_RECIPES_SIDE_1 = "side_1";
-    public static final String COLUMN_RECIPES_SIDE_2 = "side_2";
-    public static final String COLUMN_RECIPES_DIAMETER = "diameter";
-    public static final String COLUMN_RECIPES_DIM_UNIT = "dim_unit";
+    static final String COLUMN_RECIPES_ID = "_id";
+    static final String COLUMN_RECIPES_NAME = "name";
+    static final String COLUMN_RECIPES_PEOPLE_NUMBER = "people_number";
+    static final String COLUMN_RECIPES_SHAPE = "shape";
+    static final String COLUMN_RECIPES_SIDE_1 = "side_1";
+    static final String COLUMN_RECIPES_SIDE_2 = "side_2";
+    static final String COLUMN_RECIPES_DIAMETER = "diameter";
+    static final String COLUMN_RECIPES_DIM_UNIT = "dim_unit";
     //creation queries
     private static final String DATABASE_CREATE_RECIPES = "create table "
             + TABLE_RECIPES + "("
@@ -34,11 +34,11 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_RECIPES_SIDE_2 + " float,"
             + COLUMN_RECIPES_DIAMETER + " float,"
             + COLUMN_RECIPES_DIM_UNIT + " integer);";
-    public static final String COLUMN_INGREDIENTS_ID = "_id";
-    public static final String COLUMN_INGREDIENTS_NAME = "name";
-    public static final String COLUMN_INGREDIENTS_QUANTITY = "quantity";
-    public static final String COLUMN_INGREDIENTS_UNIT = "unit";
-    public static final String COLUMN_INGREDIENTS_ID_RECIPE = "idRecipe";
+    static final String COLUMN_INGREDIENTS_ID = "_id";
+    static final String COLUMN_INGREDIENTS_NAME = "name";
+    static final String COLUMN_INGREDIENTS_QUANTITY = "quantity";
+    static final String COLUMN_INGREDIENTS_UNIT = "unit";
+    static final String COLUMN_INGREDIENTS_ID_RECIPE = "idRecipe";
     private static final String DATABASE_CREATE_INGREDIENTS = "create table "
             + TABLE_INGREDIENTS + "("
             + COLUMN_INGREDIENTS_ID + " integer primary key autoincrement, "
@@ -52,7 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //file
     private static final String DATABASE_NAME = "recipes.db";
 
-    public DBHelper(Context context) {
+    DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
